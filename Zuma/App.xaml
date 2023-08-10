@@ -7,13 +7,30 @@
         <Style TargetType="Button">
             <Setter Property="Margin" Value="0, 0, 0, 10" />
             <Setter Property="Padding" Value="20" />
-            <Setter Property="Background" Value="Transparent" />
-            <!--<Setter Property="Opacity" Value="0.5" />-->
             <Setter Property="HorizontalAlignment" Value="Center" />
             <Setter Property="Width" Value="345" />
-            <Setter Property="Foreground" Value="#d48c76"/>
-
+            <Setter Property="Foreground" Value="Black"/>
             <Setter Property="BorderBrush" Value="Transparent"/>
+
+            <Setter Property="Background" Value="#60FFFFFF" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                        >
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#C0FFFFFF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Application.Resources>
 </Application>
