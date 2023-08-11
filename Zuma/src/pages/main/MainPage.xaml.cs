@@ -19,7 +19,9 @@ namespace Zuma.src.pages.main
         {
             InitializeComponent();
             Levels = new List<Level> {
-                LevelCreator.CreateFirstLevel()
+                LevelCreator.CreateFirstLevel(),
+                LevelCreator.CreateSecondLevel(),
+                LevelCreator.CreateThirdLevel()
             };
         }
 

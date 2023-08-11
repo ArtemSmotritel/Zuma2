@@ -9,6 +9,8 @@ namespace Zuma.src.level
 
         public ImageBrush Background => LevelModel.Background;
 
+        public string Name => $"Level {LevelModel.Number}: {LevelModel.Name}";
+
         public LevelViewModel(Level level)
         {
             LevelModel = level;

@@ -6,9 +6,7 @@
       xmlns:local="clr-namespace:Zuma.src.pages.main"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
-      Title="MainPage"
-      FontSize="28"
-      >
+      Title="MainPage">
     <Grid>
         <Grid.Background>
             <ImageBrush ImageSource="..\..\..\resources\images\start_menu.jpg" Stretch="UniformToFill"/>

@@ -15,7 +15,7 @@ namespace Zuma.src.pages.level_selection
     {
         private List<Level> Levels { get; set; }
 
-        readonly GridLengthConverter gridLengthConverter = new GridLengthConverter();
+        private readonly GridLengthConverter gridLengthConverter = new GridLengthConverter();
 
         public LevelSelectionPage()
         {
@@ -43,32 +43,28 @@ namespace Zuma.src.pages.level_selection
                     Content = level.Number.ToString(),
                     Height = 100,
                     Width = 100,
-                    FontSize = 40,
+                    //FontSize = 40,
                     CommandParameter = level,
                     Command = new RelayCommand(param => HandleLevelButtonClick((Level) param)),
                 };
                 button.SetValue(Grid.ColumnProperty, columnIndex);
                 button.SetValue(Grid.RowProperty, 0);
-                
-                LevelsGrid.Children.Add(button);
-                
+
+                _ = LevelsGrid.Children.Add(button);
+
                 columnIndex++;
             }
 
-            var finalRow = new RowDefinition();
-            finalRow.Height = (GridLength) gridLengthConverter.ConvertFrom("*");
+            var finalRow = new RowDefinition
+            {
+                Height = (GridLength) gridLengthConverter.ConvertFrom("*")
+            };
             LevelsGrid.RowDefinitions.Add(finalRow);
         }
 
-        private void goBackButton_Click(object sender, RoutedEventArgs e)
-        {
-            GoBack();
-        }
+        private void goBackButton_Click(object sender, RoutedEventArgs e) => GoBack();
 
-        private void HandleLevelButtonClick(Level level)
-        {
-            NavigationService.Navigate(new LevelPage(new LevelViewModel(level)));
-        }
+        private void HandleLevelButtonClick(Level level) => NavigationService.Navigate(new LevelPage(new LevelViewModel(level)));
 
         private void Page_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {

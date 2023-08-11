@@ -7,11 +7,21 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="LevelView">
-    <Grid>
+    <DockPanel
+        Background="{Binding Background}">
+        <StatusBar
+            DockPanel.Dock="Top"
+            Background="DarkGreen"
+            Opacity="0.5">
+            <StatusBarItem>
+                <Label
+                    Name="LevelName"
+                    Content="{ Binding Name }"/>
+            </StatusBarItem>
+        </StatusBar>
         <Canvas
             x:Name="LevelCanvas"
-            Background="{Binding Background}">
-
+            >
         </Canvas>
-    </Grid>
+    </DockPanel>
 </Page>

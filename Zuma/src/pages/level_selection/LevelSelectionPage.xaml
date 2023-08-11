@@ -7,9 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="LevelSelectionPage"
-      FontSize="28"
-      KeyDown="Page_KeyDown"
-      >
+      KeyDown="Page_KeyDown">
     <Grid KeyDown="Grid_KeyDown">
         <Grid.Background>
             <ImageBrush ImageSource="..\..\..\resources\images\level_menu.jpg" Stretch="UniformToFill"/>
@@ -29,7 +27,6 @@
             <Button.Height>70</Button.Height>
             <Button.HorizontalAlignment>Left</Button.HorizontalAlignment>
             <Button.VerticalAlignment>Top</Button.VerticalAlignment>
-            <Button.FontSize>20</Button.FontSize>
             <Button.Padding>0</Button.Padding>
             <Button.Margin>0</Button.Margin>
         </Button>
