@@ -55,10 +55,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="src\models\level\Level.cs" />
-    <Compile Include="src\pages\level\LevelPage.xaml.cs">
+    <Compile Include="src\controllers\LevelCreator.cs" />
+    <Compile Include="src\level\Level.cs" />
+    <Compile Include="src\level\LevelPage.xaml.cs">
       <DependentUpon>LevelPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\level\LevelViewModel.cs" />
     <Compile Include="src\pages\level_selection\LevelSelectionPage.xaml.cs">
       <DependentUpon>LevelSelectionPage.xaml</DependentUpon>
     </Compile>
@@ -81,7 +83,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="src\pages\level\LevelPage.xaml">
+    <Page Include="src\level\LevelPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -134,6 +136,12 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\images\level_menu.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\images\beach_level.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\images\city_level.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

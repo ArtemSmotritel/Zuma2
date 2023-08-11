@@ -1,32 +1,30 @@
 ﻿using System;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 
-namespace Zuma.src.models.level
+namespace Zuma.src.level
 {
     public class Level
     {
         public string Name { get; private set; }
         public int Number { get; private set; }
+        public ImageBrush Background { get; private set; }
         public DispatcherTimer LevelTicker { get; private set; }
 
-        public Level(string name, int number)
+        public Level(string name, int number, Uri backgroundImageURI)
         {
             Name = name;
             Number = number;
+            Background = new ImageBrush(new BitmapImage(backgroundImageURI));
 
             LevelTicker = new DispatcherTimer();
             ConfigureTicker();
         }
 
-        public void Start()
-        {
-            LevelTicker.Start();
-        }
+        public void Start() => LevelTicker.Start();
 
-        public void Stop()
-        {
-            LevelTicker.Stop();
-        }
+        public void Stop() => LevelTicker.Stop();
 
         private void ConfigureTicker()
         {

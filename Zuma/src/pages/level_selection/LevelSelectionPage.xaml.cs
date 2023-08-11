@@ -3,8 +3,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using Zuma.src.models.level;
-using Zuma.src.pages.level;
+using Zuma.src.level;
 using Zuma.src.utils;
 
 namespace Zuma.src.pages.level_selection
@@ -68,7 +67,7 @@ namespace Zuma.src.pages.level_selection
 
         private void HandleLevelButtonClick(Level level)
         {
-            NavigationService.Navigate(new LevelPage(level));
+            NavigationService.Navigate(new LevelPage(new LevelViewModel(level)));
         }
 
         private void Page_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
