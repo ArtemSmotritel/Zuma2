@@ -26,5 +26,16 @@ namespace Zuma.src.pages.main
         }
 
         private void startGameButton_Click(object sender, RoutedEventArgs e) => NavigationService.Navigate(new LevelSelectionPage(Levels));
+
+        private void ExitButton_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBox.Show("Are You Serious?",
+                                          "You are about to close the game",
+                                          MessageBoxButton.YesNo, MessageBoxImage.Hand, MessageBoxResult.No);
+            if (result == MessageBoxResult.Yes)
+            {
+                Application.Current.Shutdown();
+            }
+        }
     }
 }

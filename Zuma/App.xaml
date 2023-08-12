@@ -1,31 +1,68 @@
-﻿<Application x:Class="Zuma.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:Zuma"
-             StartupUri="MainWindow.xaml">
+﻿<Application
+    x:Class="Zuma.App"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:local="clr-namespace:Zuma"
+    StartupUri="MainWindow.xaml">
     <Application.Resources>
-        <Style TargetType="Button">
-            <Setter Property="Margin" Value="0, 0, 0, 10" />
-            <Setter Property="Padding" Value="20" />
-            <Setter Property="HorizontalAlignment" Value="Center" />
-            <Setter Property="Width" Value="345" />
-            <Setter Property="Foreground" Value="Black"/>
-            <Setter Property="BorderBrush" Value="Transparent"/>
+        <Style
+            TargetType="Button">
+            <Setter
+                Property="Margin"
+                Value="0, 0, 0, 10" />
+            <Setter
+                Property="Padding"
+                Value="20" />
+            <Setter
+                Property="HorizontalAlignment"
+                Value="Center" />
+            <Setter
+                Property="Width"
+                Value="200" />
+            <Setter
+                Property="Foreground"
+                Value="Black" />
+            <Setter
+                Property="BorderBrush"
+                Value="Transparent" />
 
-            <Setter Property="Background" Value="#60FFFFFF" />
+            <Setter
+                Property="Background"
+                Value="#60FFFFFF" />
 
-            <Setter Property="Template">
+            <Setter
+                Property="Template">
                 <Setter.Value>
-                    <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
-                                BorderBrush="{TemplateBinding BorderBrush}"
-                                BorderThickness="{TemplateBinding BorderThickness}"
-                        >
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" />
+                    <ControlTemplate
+                        TargetType="Button">
+                        <Border
+                            Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}">
+                            <ContentPresenter
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Center" />
                         </Border>
                         <ControlTemplate.Triggers>
-                            <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Background" Value="#C0FFFFFF" />
+                            <Trigger
+                                Property="IsMouseOver"
+                                Value="True">
+                                <Setter
+                                    Property="Background"
+                                    Value="#C0FFFFFF" />
+                            </Trigger>
+                            <Trigger
+                                Property="IsFocused"
+                                Value="True">
+                                <Setter
+                                    Property="Background">
+                                    <Setter.Value>
+                                        #C0FFFFFF
+                                    </Setter.Value>
+                                </Setter>
+                                <Setter
+                                    Property="FocusVisualStyle"
+                                    Value="{x:Null}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>

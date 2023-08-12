@@ -56,7 +56,15 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="src\controllers\LevelCreator.cs" />
+    <Compile Include="src\frog\Frog.cs" />
+    <Compile Include="src\frog\FrogControl.xaml.cs">
+      <DependentUpon>FrogControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\frog\FrogViewModel.cs" />
+    <Compile Include="src\helpers\Utils.cs" />
     <Compile Include="src\level\Level.cs" />
+    <Compile Include="src\level\LevelController.cs" />
+    <Compile Include="src\level\LevelCoordinates.cs" />
     <Compile Include="src\level\LevelPage.xaml.cs">
       <DependentUpon>LevelPage.xaml</DependentUpon>
     </Compile>
@@ -80,6 +88,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="src\frog\FrogControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\level\LevelPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -123,25 +135,22 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\images\triangle_level.jpg" />
+    <Resource Include="resources\images\frog\frog.png" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="src\helpers\" />
+    <Resource Include="resources\images\backgrounds\start_menu.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\images\start_menu.jpg" />
+    <Resource Include="resources\images\backgrounds\level_menu.jpg" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\images\level_menu.jpg" />
+    <Resource Include="resources\images\backgrounds\beach_level.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\images\beach_level.png" />
+    <Resource Include="resources\images\backgrounds\city_level.png" />
   </ItemGroup>
   <ItemGroup>
-    <Resource Include="resources\images\city_level.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="resources\images\temple_level.png" />
+    <Resource Include="resources\images\backgrounds\temple_level.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -11,7 +11,8 @@ namespace Zuma.src.controllers
                 (
                 "Simple",
                 1,
-                new Uri("pack://application:,,,/resources/images/beach_level.png")
+                new Uri("pack://application:,,,/resources/images/backgrounds/beach_level.png"),
+                new LevelCoordinates()
                 );
         }
 
@@ -21,7 +22,8 @@ namespace Zuma.src.controllers
                 (
                 "Medium",
                 2,
-                new Uri("pack://application:,,,/resources/images/city_level.png")
+                new Uri("pack://application:,,,/resources/images/backgrounds/city_level.png"),
+                new LevelCoordinates()
                 );
         }
 
@@ -31,7 +33,8 @@ namespace Zuma.src.controllers
                 (
                 "Hard",
                 3,
-                new Uri("pack://application:,,,/resources/images/temple_level.png")
+                new Uri("pack://application:,,,/resources/images/backgrounds/temple_level.png"),
+                new LevelCoordinates()
                 );
         }
     }

@@ -10,9 +10,10 @@ namespace Zuma.src.level
         public string Name { get; private set; }
         public int Number { get; private set; }
         public ImageBrush Background { get; private set; }
+        public LevelCoordinates Coordinates { get; private set; }
         public DispatcherTimer LevelTicker { get; private set; }
 
-        public Level(string name, int number, Uri backgroundImageURI)
+        public Level(string name, int number, Uri backgroundImageURI, LevelCoordinates coordinates)
         {
             Name = name;
             Number = number;
@@ -20,6 +21,7 @@ namespace Zuma.src.level
 
             LevelTicker = new DispatcherTimer();
             ConfigureTicker();
+            Coordinates = coordinates;
         }
 
         public void Start() => LevelTicker.Start();

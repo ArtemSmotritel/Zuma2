@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using Zuma.src.helpers;
 using Zuma.src.level;
 using Zuma.src.utils;
 
@@ -15,16 +15,9 @@ namespace Zuma.src.pages.level_selection
     {
         private List<Level> Levels { get; set; }
 
-        private readonly GridLengthConverter gridLengthConverter = new GridLengthConverter();
-
-        public LevelSelectionPage()
+        public LevelSelectionPage(List<Level> levels)
         {
             InitializeComponent();
-            Levels = Enumerable.Empty<Level>().ToList();
-        }
-
-        public LevelSelectionPage(List<Level> levels) : this()
-        {
             Levels = levels;
             InitializeLevels();
         }
@@ -43,21 +36,20 @@ namespace Zuma.src.pages.level_selection
                     Content = level.Number.ToString(),
                     Height = 100,
                     Width = 100,
-                    //FontSize = 40,
                     CommandParameter = level,
                     Command = new RelayCommand(param => HandleLevelButtonClick((Level) param)),
                 };
                 button.SetValue(Grid.ColumnProperty, columnIndex);
                 button.SetValue(Grid.RowProperty, 0);
 
-                _ = LevelsGrid.Children.Add(button);
+                LevelsGrid.Children.Add(button);
 
                 columnIndex++;
             }
 
             var finalRow = new RowDefinition
             {
-                Height = (GridLength) gridLengthConverter.ConvertFrom("*")
+                Height = (GridLength) Utils.gridLengthConverter.ConvertFrom("*")
             };
             LevelsGrid.RowDefinitions.Add(finalRow);
         }

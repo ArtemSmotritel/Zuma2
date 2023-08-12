@@ -10,7 +10,8 @@
       KeyDown="Page_KeyDown">
     <Grid KeyDown="Grid_KeyDown">
         <Grid.Background>
-            <ImageBrush ImageSource="..\..\..\resources\images\level_menu.jpg" Stretch="UniformToFill"/>
+            <ImageBrush
+                ImageSource="..\..\..\resources\images\backgrounds\level_menu.jpg" Stretch="UniformToFill"/>
         </Grid.Background>
         <Grid.ColumnDefinitions>
             <ColumnDefinition MinWidth="150" Width="*"></ColumnDefinition>
