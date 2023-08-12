@@ -152,5 +152,8 @@
   <ItemGroup>
     <Resource Include="resources\images\backgrounds\temple_level.png" />
   </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\images\balls\blue_ball_1.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,7 +1,7 @@
 ﻿using System;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Zuma.src.frog;
 
 namespace Zuma.src.level
 {
@@ -9,19 +9,21 @@ namespace Zuma.src.level
     {
         public string Name { get; private set; }
         public int Number { get; private set; }
-        public ImageBrush Background { get; private set; }
+        public BitmapImage Background { get; private set; }
         public LevelCoordinates Coordinates { get; private set; }
+        public Frog Frog { get; private set; }
         public DispatcherTimer LevelTicker { get; private set; }
 
-        public Level(string name, int number, Uri backgroundImageURI, LevelCoordinates coordinates)
+        public Level(string name, int number, Uri backgroundImageURI, LevelCoordinates coordinates, Frog frog)
         {
             Name = name;
             Number = number;
-            Background = new ImageBrush(new BitmapImage(backgroundImageURI));
+            Background = new BitmapImage(backgroundImageURI);
 
             LevelTicker = new DispatcherTimer();
             ConfigureTicker();
             Coordinates = coordinates;
+            Frog = frog;
         }
 
         public void Start() => LevelTicker.Start();

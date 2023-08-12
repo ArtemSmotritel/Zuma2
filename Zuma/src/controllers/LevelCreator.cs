@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Windows;
+using Zuma.src.frog;
 using Zuma.src.level;
 
 namespace Zuma.src.controllers
@@ -12,7 +14,8 @@ namespace Zuma.src.controllers
                 "Simple",
                 1,
                 new Uri("pack://application:,,,/resources/images/backgrounds/beach_level.png"),
-                new LevelCoordinates()
+                new LevelCoordinates(new Point(500, 500)),
+                CreateFrog()
                 );
         }
 
@@ -23,7 +26,8 @@ namespace Zuma.src.controllers
                 "Medium",
                 2,
                 new Uri("pack://application:,,,/resources/images/backgrounds/city_level.png"),
-                new LevelCoordinates()
+                new LevelCoordinates(),
+                CreateFrog()
                 );
         }
 
@@ -34,7 +38,16 @@ namespace Zuma.src.controllers
                 "Hard",
                 3,
                 new Uri("pack://application:,,,/resources/images/backgrounds/temple_level.png"),
-                new LevelCoordinates()
+                new LevelCoordinates(),
+                CreateFrog()
+                );
+        }
+
+        private static Frog CreateFrog()
+        {
+            return new Frog
+                (
+                new Uri("pack://application:,,,/resources/images/frog/frog.png")
                 );
         }
     }

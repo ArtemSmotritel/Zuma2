@@ -1,4 +1,7 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using Zuma.src.frog;
 
 namespace Zuma.src.level
 {
@@ -7,15 +10,36 @@ namespace Zuma.src.level
     /// </summary>
     public partial class LevelPage : Page
     {
-        public LevelViewModel LevelViewModel { get; private set; }
+        public LevelViewModel ViewModel { get; private set; }
 
         public LevelPage(LevelViewModel levelViewModel)
         {
             InitializeComponent();
 
-            LevelViewModel = levelViewModel;
+            ViewModel = levelViewModel;
 
-            DataContext = LevelViewModel;
+            DataContext = ViewModel;
+
+            InitializeFrog();
+
+            MouseMove += OnMouseMoveWithCanvas;
+        }
+
+        private void InitializeFrog()
+        {
+            var frog = new FrogControl(ViewModel.FrogViewModel);
+            Canvas.SetLeft(frog, ViewModel.FrogCoordinates.X);
+            Canvas.SetTop(frog, ViewModel.FrogCoordinates.Y);
+
+            ViewModel.FrogControl = frog;
+
+            LevelCanvas.Children.Add(frog);
+        }
+
+        private void OnMouseMoveWithCanvas(object sender, MouseEventArgs e)
+        {
+            Point currentMousePosition = e.GetPosition(this);
+            ViewModel.RotateFrog(currentMousePosition);
         }
     }
 }
