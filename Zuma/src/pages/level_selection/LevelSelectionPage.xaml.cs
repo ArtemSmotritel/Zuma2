@@ -56,7 +56,7 @@ namespace Zuma.src.pages.level_selection
 
         private void goBackButton_Click(object sender, RoutedEventArgs e) => GoBack();
 
-        private void HandleLevelButtonClick(Level level) => NavigationService.Navigate(new LevelPage(new LevelViewModel(level)));
+        private void HandleLevelButtonClick(Level level) => NavigationService.Navigate(new LevelPage(level));
 
         private void Page_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {

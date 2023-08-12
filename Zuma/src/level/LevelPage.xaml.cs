@@ -12,17 +12,18 @@ namespace Zuma.src.level
     {
         public LevelViewModel ViewModel { get; private set; }
 
-        public LevelPage(LevelViewModel levelViewModel)
+        public LevelPage(Level level)
         {
             InitializeComponent();
 
-            ViewModel = levelViewModel;
+            ViewModel = new LevelViewModel(level, LevelCanvas);
 
             DataContext = ViewModel;
 
             InitializeFrog();
 
             MouseMove += OnMouseMoveWithCanvas;
+            MouseLeftButtonDown += OnMouseClick;
         }
 
         private void InitializeFrog()
@@ -40,6 +41,12 @@ namespace Zuma.src.level
         {
             Point currentMousePosition = e.GetPosition(this);
             ViewModel.RotateFrog(currentMousePosition);
+        }
+
+        private void OnMouseClick(object sender, MouseEventArgs e)
+        {
+            Point currentMousePosition = e.GetPosition(this);
+            ViewModel.ShootBall(currentMousePosition);
         }
     }
 }

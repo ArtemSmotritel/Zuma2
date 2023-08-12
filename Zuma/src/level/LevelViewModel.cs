@@ -1,14 +1,17 @@
 ﻿using System;
 using System.ComponentModel;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media;
 using Zuma.src.frog;
+using Zuma.src.helpers;
 
 namespace Zuma.src.level
 {
     public class LevelViewModel : INotifyPropertyChanged
     {
         private readonly Level level;
+        private readonly Canvas levelCanvas;
 
         public FrogControl FrogControl { get; set; }
         public FrogViewModel FrogViewModel => new FrogViewModel(level.Frog);
@@ -27,9 +30,10 @@ namespace Zuma.src.level
             }
         }
 
-        public LevelViewModel(Level level)
+        public LevelViewModel(Level level, Canvas levelCanvas)
         {
             this.level = level;
+            this.levelCanvas = levelCanvas;
             Name = $"Level {level.Number}: {level.Name}";
         }
 
@@ -42,13 +46,12 @@ namespace Zuma.src.level
 
             //FrogViewModel.RotationAngel = angel;
             //Name = $"Mouse: {currentMousePosition};;\t Frog: {FrogPosition};;\t Angel: {angel}";
-            FrogControl.SetRotationAngle(AddAngels(angel, 80));
+            FrogControl.SetRotationAngle(Utils.AddAngels(angel, 80));
         }
 
-        private double AddAngels(double a1, double a2)
+        public void ShootBall(Point mouseCoordinates)
         {
-            double sum = a1 + a2;
-            return Math.Abs(sum) <= 360 ? sum : sum > 0 ? sum - 360 : sum + 360;
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
