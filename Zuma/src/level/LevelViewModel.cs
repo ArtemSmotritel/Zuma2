@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -15,7 +14,7 @@ namespace Zuma.src.level
 
         public FrogControl FrogControl { get; set; }
         public FrogViewModel FrogViewModel => new FrogViewModel(level.Frog);
-        public Point FrogCoordinates => level.Coordinates.Frog;
+        public Point FrogCoordinates => FrogViewModel.Coordinates;
 
         public ImageBrush Background => new ImageBrush(level.Background);
 
@@ -39,13 +38,7 @@ namespace Zuma.src.level
 
         public void RotateFrog(Point mouseCoordinates)
         {
-            double deltaX = mouseCoordinates.X - FrogCoordinates.X;
-            double deltaY = mouseCoordinates.Y - FrogCoordinates.Y;
-
-            double angel = Math.Atan2(deltaY, deltaX) * 180.0 / Math.PI;
-
-            //FrogViewModel.RotationAngel = angel;
-            //Name = $"Mouse: {currentMousePosition};;\t Frog: {FrogPosition};;\t Angel: {angel}";
+            double angel = GeometryCalculator.GetAngelBetweenTwoPoints(mouseCoordinates, FrogCoordinates);
             FrogControl.SetRotationAngle(Utils.AddAngels(angel, 80));
         }
 

@@ -55,16 +55,26 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\balls\ball\Ball.cs" />
+    <Compile Include="src\balls\ball\BallControl.xaml.cs">
+      <DependentUpon>BallControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\balls\ball\BallViewModel.cs" />
+    <Compile Include="src\balls\enemy_ball\EnemyBall.cs" />
+    <Compile Include="src\balls\enemy_ball\EnemyBallControl.xaml.cs">
+      <DependentUpon>EnemyBallControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\balls\enemy_ball\EnemyBallViewModel.cs" />
     <Compile Include="src\controllers\LevelCreator.cs" />
     <Compile Include="src\frog\Frog.cs" />
     <Compile Include="src\frog\FrogControl.xaml.cs">
       <DependentUpon>FrogControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\frog\FrogViewModel.cs" />
+    <Compile Include="src\helpers\GeometryCalculator.cs" />
     <Compile Include="src\helpers\Utils.cs" />
     <Compile Include="src\level\Level.cs" />
     <Compile Include="src\level\LevelController.cs" />
-    <Compile Include="src\level\LevelCoordinates.cs" />
     <Compile Include="src\level\LevelPage.xaml.cs">
       <DependentUpon>LevelPage.xaml</DependentUpon>
     </Compile>
@@ -88,6 +98,14 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="src\balls\ball\BallControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="src\balls\enemy_ball\EnemyBallControl.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\frog\FrogControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
