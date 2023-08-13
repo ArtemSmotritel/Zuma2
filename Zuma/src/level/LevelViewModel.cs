@@ -2,6 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using Zuma.src.balls.ball;
 using Zuma.src.frog;
 using Zuma.src.helpers;
 
@@ -43,6 +45,20 @@ namespace Zuma.src.level
         }
 
         public void ShootBall(Point mouseCoordinates)
+        {
+            var ballStartingPoint = new Point(FrogCoordinates.X + 50, FrogCoordinates.Y + 50);
+
+            var ballSprite = new BitmapImage(new System.Uri("pack://application:,,,/resources/images/balls/blue_ball_1.png"));
+            var ball = new Ball(ballSprite, ballStartingPoint);
+            var ballControl = new BallControl(new BallViewModel(ball));
+
+            Canvas.SetLeft(ballControl, ballStartingPoint.X);
+            Canvas.SetTop(ballControl, ballStartingPoint.Y);
+
+            levelCanvas.Children.Add(ballControl);
+        }
+
+        public void MoveBallInDirection(UIElement ballControl, Point vectorEnd)
         {
 
         }

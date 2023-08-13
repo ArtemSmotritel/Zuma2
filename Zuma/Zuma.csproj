@@ -55,6 +55,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="src\balls\AbstractBall.cs" />
     <Compile Include="src\balls\ball\Ball.cs" />
     <Compile Include="src\balls\ball\BallControl.xaml.cs">
       <DependentUpon>BallControl.xaml</DependentUpon>
