@@ -2,8 +2,8 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using Zuma.src.controllers;
 using Zuma.src.level;
+using Zuma.src.level_creators;
 using Zuma.src.pages.level_selection;
 
 namespace Zuma.src.pages.main
@@ -18,11 +18,7 @@ namespace Zuma.src.pages.main
         public MainPage()
         {
             InitializeComponent();
-            Levels = new List<Level> {
-                LevelCreator.CreateFirstLevel(),
-                LevelCreator.CreateSecondLevel(),
-                LevelCreator.CreateThirdLevel()
-            };
+            Levels = CreateLevels();
         }
 
         private void startGameButton_Click(object sender, RoutedEventArgs e) => NavigationService.Navigate(new LevelSelectionPage(Levels));
@@ -36,6 +32,14 @@ namespace Zuma.src.pages.main
             {
                 Application.Current.Shutdown();
             }
+        }
+
+        private List<Level> CreateLevels()
+        {
+            return new List<Level>
+            {
+                new FirstLevelCreator().Create()
+            };
         }
     }
 }

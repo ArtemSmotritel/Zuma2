@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
+using Zuma.models;
 using Zuma.src.frog;
 
 namespace Zuma.src.level
@@ -11,13 +12,15 @@ namespace Zuma.src.level
         public int Number { get; private set; }
         public BitmapImage Background { get; private set; }
         public Frog Frog { get; private set; }
+        public Path Path { get; private set; }
         public DispatcherTimer LevelTicker { get; private set; }
 
-        public Level(string name, int number, Uri backgroundImageURI, Frog frog)
+        public Level(string name, int number, Uri backgroundImageURI, Frog frog, Path path)
         {
             Name = name;
             Number = number;
             Background = new BitmapImage(backgroundImageURI);
+            Path = path;
 
             LevelTicker = new DispatcherTimer();
             ConfigureTicker();
