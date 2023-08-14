@@ -1,12 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Zuma.src.utils;
 
 namespace Zuma.src.balls.enemy_ball
 {
-    internal class EnemyBallViewModel
+    public class EnemyBallViewModel : Notifier
     {
+        public EnemyBall Model { get; private set; }
+        public EnemyBallControl View { get; private set; }
+
+        public EnemyBallViewModel(EnemyBall model, EnemyBallControl view)
+        {
+            Model = model;
+            View = view;
+        }
     }
 }

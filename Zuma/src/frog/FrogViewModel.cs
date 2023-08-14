@@ -1,11 +1,11 @@
-﻿using System.ComponentModel;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Media;
 using Zuma.src.models.balls;
+using Zuma.src.utils;
 
 namespace Zuma.src.frog
 {
-    public class FrogViewModel : INotifyPropertyChanged
+    public class FrogViewModel : Notifier
     {
         private readonly Frog frog;
 
@@ -22,7 +22,7 @@ namespace Zuma.src.frog
             set
             {
                 rotationAngel = value;
-                OnPropertyChanged(nameof(RotationAngel));
+                OnPropertyChanged();
             }
         }
 
@@ -35,8 +35,5 @@ namespace Zuma.src.frog
         {
             this.frog = frog;
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

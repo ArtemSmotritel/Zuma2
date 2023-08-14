@@ -1,17 +1,17 @@
 ﻿using System;
-using System.ComponentModel;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
 using Zuma.models;
-using Zuma.src.balls.ball;
 using Zuma.src.frog;
 using Zuma.src.helpers;
+using Zuma.src.models.balls;
+using Zuma.src.utils;
 
 namespace Zuma.src.level
 {
-    public class LevelViewModel : INotifyPropertyChanged
+    public class LevelViewModel : Notifier
     {
         private readonly Level level;
         private readonly Canvas levelCanvas;
@@ -19,6 +19,7 @@ namespace Zuma.src.level
         public Path Path => level.Path;
         public Point FrogCoordinates => level.Frog.Coordinates;
         public ImageBrush Background => new ImageBrush(level.Background);
+        public List<MovingBall> MovingBalls { get; private set; }
 
         private string _name;
         public string Name
@@ -27,7 +28,7 @@ namespace Zuma.src.level
             set
             {
                 _name = value;
-                OnPropertyChanged(nameof(Name));
+                OnPropertyChanged();
             }
         }
 
@@ -47,18 +48,18 @@ namespace Zuma.src.level
 
         public void ShootBall(Point mouseCoordinates)
         {
-            var ballStartingPoint = new Point(FrogCoordinates.X + 50, FrogCoordinates.Y + 50);
+            //var ballStartingPoint = new Point(FrogCoordinates.X + 50, FrogCoordinates.Y + 50);
 
-            var ballSprite = new BitmapImage(new System.Uri("pack://application:,,,/resources/images/balls/blue_ball_1.png"));
-            var ball = new Ball(ballSprite, ballStartingPoint);
-            var ballControl = new BallControl(new BallViewModel(ball));
+            //var ballSprite = new BitmapImage(new System.Uri("pack://application:,,,/resources/images/balls/blue_ball_1.png"));
+            //var ball = new Ball(ballSprite, ballStartingPoint);
+            //var ballControl = new BallControl(new BallViewModel(ball));
 
-            Canvas.SetLeft(ballControl, ballStartingPoint.X);
-            Canvas.SetTop(ballControl, ballStartingPoint.Y);
+            //Canvas.SetLeft(ballControl, ballStartingPoint.X);
+            //Canvas.SetTop(ballControl, ballStartingPoint.Y);
 
-            levelCanvas.Children.Add(ballControl);
-            level.LevelTicker.Tick += DrawPath;
-            level.LevelTicker.Start();
+            //levelCanvas.Children.Add(ballControl);
+            //level.LevelTicker.Tick += DrawPath;
+            //level.LevelTicker.Start();
         }
 
         private float pathDrawingT = 0;
@@ -99,8 +100,5 @@ namespace Zuma.src.level
 
             levelCanvas.Children.Add(rect);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

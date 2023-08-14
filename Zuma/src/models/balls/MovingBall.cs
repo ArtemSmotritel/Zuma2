@@ -25,7 +25,8 @@ namespace Zuma.src.models.balls
             PathTime = 0;
         }
 
-        public void GoBackwards() => Speed = -Speed;
+        public void GoBackwards() => Speed = -Math.Abs(Speed);
+        public void GoForwards() => Speed = Math.Abs(Speed);
         public void Freeze() => Speed = 0;
         public void ResumeNormalSpeed() => Speed = NormalSpeed;
         public void ResumeStartingSpeed() => Speed = StartingSpeed;

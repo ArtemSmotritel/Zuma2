@@ -62,12 +62,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="src\balls\AbstractBall.cs" />
-    <Compile Include="src\balls\ball\Ball.cs" />
-    <Compile Include="src\balls\ball\BallControl.xaml.cs">
-      <DependentUpon>BallControl.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="src\balls\ball\BallViewModel.cs" />
     <Compile Include="src\balls\enemy_ball\EnemyBall.cs" />
     <Compile Include="src\balls\enemy_ball\EnemyBallControl.xaml.cs">
       <DependentUpon>EnemyBallControl.xaml</DependentUpon>
@@ -94,6 +88,7 @@
     <Compile Include="src\pages\main\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="src\utils\Notifier.cs" />
     <Compile Include="src\utils\RelayCommand.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -107,10 +102,6 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="src\balls\ball\BallControl.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="src\balls\enemy_ball\EnemyBallControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
