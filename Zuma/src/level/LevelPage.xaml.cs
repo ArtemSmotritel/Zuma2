@@ -11,6 +11,7 @@ namespace Zuma.src.level
     public partial class LevelPage : Page
     {
         public LevelViewModel ViewModel { get; private set; }
+        public FrogControl FrogControl { get; private set; }
 
         public LevelPage(Level level)
         {
@@ -20,27 +21,26 @@ namespace Zuma.src.level
 
             DataContext = ViewModel;
 
-            InitializeFrog();
+            InitializeFrog(new FrogViewModel(level.Frog));
 
             MouseMove += OnMouseMoveWithCanvas;
             MouseLeftButtonDown += OnMouseClick;
         }
 
-        private void InitializeFrog()
+        private void InitializeFrog(FrogViewModel frogViewModel)
         {
-            var frog = new FrogControl(ViewModel.FrogViewModel);
-            Canvas.SetLeft(frog, ViewModel.FrogCoordinates.X);
-            Canvas.SetTop(frog, ViewModel.FrogCoordinates.Y);
+            FrogControl = new FrogControl(frogViewModel);
 
-            ViewModel.FrogControl = frog;
+            Canvas.SetLeft(FrogControl, ViewModel.FrogCoordinates.X);
+            Canvas.SetTop(FrogControl, ViewModel.FrogCoordinates.Y);
 
-            LevelCanvas.Children.Add(frog);
+            LevelCanvas.Children.Add(FrogControl);
         }
 
         private void OnMouseMoveWithCanvas(object sender, MouseEventArgs e)
         {
             Point currentMousePosition = e.GetPosition(this);
-            ViewModel.RotateFrog(currentMousePosition);
+            ViewModel.RotateFrog(currentMousePosition, FrogControl);
         }
 
         private void OnMouseClick(object sender, MouseEventArgs e)

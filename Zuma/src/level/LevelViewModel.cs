@@ -13,17 +13,11 @@ namespace Zuma.src.level
 {
     public class LevelViewModel : INotifyPropertyChanged
     {
-        private readonly Random random = new Random();
-
         private readonly Level level;
         private readonly Canvas levelCanvas;
 
         public Path Path => level.Path;
-
-        public FrogControl FrogControl { get; set; }
-        public FrogViewModel FrogViewModel => new FrogViewModel(level.Frog);
-        public Point FrogCoordinates => FrogViewModel.Coordinates;
-
+        public Point FrogCoordinates => level.Frog.Coordinates;
         public ImageBrush Background => new ImageBrush(level.Background);
 
         private string _name;
@@ -44,11 +38,11 @@ namespace Zuma.src.level
             Name = $"Level {level.Number}: {level.Name}";
         }
 
-        public void RotateFrog(Point mouseCoordinates)
+        public void RotateFrog(Point mouseCoordinates, FrogControl frogControl)
         {
             double angel = GeometryCalculator.GetAngelBetweenTwoPoints(mouseCoordinates, FrogCoordinates);
-            FrogControl.SetRotationAngle(Utils.AddAngels(angel, 80));
-            Name = $"X = {mouseCoordinates.X};\t Y = {mouseCoordinates.Y}";
+            frogControl.SetRotationAngle(Utils.AddAngels(angel, 80));
+            Name = $"X = {mouseCoordinates.X};\t pathDrawingT Y = {mouseCoordinates.Y}";
         }
 
         public void ShootBall(Point mouseCoordinates)
@@ -67,44 +61,46 @@ namespace Zuma.src.level
             level.LevelTicker.Start();
         }
 
-        private float t = 0;
+        private float pathDrawingT = 0;
         public void DrawPath(object sender, EventArgs e)
         {
-            if (!Path.HasReachedDestination(t))
+            if (pathDrawingT == 0)
             {
-                Point point = Path.GetPosition(t);
-                DrawPathPoint(point, Brushes.Red);
-                t += 0.03f;
+                Point point = Path.Start;
+                point.Y -= 15;
+                DrawPathPoint(point, Brushes.Red, 30, 30);
+            }
+
+            if (!Path.HasReachedDestination(pathDrawingT))
+            {
+                Point point = Path.GetPosition(pathDrawingT);
+                DrawPathPoint(point, Brushes.DimGray);
+                pathDrawingT += 0.02f;
+            }
+            else
+            {
+                Point point = Path.End;
+                point.Y -= 15;
+                DrawPathPoint(point, Brushes.Red, 30, 30);
             }
         }
-
-        private void DrawPathPoint(Point p, Brush brush)
+        private void DrawPathPoint(Point p, Brush brush, int heigh = 15, int width = 15)
         {
-            var p1C = new System.Windows.Shapes.Rectangle
+            var rect = new System.Windows.Shapes.Rectangle
             {
-                Height = 3,
-                Width = 3,
+                Height = heigh,
+                Width = width,
                 Fill = brush,
                 Stroke = brush,
             };
 
-            Canvas.SetLeft(p1C, p.X);
-            Canvas.SetTop(p1C, p.Y);
+            Canvas.SetLeft(rect, p.X);
+            Canvas.SetTop(rect, p.Y);
 
-            levelCanvas.Children.Add(p1C);
-        }
-
-        private Brush GetRandomColor()
-        {
-            byte[] colorBytes = new byte[3];
-            random.NextBytes(colorBytes);
-
-            var randomColor = Color.FromRgb(colorBytes[0], colorBytes[1], colorBytes[2]);
-            return new SolidColorBrush(randomColor);
+            levelCanvas.Children.Add(rect);
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
-
         protected virtual void OnPropertyChanged(string propertyName) => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

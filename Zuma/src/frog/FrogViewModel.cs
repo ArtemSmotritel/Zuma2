@@ -27,8 +27,8 @@ namespace Zuma.src.frog
         }
 
         public ImageBrush Sprite => new ImageBrush(frog.Sprite);
-        public AbstractBall CurrentBall => frog.CurrentBall;
-        public AbstractBall NextBall => frog.NextBall;
+        public MovingBall CurrentBall => frog.CurrentBall;
+        public MovingBall NextBall => frog.NextBall;
         public Point Coordinates => frog.Coordinates;
 
         public FrogViewModel(Frog frog)

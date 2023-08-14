@@ -4,6 +4,5 @@
     {
         void Move();
         void Freeze();
-        void Dissapear();
     }
 }

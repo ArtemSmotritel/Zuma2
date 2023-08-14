@@ -133,7 +133,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\models\balls\AbstractBall.cs" />
+    <Compile Include="src\models\balls\MovingBall.cs" />
     <Compile Include="src\models\balls\IBall.cs" />
     <Compile Include="src\models\Path.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">

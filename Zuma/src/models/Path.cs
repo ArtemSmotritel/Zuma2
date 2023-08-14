@@ -12,17 +12,26 @@ namespace Zuma.models
         private List<Bezier> BezierCurves { get; set; }
         public int CurvesCount => BezierCurves.Count;
 
+        private Point start;
+        public Point Start => start;
+
+        private Point end;
+        public Point End => end;
+
         public Path(List<Point> points)
         {
             Vector2[] vectors = points
-                .Select(point => new Vector2((float) point.X, (float) point.Y))
+                .Select(point => ToVector(point))
                 .ToArray();
             BezierCurves = new List<Bezier> { new Bezier(vectors) };
+
+            start = ToPoint(BezierCurves[0].Points[0]);
+            SetStartAndEndPoints();
         }
 
         public Path() { }
 
-        public static Path QuadraticBezierCurveBased(List<Point> points)
+        public static Path CreateQuadraticBezierCurveBasedPath(List<Point> points)
         {
             var path = new Path
             {
@@ -34,8 +43,10 @@ namespace Zuma.models
                 Point start = points[i];
                 Point adjustent = points[i + 1];
                 Point end = points[i + 2];
-                path.BezierCurves.Add(B3(start, adjustent, end));
+                path.BezierCurves.Add(QuadraticBezierCurve(start, adjustent, end));
             }
+
+            path.SetStartAndEndPoints();
 
             return path;
         }
@@ -44,21 +55,26 @@ namespace Zuma.models
         {
             int index = GetCurveIndex(t);
             float curveAdjustedT = t - index;
-            System.Numerics.Vector2 vector = BezierCurves[index].Position(curveAdjustedT);
-            return new Point(vector.X, vector.Y);
+            Vector2 vector = BezierCurves[index].Position(curveAdjustedT);
+            return ToPoint(vector);
         }
 
         public bool HasReachedDestination(float t) => t >= BezierCurves.Count;
 
         private int GetCurveIndex(float t) => (int) Math.Floor(t);
 
-        private static Bezier B3(Point p1, Point p2, Point p3)
+        private void SetStartAndEndPoints()
         {
-            return new Bezier(
-                new Vector2((float) p1.X, (float) p1.Y),
-                new Vector2((float) p2.X, (float) p2.Y),
-                new Vector2((float) p3.X, (float) p3.Y)
-                );
+            start = ToPoint(BezierCurves[0].Points[0]);
+
+            Bezier lastCurve = BezierCurves[BezierCurves.Count - 1];
+            Vector2 lastVector = lastCurve.Points[lastCurve.Points.Count - 1];
+            end = ToPoint(lastVector);
         }
+
+        private static Bezier QuadraticBezierCurve(Point p1, Point p2, Point p3) => new Bezier(ToVector(p1), ToVector(p2), ToVector(p3));
+
+        public static Point ToPoint(Vector2 vector) => new Point(vector.X, vector.Y);
+        public static Vector2 ToVector(Point point) => new Vector2((float) point.X, (float) point.Y);
     }
 }

@@ -16,7 +16,7 @@ namespace Zuma.src.level_creators
                 );
         protected override string GetName() => "First";
         protected override int GetNumber() => 1;
-        protected override Path GetPath() => Path.QuadraticBezierCurveBased(new List<Point>
+        protected override Path GetPath() => Path.CreateQuadraticBezierCurveBasedPath(new List<Point>
         {
             new Point(0, 350),
             new Point(250, 80),

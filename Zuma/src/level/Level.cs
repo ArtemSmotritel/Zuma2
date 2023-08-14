@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Zuma.models;
 using Zuma.src.frog;
+using Zuma.src.models.balls;
 
 namespace Zuma.src.level
 {
@@ -13,6 +15,7 @@ namespace Zuma.src.level
         public BitmapImage Background { get; private set; }
         public Frog Frog { get; private set; }
         public Path Path { get; private set; }
+        public ReadOnlyCollection<MovingBall> EnemyBalls { get; private set; }
         public DispatcherTimer LevelTicker { get; private set; }
 
         public Level(string name, int number, Uri backgroundImageURI, Frog frog, Path path)
