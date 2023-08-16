@@ -15,11 +15,15 @@ namespace Zuma.src.level
     {
         private readonly Level level;
         private readonly Canvas levelCanvas;
+        private readonly LevelController levelController = new LevelController();
+
+        private int generatedBallsCount = 0;
+        private MovingBall lastGeneratedEnemyBall;
 
         public Path Path => level.Path;
         public Point FrogCoordinates => level.Frog.Coordinates;
         public ImageBrush Background => new ImageBrush(level.Background);
-        public List<MovingBall> MovingBalls { get; private set; }
+        public LinkedList<MovingBall> MovingBalls { get; private set; }
 
         private string _name;
         public string Name
@@ -37,13 +41,56 @@ namespace Zuma.src.level
             this.level = level;
             this.levelCanvas = levelCanvas;
             Name = $"Level {level.Number}: {level.Name}";
+            MovingBalls = new LinkedList<MovingBall>();
         }
 
         public void RotateFrog(Point mouseCoordinates, FrogControl frogControl)
         {
             double angel = GeometryCalculator.GetAngelBetweenTwoPoints(mouseCoordinates, FrogCoordinates);
             frogControl.SetRotationAngle(Utils.AddAngels(angel, 80));
-            Name = $"X = {mouseCoordinates.X};\t pathDrawingT Y = {mouseCoordinates.Y}";
+        }
+
+        public void Start() => level.Start();
+
+        private bool MoveBalls()
+        {
+            LinkedListNode<MovingBall> theFirstBall = MovingBalls.First;
+            return levelController.MoveBalls(theFirstBall);
+        }
+
+        private void GameTick(object sender, EventArgs e)
+        {
+            if (MovingBalls.Count == 0 && generatedBallsCount >= level.EnemyBallsTotalCount)
+            {
+                // add logic for game victory;
+                MessageBox.Show("You've won. Congrats!", "Serious result!");
+                level.LevelTicker.Stop();
+                return;
+            }
+
+            bool hasBallReachedDestination = MoveBalls();
+
+            if (hasBallReachedDestination)
+            {
+                MessageBox.Show("You've lost. Better luck next time!", "Not so serious result!");
+                level.LevelTicker.Stop();
+                return;
+            }
+
+            if (lastGeneratedEnemyBall == null || ( generatedBallsCount < level.EnemyBallsTotalCount && IsLastGeneratedBallFarEnough() ))
+            {
+                lastGeneratedEnemyBall = levelController.GenerateBall(level, MovingBalls);
+                Canvas.SetLeft(lastGeneratedEnemyBall.view, lastGeneratedEnemyBall.Coordinates.X);
+                Canvas.SetTop(lastGeneratedEnemyBall.view, lastGeneratedEnemyBall.Coordinates.Y);
+                levelCanvas.Children.Add(lastGeneratedEnemyBall.view);
+                generatedBallsCount++;
+            }
+        }
+
+        private bool IsLastGeneratedBallFarEnough()
+        {
+            return lastGeneratedEnemyBall != null
+            && GeometryCalculator.IsDistanceGreaterOrEqual(lastGeneratedEnemyBall.Coordinates, level.Path.Start, lastGeneratedEnemyBall.width);
         }
 
         public void ShootBall(Point mouseCoordinates)
@@ -59,7 +106,9 @@ namespace Zuma.src.level
 
             //levelCanvas.Children.Add(ballControl);
             //level.LevelTicker.Tick += DrawPath;
-            //level.LevelTicker.Start();
+            level.LevelTicker.Tick += GameTick;
+            Start();
+            string p = "";
         }
 
         private float pathDrawingT = 0;

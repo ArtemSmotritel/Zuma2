@@ -16,25 +16,26 @@ namespace Zuma.src.level_creators
                 );
         protected override string GetName() => "First";
         protected override int GetNumber() => 1;
-        protected override Path GetPath() => Path.CreateQuadraticBezierCurveBasedPath(new List<Point>
+        protected override Path GetPath() => new Path(new List<Point>
         {
             new Point(0, 350),
-            new Point(250, 80),
-            new Point(600, 80),
+            new Point(250, 0),
+            new Point(600, 20),
 
-            new Point(1300, 80),
-            new Point(1400, 416),
+            new Point(1700, 0),
+            new Point(1500, 316),
 
             new Point(1510, 680),
-            new Point(1316, 740),
-            new Point(968, 830),
+            new Point(1316, 840),
+            new Point(968, 930),
 
-            new Point(550, 720),
-            new Point(180, 635),
-            new Point(380, 470),
+            new Point(550, 920),
+            new Point(100, 835),
+            new Point(300, 470),
 
             new Point(560, 325),
             new Point(835, 350),
         });
+        protected override int GetEnemyCount() => 20;
     }
 }

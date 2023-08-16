@@ -15,10 +15,11 @@ namespace Zuma.src.level
         public BitmapImage Background { get; private set; }
         public Frog Frog { get; private set; }
         public Path Path { get; private set; }
+        public int EnemyBallsTotalCount { get; private set; }
         public ReadOnlyCollection<MovingBall> EnemyBalls { get; private set; }
         public DispatcherTimer LevelTicker { get; private set; }
 
-        public Level(string name, int number, Uri backgroundImageURI, Frog frog, Path path)
+        public Level(string name, int number, Uri backgroundImageURI, Frog frog, Path path, int enemyBallsTotalCount)
         {
             Name = name;
             Number = number;
@@ -28,21 +29,13 @@ namespace Zuma.src.level
             LevelTicker = new DispatcherTimer();
             ConfigureTicker();
             Frog = frog;
+            EnemyBallsTotalCount = enemyBallsTotalCount;
         }
 
         public void Start() => LevelTicker.Start();
 
         public void Stop() => LevelTicker.Stop();
 
-        private void ConfigureTicker()
-        {
-            LevelTicker.Interval = TimeSpan.FromMilliseconds(16);
-            LevelTicker.Tick += Tick;
-        }
-
-        private void Tick(object sender, EventArgs e)
-        {
-
-        }
+        private void ConfigureTicker() => LevelTicker.Interval = TimeSpan.FromMilliseconds(16);
     }
 }
