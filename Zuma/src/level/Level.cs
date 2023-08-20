@@ -36,6 +36,6 @@ namespace Zuma.src.level
 
         public void Stop() => LevelTicker.Stop();
 
-        private void ConfigureTicker() => LevelTicker.Interval = TimeSpan.FromMilliseconds(16);
+        private void ConfigureTicker() => LevelTicker.Interval = TimeSpan.FromMilliseconds(10);
     }
 }

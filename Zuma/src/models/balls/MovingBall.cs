@@ -83,12 +83,17 @@ namespace Zuma.src.models.balls
             if (ball.Next == null)
             {
                 Move();
+                return;
             }
-            else if (!GeometryCalculator.IsDistanceGreaterOrEqual(Coordinates, ball.Next.Value.Coordinates, width - ( width / 15f )))
+
+            double distance = GeometryCalculator.DistanceBetweenPoints(Coordinates, ball.Next.Value.Coordinates);
+            if (distance < ( width - ( width / 15f ) ))
             {
                 Speed = 0.00015f;
+                RotationSpeed = 6;
                 Move();
                 Speed = NormalSpeed;
+                RotationSpeed = NormalRotationSpeed;
             }
             else
             {
@@ -106,8 +111,8 @@ namespace Zuma.src.models.balls
             Canvas.SetLeft(view, Coordinates.X);
             Canvas.SetTop(view, Coordinates.Y);
 
-            //RotationAngle = Utils.AddAngels(RotationAngle, RotationSpeed);
-            //view.RenderTransform = new RotateTransform(RotationAngle, halfWidth, halfHeight);
+            RotationAngle = Utils.AddAngels(RotationAngle, RotationSpeed);
+            view.RenderTransform = new RotateTransform(RotationAngle, halfWidth, halfHeight);
         }
 
         public bool HasReachedDestination() => path.HasReachedDestination(PathTime + Speed);

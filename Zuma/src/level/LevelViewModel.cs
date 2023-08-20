@@ -68,9 +68,9 @@ namespace Zuma.src.level
                 return;
             }
 
-            bool hasBallReachedDestination = MoveBalls();
+            bool hasAnyBallReachedDestination = MoveBalls();
 
-            if (hasBallReachedDestination)
+            if (hasAnyBallReachedDestination)
             {
                 MessageBox.Show("You've lost. Better luck next time!", "Not so serious result!");
                 level.LevelTicker.Stop();
@@ -118,7 +118,7 @@ namespace Zuma.src.level
             {
                 Point point = Path.Start;
                 point.Y -= 15;
-                DrawPathPoint(point, Brushes.Red, 30, 30);
+                DrawPathPoint(point, Brushes.Blue, 30, 30);
             }
 
             if (!Path.HasReachedDestination(pathDrawingT))
