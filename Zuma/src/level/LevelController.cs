@@ -1,43 +1,37 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Zuma.src.balls;
-using Zuma.src.models.balls;
+using Zuma.src.helpers;
 
 namespace Zuma.src.level
 {
     public class LevelController
     {
-        public bool MoveBalls(LinkedListNode<MovingBall> sublistHeadBall)
+        public bool MoveBalls(LinkedListNode<BallWithColor> sublistTailBall)
         {
-            while (sublistHeadBall != null && sublistHeadBall.Value != null)
+            while (sublistTailBall != null && sublistTailBall.Value != null)
             {
-                if (sublistHeadBall.Value.HasReachedDestination())
+                if (sublistTailBall.Value.HasReachedDestination())
                 {
                     return true;
                 }
                 else
                 {
-                    sublistHeadBall.Value.Move(sublistHeadBall);
+                    sublistTailBall.Value.Move(sublistTailBall.Value, sublistTailBall.Next?.Value);
                 }
 
-                sublistHeadBall = sublistHeadBall.Next;
+                sublistTailBall = sublistTailBall.Previous;
             }
 
             return false;
         }
 
-        public EnemyBall GenerateBall(Level level, LinkedList<MovingBall> MovingBalls)
+        public BallWithColor GenerateBall(Level level, LinkedList<BallWithColor> enemyBalls)
         {
-            (Uri spriteUri, string type) = GetRandomBallSpriteAndType();
-            var ball = new EnemyBall(
-                level.Path.Start,
-                spriteUri,
-                level.Path
-                );
-            MovingBalls.AddFirst(ball);
+            BallColor lastGeneratedColor = enemyBalls.First?.Value?.color ?? BallColor.NONE;
+            BallColor beforeLastGeneratedColor = enemyBalls.First?.Next?.Value?.color ?? BallColor.NONE;
+            BallWithColor ball = BallGenerator.GenerateEnemyBall(level, (lastGeneratedColor, beforeLastGeneratedColor));
+
             return ball;
         }
-
-        private (Uri, string) GetRandomBallSpriteAndType() => (new Uri("pack://application:,,,/resources/images/balls/blue_ball_1.png"), "");
     }
 }

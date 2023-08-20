@@ -73,8 +73,16 @@ namespace Zuma.src.level
             ViewModel.RotateFrog(currentMousePosition, FrogControl);
         }
 
+        private bool hasStarted = false;
+
         private void OnMouseClick(object sender, MouseEventArgs e)
         {
+            if (!hasStarted)
+            {
+                ViewModel.Start();
+                hasStarted = true;
+            }
+
             Point currentMousePosition = e.GetPosition(this);
             ViewModel.ShootBall(currentMousePosition);
         }

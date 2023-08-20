@@ -67,12 +67,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="src\balls\EnemyBall.cs" />
+    <Compile Include="src\balls\BallColor.cs" />
+    <Compile Include="src\balls\BallWithColor.cs" />
     <Compile Include="src\frog\Frog.cs" />
     <Compile Include="src\frog\FrogControl.xaml.cs">
       <DependentUpon>FrogControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\frog\FrogViewModel.cs" />
+    <Compile Include="src\helpers\BallGenerator.cs" />
     <Compile Include="src\helpers\GeometryCalculator.cs" />
     <Compile Include="src\helpers\Utils.cs" />
     <Compile Include="src\level\Level.cs" />
@@ -176,6 +178,15 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="resources\levels\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\images\balls\yellow_ball_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\images\balls\purple_ball_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\images\balls\green_ball_1.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

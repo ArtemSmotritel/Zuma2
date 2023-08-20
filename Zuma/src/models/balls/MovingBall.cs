@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -78,15 +77,15 @@ namespace Zuma.src.models.balls
             RotationSpeed = StartingRotationSpeed;
         }
 
-        public void Move(LinkedListNode<MovingBall> ball)
+        public void Move(MovingBall ball, MovingBall nextBall)
         {
-            if (ball.Next == null)
+            if (nextBall == null)
             {
                 Move();
                 return;
             }
 
-            double distance = GeometryCalculator.DistanceBetweenPoints(Coordinates, ball.Next.Value.Coordinates);
+            double distance = GeometryCalculator.DistanceBetweenPoints(Coordinates, nextBall.Coordinates);
             if (distance < ( width - ( width / 15f ) ))
             {
                 Speed = 0.00015f;
@@ -97,7 +96,7 @@ namespace Zuma.src.models.balls
             }
             else
             {
-                while (GeometryCalculator.IsDistanceGreaterOrEqual(Coordinates, ball.Next.Value.Coordinates, width - ( width / 15f )))
+                while (GeometryCalculator.IsDistanceGreaterOrEqual(Coordinates, nextBall.Coordinates, width - ( width / 15f )))
                 {
                     Move();
                 }

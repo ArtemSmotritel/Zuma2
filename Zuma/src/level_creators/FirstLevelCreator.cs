@@ -20,7 +20,7 @@ namespace Zuma.src.level_creators
         {
             return new Path(new List<Point>
             {
-                new Point(13.6, 461.6),
+                new Point(-40, 440.6),
                 new Point(130.4, 294.4),
                 new Point(292, 165.6),
                 new Point(444.8, 86.4),
@@ -45,6 +45,6 @@ namespace Zuma.src.level_creators
             });
         }
 
-        protected override int GetEnemyCount() => 20;
+        protected override int GetEnemyCount() => 80;
     }
 }
