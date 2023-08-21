@@ -6,7 +6,7 @@ namespace Zuma.src.level
 {
     public class LevelController
     {
-        public bool MoveBalls(LinkedListNode<BallWithColor> sublistTailBall)
+        public bool MoveBalls(LinkedListNode<EnemyBall> sublistTailBall)
         {
             while (sublistTailBall != null && sublistTailBall.Value != null)
             {
@@ -25,11 +25,11 @@ namespace Zuma.src.level
             return false;
         }
 
-        public BallWithColor GenerateBall(Level level, LinkedList<BallWithColor> enemyBalls)
+        public EnemyBall GenerateBall(Level level, LinkedList<EnemyBall> enemyBalls)
         {
             BallColor lastGeneratedColor = enemyBalls.First?.Value?.color ?? BallColor.NONE;
             BallColor beforeLastGeneratedColor = enemyBalls.First?.Next?.Value?.color ?? BallColor.NONE;
-            BallWithColor ball = BallGenerator.GenerateEnemyBall(level, (lastGeneratedColor, beforeLastGeneratedColor));
+            EnemyBall ball = BallGenerator.GenerateEnemyBall(level, (lastGeneratedColor, beforeLastGeneratedColor));
 
             return ball;
         }

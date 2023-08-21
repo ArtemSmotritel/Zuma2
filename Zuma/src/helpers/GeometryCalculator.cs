@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Geometry;
+using System.Numerics;
 using System.Windows;
 
 namespace Zuma.src.helpers
@@ -42,5 +44,20 @@ namespace Zuma.src.helpers
 
             return Math.Sqrt(( deltaX * deltaX ) + ( deltaY * deltaY ));
         }
+
+        public static Bezier GetBezierPathFromAInDirectionOfB(Point A, Point B, double distance = 1500)
+        {
+            Vector2 vectorA = ToVector(A);
+            Vector2 vectorB = ToVector(B);
+
+            var vectorAB = Vector2.Normalize(vectorB - vectorA);
+
+            Vector2 vectorC = vectorA + ( (float) distance * vectorAB );
+
+            return new Bezier(vectorA, vectorC);
+        }
+
+        public static Point ToPoint(Vector2 vector) => new Point(vector.X, vector.Y);
+        public static Vector2 ToVector(Point point) => new Vector2((float) point.X, (float) point.Y);
     }
 }

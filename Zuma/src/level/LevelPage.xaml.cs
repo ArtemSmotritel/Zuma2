@@ -82,9 +82,11 @@ namespace Zuma.src.level
                 ViewModel.Start();
                 hasStarted = true;
             }
-
-            Point currentMousePosition = e.GetPosition(this);
-            ViewModel.ShootBall(currentMousePosition);
+            else
+            {
+                Point currentMousePosition = e.GetPosition(this);
+                ViewModel.ShootBall(currentMousePosition);
+            }
         }
 
         private void OnMouseRightClick(object sender, MouseEventArgs e)

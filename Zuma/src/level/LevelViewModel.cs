@@ -18,13 +18,14 @@ namespace Zuma.src.level
         private readonly LevelController levelController = new LevelController();
 
         private int generatedBallsCount = 0;
-        private BallWithColor lastGeneratedEnemyBall;
+        private EnemyBall lastGeneratedEnemyBall;
 
         public Path Path => level.Path;
         public Point FrogCoordinates => level.Frog.Coordinates;
         public ImageBrush Background => new ImageBrush(level.Background);
-        public LinkedList<BallWithColor> EnemyBalls { get; private set; }
-        public LinkedList<BallWithColor> PlayerBalls { get; private set; }
+        public LinkedList<EnemyBall> EnemyBalls { get; private set; }
+        public List<PlayerBall> PlayerBalls { get; private set; }
+        public List<PlayerBall> PlayerBallsToRemove { get; private set; }
 
         private string _name;
         public string Name
@@ -42,10 +43,12 @@ namespace Zuma.src.level
             this.level = level;
             this.levelCanvas = levelCanvas;
             Name = $"Level {level.Number}: {level.Name}";
-            EnemyBalls = new LinkedList<BallWithColor>();
-            PlayerBalls = new LinkedList<BallWithColor>();
+            EnemyBalls = new LinkedList<EnemyBall>();
+            PlayerBalls = new List<PlayerBall>();
+            PlayerBallsToRemove = new List<PlayerBall>();
 
             level.LevelTicker.Tick += GameTick;
+            Start();
         }
 
         public void RotateFrog(Point mouseCoordinates, FrogControl frogControl)
@@ -56,14 +59,44 @@ namespace Zuma.src.level
 
         public void Start() => level.Start();
 
-        private bool MoveBalls()
+        private bool MoveEnemyBalls()
         {
-            LinkedListNode<BallWithColor> theLastBall = EnemyBalls.Last;
+            LinkedListNode<EnemyBall> theLastBall = EnemyBalls.Last;
             return levelController.MoveBalls(theLastBall);
+        }
+
+        private void MovePlayerBalls()
+        {
+            for (int i = 0; i < PlayerBalls.Count; i++)
+            {
+                PlayerBalls[i].Move();
+            }
+        }
+
+        private void RemovePlayerBall(PlayerBall playerBall, int index)
+        {
+            levelCanvas.Children.Remove(playerBall.view);
+            PlayerBalls.RemoveAt(index);
+        }
+
+        private bool ShouldRemoveBall(PlayerBall playerBall)
+        {
+            Point coordinates = playerBall.Coordinates;
+            return coordinates.X < -playerBall.width || coordinates.Y < -playerBall.height || coordinates.X > 1400 || coordinates.Y > 1000;
         }
 
         private void GameTick(object sender, EventArgs e)
         {
+            for (int i = 0; i < PlayerBalls.Count; i++)
+            {
+                PlayerBall ball = PlayerBalls[i];
+
+                if (ShouldRemoveBall(ball))
+                {
+                    RemovePlayerBall(ball, i);
+                }
+            }
+
             if (EnemyBalls.Count == 0 && generatedBallsCount >= level.EnemyBallsTotalCount)
             {
                 // add logic for game victory;
@@ -72,13 +105,18 @@ namespace Zuma.src.level
                 return;
             }
 
-            bool hasAnyBallReachedDestination = MoveBalls();
+            bool hasAnyBallReachedDestination = MoveEnemyBalls();
 
             if (hasAnyBallReachedDestination)
             {
                 MessageBox.Show("You've lost. Better luck next time!", "Not so serious result!");
                 level.LevelTicker.Stop();
                 return;
+            }
+
+            if (PlayerBalls.Count > 0)
+            {
+                MovePlayerBalls();
             }
 
             if (lastGeneratedEnemyBall == null || ( generatedBallsCount < level.EnemyBallsTotalCount && IsLastGeneratedBallFarEnough() ))
@@ -96,18 +134,13 @@ namespace Zuma.src.level
 
         public void ShootBall(Point mouseCoordinates)
         {
-            //var ballStartingPoint = new Point(FrogCoordinates.X + 50, FrogCoordinates.Y + 50);
+            PlayerBall ball = BallGenerator.GeneratePlayerBall(FrogCoordinates, mouseCoordinates, BallColor.GREEN);
 
-            //var ballSprite = new BitmapImage(new System.Uri("pack://application:,,,/resources/images/balls/blue_ball_1.png"));
-            //var ball = new Ball(ballSprite, ballStartingPoint);
-            //var ballControl = new BallControl(new BallViewModel(ball));
+            PlayerBalls.Add(ball);
 
-            //Canvas.SetLeft(ballControl, ballStartingPoint.X);
-            //Canvas.SetTop(ballControl, ballStartingPoint.Y);
-
-            //levelCanvas.Children.Add(ballControl);
-            //level.LevelTicker.Tick += DrawPath;
-            string p = "";
+            Canvas.SetLeft(ball.view, ball.Coordinates.X);
+            Canvas.SetTop(ball.view, ball.Coordinates.Y);
+            levelCanvas.Children.Add(ball.view);
         }
 
         private float pathDrawingT = 0;

@@ -69,6 +69,8 @@
     </ApplicationDefinition>
     <Compile Include="src\balls\BallColor.cs" />
     <Compile Include="src\balls\BallWithColor.cs" />
+    <Compile Include="src\balls\EnemyBall.cs" />
+    <Compile Include="src\balls\PlayerBall.cs" />
     <Compile Include="src\frog\Frog.cs" />
     <Compile Include="src\frog\FrogControl.xaml.cs">
       <DependentUpon>FrogControl.xaml</DependentUpon>
@@ -124,7 +126,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="src\models\balls\MovingBall.cs" />
-    <Compile Include="src\models\balls\IBall.cs" />
     <Compile Include="src\models\Path.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>

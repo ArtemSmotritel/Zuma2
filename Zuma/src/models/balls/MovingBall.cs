@@ -8,19 +8,19 @@ using Zuma.src.helpers;
 
 namespace Zuma.src.models.balls
 {
-    public abstract class MovingBall : IBall
+    public abstract class MovingBall
     {
-        public static float NormalSpeed => 0.00025f;
-        public static float NormalRotationSpeed => 10;
-        public static float StartingSpeed => 0.03f;
-        public static float StartingRotationSpeed => 20;
+        public abstract float GetNormalSpeed();
+        public abstract float GetNormalRotationSpeed();
+        public abstract float GetStartingSpeed();
+        public abstract float GetStartingRotationSpeed();
 
         public readonly System.Windows.Shapes.Ellipse view;
         public readonly int height = 40;
         public readonly int width = 40;
         public readonly float halfHeight;
         public readonly float halfWidth;
-        private readonly BitmapImage sprite;
+        protected BitmapImage sprite;
 
         protected readonly Path path;
         public Point Coordinates { get; protected set; }
@@ -29,10 +29,10 @@ namespace Zuma.src.models.balls
         protected float PathTime { get; set; }
         protected float RotationAngle { get; set; }
 
-        public MovingBall(Point coordinates, Uri spriteURI, Path path)
+        public MovingBall(Path path, Uri spriteUri)
         {
-            Coordinates = coordinates;
-            sprite = new BitmapImage(spriteURI);
+            Coordinates = path.Start;
+            sprite = new BitmapImage(spriteUri);
             this.path = path;
             Speed = 0;
             ResumeNormalSpeed();
@@ -67,14 +67,14 @@ namespace Zuma.src.models.balls
 
         public void ResumeNormalSpeed()
         {
-            Speed = NormalSpeed;
-            RotationSpeed = NormalRotationSpeed;
+            Speed = GetNormalSpeed();
+            RotationSpeed = GetNormalRotationSpeed();
         }
 
         public void ResumeStartingSpeed()
         {
-            Speed = StartingSpeed;
-            RotationSpeed = StartingRotationSpeed;
+            Speed = GetStartingSpeed();
+            RotationSpeed = GetStartingRotationSpeed();
         }
 
         public void Move(MovingBall ball, MovingBall nextBall)
@@ -91,8 +91,7 @@ namespace Zuma.src.models.balls
                 Speed = 0.00015f;
                 RotationSpeed = 6;
                 Move();
-                Speed = NormalSpeed;
-                RotationSpeed = NormalRotationSpeed;
+                ResumeNormalSpeed();
             }
             else
             {

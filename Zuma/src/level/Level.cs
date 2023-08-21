@@ -1,10 +1,8 @@
 ﻿using System;
-using System.Collections.ObjectModel;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using Zuma.models;
 using Zuma.src.frog;
-using Zuma.src.models.balls;
 
 namespace Zuma.src.level
 {
@@ -16,7 +14,6 @@ namespace Zuma.src.level
         public Frog Frog { get; private set; }
         public Path Path { get; private set; }
         public int EnemyBallsTotalCount { get; private set; }
-        public ReadOnlyCollection<MovingBall> EnemyBalls { get; private set; }
         public DispatcherTimer LevelTicker { get; private set; }
 
         public Level(string name, int number, Uri backgroundImageURI, Frog frog, Path path, int enemyBallsTotalCount)
@@ -26,7 +23,7 @@ namespace Zuma.src.level
             Background = new BitmapImage(backgroundImageURI);
             Path = path;
 
-            LevelTicker = new DispatcherTimer();
+            LevelTicker = new DispatcherTimer(DispatcherPriority.Background);
             ConfigureTicker();
             Frog = frog;
             EnemyBallsTotalCount = enemyBallsTotalCount;
@@ -36,6 +33,6 @@ namespace Zuma.src.level
 
         public void Stop() => LevelTicker.Stop();
 
-        private void ConfigureTicker() => LevelTicker.Interval = TimeSpan.FromMilliseconds(10);
+        private void ConfigureTicker() => LevelTicker.Interval = TimeSpan.FromMilliseconds(20);
     }
 }

@@ -1,24 +1,13 @@
 ﻿using System;
-using System.Windows;
 using Zuma.models;
 using Zuma.src.models.balls;
 
 namespace Zuma.src.balls
 {
-    public class BallWithColor : MovingBall
+    public abstract class BallWithColor : MovingBall
     {
         public readonly BallColor color;
-
-        public static BallWithColor CreateBall(Point coordinates, Path path, BallColor ballColor)
-        {
-            Uri spritePath = GetSpritePath(ballColor);
-
-            var ball = new BallWithColor(coordinates, spritePath, path, ballColor);
-
-            return ball;
-        }
-
-        private static Uri GetSpritePath(BallColor ballColor)
+        protected static Uri GetSpritePath(BallColor ballColor)
         {
             switch (ballColor)
             {
@@ -35,10 +24,7 @@ namespace Zuma.src.balls
             }
         }
 
-        private BallWithColor(Point coordinates,
-                         Uri spriteURI,
-                         Path path,
-                         BallColor color) : base(coordinates, spriteURI, path)
+        public BallWithColor(Path path, BallColor color) : base(path, spriteUri: GetSpritePath(color))
         {
             this.color = color;
         }

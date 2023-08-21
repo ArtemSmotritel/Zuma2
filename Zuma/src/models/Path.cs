@@ -4,6 +4,7 @@ using System.Geometry;
 using System.Linq;
 using System.Numerics;
 using System.Windows;
+using Zuma.src.helpers;
 
 namespace Zuma.models
 {
@@ -21,15 +22,20 @@ namespace Zuma.models
         public Path(List<Point> points)
         {
             Vector2[] vectors = points
-                .Select(point => ToVector(point))
+                .Select(point => GeometryCalculator.ToVector(point))
                 .ToArray();
             BezierCurves = new List<Bezier> { new Bezier(vectors) };
 
-            start = ToPoint(BezierCurves[0].Points[0]);
             SetStartAndEndPoints();
         }
 
         public Path() { }
+
+        public Path(Bezier bezier)
+        {
+            BezierCurves = new List<Bezier> { bezier };
+            SetStartAndEndPoints();
+        }
 
         public static Path CreateQuadraticBezierCurveBasedPath(List<Point> points)
         {
@@ -56,7 +62,7 @@ namespace Zuma.models
             int index = GetCurveIndex(t);
             float curveAdjustedT = t - index;
             Vector2 vector = BezierCurves[index].Position(curveAdjustedT);
-            return ToPoint(vector);
+            return GeometryCalculator.ToPoint(vector);
         }
 
         public bool HasReachedDestination(float t) => t >= BezierCurves.Count;
@@ -65,16 +71,13 @@ namespace Zuma.models
 
         private void SetStartAndEndPoints()
         {
-            start = ToPoint(BezierCurves[0].Points[0]);
+            start = GeometryCalculator.ToPoint(BezierCurves[0].Points[0]);
 
             Bezier lastCurve = BezierCurves[BezierCurves.Count - 1];
             Vector2 lastVector = lastCurve.Points[lastCurve.Points.Count - 1];
-            end = ToPoint(lastVector);
+            end = GeometryCalculator.ToPoint(lastVector);
         }
 
-        private static Bezier QuadraticBezierCurve(Point p1, Point p2, Point p3) => new Bezier(ToVector(p1), ToVector(p2), ToVector(p3));
-
-        public static Point ToPoint(Vector2 vector) => new Point(vector.X, vector.Y);
-        public static Vector2 ToVector(Point point) => new Vector2((float) point.X, (float) point.Y);
+        private static Bezier QuadraticBezierCurve(Point p1, Point p2, Point p3) => new Bezier(GeometryCalculator.ToVector(p1), GeometryCalculator.ToVector(p2), GeometryCalculator.ToVector(p3));
     }
 }
