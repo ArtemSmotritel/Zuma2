@@ -88,7 +88,8 @@ namespace Zuma.src.level
             {
                 Point mouseCoordinates = e.GetPosition(LevelCanvas);
 
-                PlayerBall ball = FrogViewModel.PrepareCurrentBallForShooting(mouseCoordinates);
+                Point start = FrogViewModel.CurrentBallView.TranslatePoint(new Point(20, 20), LevelCanvas);
+                PlayerBall ball = FrogViewModel.PrepareCurrentBallForShooting(start, mouseCoordinates);
                 ViewModel.ShootBall(mouseCoordinates, ball);
 
                 FrogViewModel.HandleShot(mouseCoordinates);

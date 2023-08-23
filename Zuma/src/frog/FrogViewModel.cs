@@ -1,6 +1,7 @@
 ﻿using System.Geometry;
 using System.Windows;
-using System.Windows.Media;
+using System.Windows.Media.Imaging;
+using System.Windows.Shapes;
 using Zuma.src.balls;
 using Zuma.src.helpers;
 using Zuma.src.utils;
@@ -28,7 +29,9 @@ namespace Zuma.src.frog
             }
         }
 
-        public ImageBrush Sprite => new ImageBrush(frog.Sprite);
+        public Rectangle CurrentBallView { get; set; }
+
+        public BitmapImage Sprite => frog.Sprite;
         public PlayerBall CurrentBall => frog.CurrentBall;
         public PlayerBall NextBall => frog.NextBall;
         public Point Coordinates => frog.Coordinates;
@@ -46,9 +49,9 @@ namespace Zuma.src.frog
             OnPropertyChanged(nameof(NextBall));
         }
 
-        public PlayerBall PrepareCurrentBallForShooting(Point mouseCoordinates)
+        public PlayerBall PrepareCurrentBallForShooting(Point start, Point mouseCoordinates)
         {
-            Bezier bezierForBall = GeometryCalculator.GetBezierPathFromAInDirectionOfB(Coordinates, mouseCoordinates);
+            Bezier bezierForBall = GeometryCalculator.GetBezierPathFromAInDirectionOfB(start, mouseCoordinates);
             CurrentBall.SetPath(new Zuma.models.Path(bezierForBall));
 
             return CurrentBall;

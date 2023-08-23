@@ -6,11 +6,45 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Zuma.src.frog"
     mc:Ignorable="d"
-    d:Width="150"
-    d:Height="150"
+    d:Width="100"
+    d:Height="100"
     Width="{ Binding Width }"
-    Height="{ Binding Height }"
-    Background="{Binding Sprite }">
+    Height="{ Binding Height }">
+    <Canvas>
+        <Rectangle
+            x:Name="CurrentBallSprite"
+            Height="{ Binding Height }"
+            Width="{ Binding Width }"
+            Panel.ZIndex="2">
+            <Rectangle.Fill>
+                <ImageBrush
+                    ImageSource="{ Binding Sprite }">
+                </ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <Ellipse
+            Panel.ZIndex="3"
+            Margin="30, -20, 0, 0"
+            Width="40"
+            Height="40">
+            <Ellipse.Fill>
+                <ImageBrush
+                    ImageSource="{ Binding CurrentBall.Sprite }">
+                </ImageBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+        <Ellipse
+            Panel.ZIndex="1"
+            Margin="35, 60, 0, 0"
+            Width="30"
+            Height="30">
+            <Ellipse.Fill>
+                <ImageBrush
+                    ImageSource="{ Binding NextBall.Sprite }">
+                </ImageBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+    </Canvas>
     <UserControl.RenderTransform>
         <RotateTransform
             Angle="{ Binding RotationAngel }"
