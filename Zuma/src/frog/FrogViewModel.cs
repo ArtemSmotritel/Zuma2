@@ -41,7 +41,9 @@ namespace Zuma.src.frog
         public void HandleShot(Point mouseCoordinates)
         {
             frog.SwapBall();
+            OnPropertyChanged(nameof(CurrentBall));
             frog.NextBall = BallGenerator.GeneratePlayerBall();
+            OnPropertyChanged(nameof(NextBall));
         }
 
         public PlayerBall PrepareCurrentBallForShooting(Point mouseCoordinates)

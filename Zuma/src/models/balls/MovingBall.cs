@@ -20,7 +20,7 @@ namespace Zuma.src.models.balls
         public readonly int width = 40;
         public readonly float halfHeight;
         public readonly float halfWidth;
-        protected BitmapImage sprite;
+        public BitmapImage Sprite { get; protected set; }
 
         protected Path path;
         public Point Coordinates { get; protected set; }
@@ -32,7 +32,7 @@ namespace Zuma.src.models.balls
         public MovingBall(Path path, Uri spriteUri)
         {
             Coordinates = path.Start;
-            sprite = new BitmapImage(spriteUri);
+            Sprite = new BitmapImage(spriteUri);
             this.path = path;
             ResumeNormalSpeed();
             PathTime = 0;
@@ -40,7 +40,7 @@ namespace Zuma.src.models.balls
             {
                 Width = width,
                 Height = height,
-                Fill = new ImageBrush(sprite),
+                Fill = new ImageBrush(Sprite),
             };
             halfHeight = height / 2f;
             halfWidth = width / 2f;
