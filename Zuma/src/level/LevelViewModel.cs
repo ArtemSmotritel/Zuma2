@@ -51,10 +51,10 @@ namespace Zuma.src.level
             Start();
         }
 
-        public void RotateFrog(Point mouseCoordinates, FrogControl frogControl)
+        public void RotateFrog(Point mouseCoordinates, FrogViewModel frogViewModel)
         {
             double angel = GeometryCalculator.GetAngelBetweenTwoPoints(mouseCoordinates, FrogCoordinates);
-            frogControl.SetRotationAngle(Utils.AddAngels(angel, 80));
+            frogViewModel.RotationAngel = Utils.AddAngels(angel, 80);
         }
 
         public void Start() => level.Start();
@@ -62,7 +62,7 @@ namespace Zuma.src.level
         private bool MoveEnemyBalls()
         {
             LinkedListNode<EnemyBall> theLastBall = EnemyBalls.Last;
-            return levelController.MoveBalls(theLastBall);
+            return levelController.MoveBalls(theLastBall, PlayerBalls);
         }
 
         private void MovePlayerBalls()
@@ -82,7 +82,7 @@ namespace Zuma.src.level
         private bool ShouldRemoveBall(PlayerBall playerBall)
         {
             Point coordinates = playerBall.Coordinates;
-            return coordinates.X < -playerBall.width || coordinates.Y < -playerBall.height || coordinates.X > 1400 || coordinates.Y > 1000;
+            return coordinates.X < -playerBall.width || coordinates.Y < -playerBall.height || coordinates.X > 1600 || coordinates.Y > 1000;
         }
 
         private void GameTick(object sender, EventArgs e)

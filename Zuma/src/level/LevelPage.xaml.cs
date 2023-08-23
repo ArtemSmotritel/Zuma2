@@ -12,7 +12,7 @@ namespace Zuma.src.level
     public partial class LevelPage : Page
     {
         public LevelViewModel ViewModel { get; private set; }
-        public FrogControl FrogControl { get; private set; }
+        public FrogViewModel FrogViewModel { get; private set; }
         private string fileName;
         private readonly string folderPath = "C:\\Users\\Artem\\source\\repos\\Zuma\\Zuma\\resources\\levels";
 
@@ -59,18 +59,19 @@ namespace Zuma.src.level
 
         private void InitializeFrog(FrogViewModel frogViewModel)
         {
-            FrogControl = new FrogControl(frogViewModel);
+            FrogViewModel = frogViewModel;
+            var frogControl = new FrogControl(frogViewModel);
 
-            Canvas.SetLeft(FrogControl, ViewModel.FrogCoordinates.X);
-            Canvas.SetTop(FrogControl, ViewModel.FrogCoordinates.Y);
+            Canvas.SetLeft(frogControl, ViewModel.FrogCoordinates.X);
+            Canvas.SetTop(frogControl, ViewModel.FrogCoordinates.Y);
 
-            LevelCanvas.Children.Add(FrogControl);
+            LevelCanvas.Children.Add(frogControl);
         }
 
         private void OnMouseMoveWithCanvas(object sender, MouseEventArgs e)
         {
             Point currentMousePosition = e.GetPosition(this);
-            ViewModel.RotateFrog(currentMousePosition, FrogControl);
+            ViewModel.RotateFrog(currentMousePosition, FrogViewModel);
         }
 
         private bool hasStarted = false;

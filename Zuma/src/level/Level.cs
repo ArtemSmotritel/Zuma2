@@ -23,7 +23,7 @@ namespace Zuma.src.level
             Background = new BitmapImage(backgroundImageURI);
             Path = path;
 
-            LevelTicker = new DispatcherTimer(DispatcherPriority.Background);
+            LevelTicker = new DispatcherTimer(DispatcherPriority.Render);
             ConfigureTicker();
             Frog = frog;
             EnemyBallsTotalCount = enemyBallsTotalCount;

@@ -34,7 +34,6 @@ namespace Zuma.src.models.balls
             Coordinates = path.Start;
             sprite = new BitmapImage(spriteUri);
             this.path = path;
-            Speed = 0;
             ResumeNormalSpeed();
             PathTime = 0;
             view = new System.Windows.Shapes.Ellipse

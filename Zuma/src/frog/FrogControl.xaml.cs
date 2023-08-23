@@ -1,5 +1,4 @@
 ﻿using System.Windows.Controls;
-using System.Windows.Media;
 
 namespace Zuma.src.frog
 {
@@ -18,6 +17,5 @@ namespace Zuma.src.frog
 
             DataContext = ViewModel;
         }
-        public void SetRotationAngle(double angle) => ( (RotateTransform) RenderTransform ).Angle = angle;
     }
 }
