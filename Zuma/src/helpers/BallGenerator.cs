@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Geometry;
-using System.Windows;
 using Zuma.src.balls;
 using Zuma.src.level;
 
@@ -39,12 +37,7 @@ namespace Zuma.src.helpers
             BallColor.BLUE,
         };
 
-        public static PlayerBall GeneratePlayerBall(Point frogCoordinates, Point mouseCoordinates, BallColor ballColor)
-        {
-            Bezier bezierForBall = GeometryCalculator.GetBezierPathFromAInDirectionOfB(frogCoordinates, mouseCoordinates);
-
-            return new PlayerBall(new Zuma.models.Path(bezierForBall), ballColor);
-        }
+        public static PlayerBall GeneratePlayerBall() => new PlayerBall(GetRandomBallColor());
 
         public static EnemyBall GenerateEnemyBall(Level level, (BallColor, BallColor) twoLastGeneratedColors)
         {

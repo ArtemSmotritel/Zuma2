@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using Zuma.src.models.balls;
+using Zuma.src.balls;
+using Zuma.src.helpers;
 
 namespace Zuma.src.frog
 {
@@ -9,9 +10,9 @@ namespace Zuma.src.frog
     {
         public Point Coordinates { get; private set; }
 
-        public MovingBall CurrentBall { get; private set; }
+        public PlayerBall CurrentBall { get; set; }
 
-        public MovingBall NextBall { get; set; }
+        public PlayerBall NextBall { get; set; }
 
         public BitmapImage Sprite { get; private set; }
 
@@ -19,6 +20,10 @@ namespace Zuma.src.frog
         {
             Coordinates = coordinates;
             Sprite = new BitmapImage(spriteURI);
+            CurrentBall = BallGenerator.GeneratePlayerBall();
+            NextBall = BallGenerator.GeneratePlayerBall();
         }
+
+        public void SwapBall() => CurrentBall = NextBall;
     }
 }

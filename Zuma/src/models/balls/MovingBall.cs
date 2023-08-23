@@ -22,7 +22,7 @@ namespace Zuma.src.models.balls
         public readonly float halfWidth;
         protected BitmapImage sprite;
 
-        protected readonly Path path;
+        protected Path path;
         public Point Coordinates { get; protected set; }
         protected float Speed { get; set; }
         protected float RotationSpeed { get; set; }

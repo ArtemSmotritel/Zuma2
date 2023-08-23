@@ -1,6 +1,8 @@
-﻿using System.Windows;
+﻿using System.Geometry;
+using System.Windows;
 using System.Windows.Media;
-using Zuma.src.models.balls;
+using Zuma.src.balls;
+using Zuma.src.helpers;
 using Zuma.src.utils;
 
 namespace Zuma.src.frog
@@ -27,13 +29,27 @@ namespace Zuma.src.frog
         }
 
         public ImageBrush Sprite => new ImageBrush(frog.Sprite);
-        public MovingBall CurrentBall => frog.CurrentBall;
-        public MovingBall NextBall => frog.NextBall;
+        public PlayerBall CurrentBall => frog.CurrentBall;
+        public PlayerBall NextBall => frog.NextBall;
         public Point Coordinates => frog.Coordinates;
 
         public FrogViewModel(Frog frog)
         {
             this.frog = frog;
+        }
+
+        public void HandleShot(Point mouseCoordinates)
+        {
+            frog.SwapBall();
+            frog.NextBall = BallGenerator.GeneratePlayerBall();
+        }
+
+        public PlayerBall PrepareCurrentBallForShooting(Point mouseCoordinates)
+        {
+            Bezier bezierForBall = GeometryCalculator.GetBezierPathFromAInDirectionOfB(Coordinates, mouseCoordinates);
+            CurrentBall.SetPath(new Zuma.models.Path(bezierForBall));
+
+            return CurrentBall;
         }
     }
 }

@@ -132,10 +132,8 @@ namespace Zuma.src.level
 
         private bool IsLastGeneratedBallFarEnough() => GeometryCalculator.IsDistanceGreaterOrEqual(lastGeneratedEnemyBall.Coordinates, level.Path.Start, lastGeneratedEnemyBall.width);
 
-        public void ShootBall(Point mouseCoordinates)
+        public void ShootBall(Point mouseCoordinates, PlayerBall ball)
         {
-            PlayerBall ball = BallGenerator.GeneratePlayerBall(FrogCoordinates, mouseCoordinates, BallColor.GREEN);
-
             PlayerBalls.Add(ball);
 
             Canvas.SetLeft(ball.view, ball.Coordinates.X);

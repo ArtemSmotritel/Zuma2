@@ -10,6 +10,8 @@ namespace Zuma.models
 {
     public class Path
     {
+        public static Path EMPTY => new Path();
+
         private List<Bezier> BezierCurves { get; set; }
         public int CurvesCount => BezierCurves.Count;
 
@@ -29,7 +31,12 @@ namespace Zuma.models
             SetStartAndEndPoints();
         }
 
-        public Path() { }
+        public Path()
+        {
+            BezierCurves = new List<Bezier>();
+            start = new Point(0, 0);
+            end = new Point(0, 0);
+        }
 
         public Path(Bezier bezier)
         {

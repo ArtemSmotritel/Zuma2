@@ -4,7 +4,11 @@ namespace Zuma.src.balls
 {
     public class PlayerBall : BallWithColor
     {
-        public PlayerBall(Path path, BallColor color) : base(path, color)
+        private PlayerBall(Path path, BallColor color) : base(path, color)
+        {
+        }
+
+        public PlayerBall(BallColor color) : base(Path.EMPTY, color)
         {
         }
 
@@ -12,5 +16,11 @@ namespace Zuma.src.balls
         public override float GetNormalSpeed() => 0.01f;
         public override float GetStartingRotationSpeed() => GetNormalRotationSpeed();
         public override float GetStartingSpeed() => GetNormalSpeed();
+
+        public void SetPath(Path path)
+        {
+            this.path = path;
+            Coordinates = path.Start;
+        }
     }
 }

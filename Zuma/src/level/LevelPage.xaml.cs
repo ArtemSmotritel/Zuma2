@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using Zuma.src.balls;
 using Zuma.src.frog;
 
 namespace Zuma.src.level
@@ -85,8 +86,12 @@ namespace Zuma.src.level
             }
             else
             {
-                Point currentMousePosition = e.GetPosition(this);
-                ViewModel.ShootBall(currentMousePosition);
+                Point mouseCoordinates = e.GetPosition(LevelCanvas);
+
+                PlayerBall ball = FrogViewModel.PrepareCurrentBallForShooting(mouseCoordinates);
+                ViewModel.ShootBall(mouseCoordinates, ball);
+
+                FrogViewModel.HandleShot(mouseCoordinates);
             }
         }
 
