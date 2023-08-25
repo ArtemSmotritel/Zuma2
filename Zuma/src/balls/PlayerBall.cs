@@ -16,6 +16,8 @@ namespace Zuma.src.balls
         public override float GetNormalSpeed() => 0.01f;
         public override float GetStartingRotationSpeed() => GetNormalRotationSpeed();
         public override float GetStartingSpeed() => GetNormalSpeed();
+        public override float GetCollisionSpeed() => GetNormalSpeed();
+        public override float GetCollisionRotationSpeed() => GetNormalRotationSpeed();
 
         public void SetPath(Path path)
         {

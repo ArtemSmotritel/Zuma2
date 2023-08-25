@@ -26,6 +26,7 @@ namespace Zuma.src.level
         public LinkedList<EnemyBall> EnemyBalls { get; private set; }
         public List<PlayerBall> PlayerBalls { get; private set; }
         public List<PlayerBall> PlayerBallsToRemove { get; private set; }
+        public bool CanShootBall => PlayerBalls.Count == 0;
 
         private string _name;
         public string Name
@@ -62,14 +63,15 @@ namespace Zuma.src.level
         private bool MoveEnemyBalls()
         {
             LinkedListNode<EnemyBall> theLastBall = EnemyBalls.Last;
-            return levelController.MoveBalls(theLastBall, PlayerBalls);
+            return levelController.MoveBalls(theLastBall, PlayerBalls, levelCanvas);
         }
 
         private void MovePlayerBalls()
         {
             for (int i = 0; i < PlayerBalls.Count; i++)
             {
-                PlayerBalls[i].Move();
+                PlayerBall ball = PlayerBalls[i];
+                ball.Move(ball.GetNormalSpeed(), ball.GetNormalRotationSpeed());
             }
         }
 

@@ -6,20 +6,25 @@ namespace Zuma.src.level
 {
     public class LevelController
     {
-        public bool MoveBalls(LinkedListNode<EnemyBall> sublistTailBall)
+        public bool MoveBalls(LinkedListNode<EnemyBall> enemyBall, List<PlayerBall> playerBalls, System.Windows.Controls.Canvas levelCanvas)
         {
-            while (sublistTailBall != null && sublistTailBall.Value != null)
+            while (enemyBall != null && enemyBall.Value != null)
             {
-                if (sublistTailBall.Value.HasReachedDestination())
+                float speed = 0;
+                float rotationSpeed = 0;
+
+                if (enemyBall.Value.HasReachedDestination(speed))
                 {
                     return true;
                 }
                 else
                 {
-                    sublistTailBall.Value.Move(sublistTailBall.Value, sublistTailBall.Next?.Value);
+                    speed = enemyBall.Value.GetNormalSpeed();
+                    rotationSpeed = enemyBall.Value.GetNormalRotationSpeed();
+                    enemyBall.Value.Move(enemyBall.Value, enemyBall.Next?.Value, speed, rotationSpeed, enemyBall.Value.GetCollisionSpeed(), enemyBall.Value.GetCollisionRotationSpeed());
                 }
 
-                sublistTailBall = sublistTailBall.Previous;
+                enemyBall = enemyBall.Previous;
             }
 
             return false;

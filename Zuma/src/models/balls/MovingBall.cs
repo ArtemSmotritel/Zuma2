@@ -12,6 +12,8 @@ namespace Zuma.src.models.balls
     {
         public abstract float GetNormalSpeed();
         public abstract float GetNormalRotationSpeed();
+        public abstract float GetCollisionSpeed();
+        public abstract float GetCollisionRotationSpeed();
         public abstract float GetStartingSpeed();
         public abstract float GetStartingRotationSpeed();
 
@@ -24,17 +26,16 @@ namespace Zuma.src.models.balls
 
         protected Path path;
         public Point Coordinates { get; protected set; }
-        protected float Speed { get; set; }
-        protected float RotationSpeed { get; set; }
         protected float PathTime { get; set; }
         protected float RotationAngle { get; set; }
+        protected bool IsFrozen { get; set; }
 
         public MovingBall(Path path, Uri spriteUri)
         {
+            IsFrozen = false;
             Coordinates = path.Start;
             Sprite = new BitmapImage(spriteUri);
             this.path = path;
-            ResumeNormalSpeed();
             PathTime = 0;
             view = new System.Windows.Shapes.Ellipse
             {
@@ -46,72 +47,51 @@ namespace Zuma.src.models.balls
             halfWidth = width / 2f;
         }
 
-        public void GoBackwards()
-        {
-            Speed = -Math.Abs(Speed);
-            RotationSpeed = -Math.Abs(RotationSpeed);
-        }
+        public void Freeze() => IsFrozen = true;
 
-        public void GoForwards()
+        public void Move(MovingBall ball, MovingBall nextBall, float speed, float rotationSpeed, float collisisonSpeed, float collisionRotationSpeed)
         {
-            Speed = Math.Abs(Speed);
-            RotationSpeed = Math.Abs(RotationSpeed);
-        }
+            if (IsFrozen)
+            {
+                return;
+            }
 
-        public void Freeze()
-        {
-            Speed = 0;
-            RotationSpeed = 0;
-        }
-
-        public void ResumeNormalSpeed()
-        {
-            Speed = GetNormalSpeed();
-            RotationSpeed = GetNormalRotationSpeed();
-        }
-
-        public void ResumeStartingSpeed()
-        {
-            Speed = GetStartingSpeed();
-            RotationSpeed = GetStartingRotationSpeed();
-        }
-
-        public void Move(MovingBall ball, MovingBall nextBall)
-        {
             if (nextBall == null)
             {
-                Move();
+                Move(speed, rotationSpeed);
                 return;
             }
 
             double distance = GeometryCalculator.DistanceBetweenPoints(Coordinates, nextBall.Coordinates);
             if (distance < ( width - ( width / 15f ) ))
             {
-                Speed = 0.00015f;
-                RotationSpeed = 6;
-                Move();
-                ResumeNormalSpeed();
+                Move(collisisonSpeed, collisionRotationSpeed);
             }
             else
             {
                 while (GeometryCalculator.IsDistanceGreaterOrEqual(Coordinates, nextBall.Coordinates, width - ( width / 15f )))
                 {
-                    Move();
+                    Move(speed, rotationSpeed);
                 }
             }
         }
 
-        public void Move()
+        public void Move(float speed, float rotationSpeed)
         {
-            PathTime += Speed;
+            if (IsFrozen)
+            {
+                return;
+            }
+
+            PathTime += speed;
             Coordinates = path.GetPosition(PathTime);
             Canvas.SetLeft(view, Coordinates.X);
             Canvas.SetTop(view, Coordinates.Y);
 
-            RotationAngle = Utils.AddAngels(RotationAngle, RotationSpeed);
+            RotationAngle = Utils.AddAngels(RotationAngle, rotationSpeed);
             view.RenderTransform = new RotateTransform(RotationAngle, halfWidth, halfHeight);
         }
 
-        public bool HasReachedDestination() => path.HasReachedDestination(PathTime + Speed);
+        public bool HasReachedDestination(float speed) => path.HasReachedDestination(PathTime + speed);
     }
 }

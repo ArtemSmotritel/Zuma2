@@ -84,7 +84,7 @@ namespace Zuma.src.level
                 ViewModel.Start();
                 hasStarted = true;
             }
-            else
+            else if (ViewModel.CanShootBall)
             {
                 Point mouseCoordinates = e.GetPosition(LevelCanvas);
 
