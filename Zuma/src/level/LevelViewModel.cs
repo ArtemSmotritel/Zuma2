@@ -17,7 +17,6 @@ namespace Zuma.src.level
         private readonly Canvas levelCanvas;
         private readonly LevelController levelController = new LevelController();
 
-        private int generatedBallsCount = 0;
         private EnemyBall lastGeneratedEnemyBall;
 
         public Path Path => level.Path;
@@ -25,7 +24,6 @@ namespace Zuma.src.level
         public ImageBrush Background => new ImageBrush(level.Background);
         public LinkedList<EnemyBall> EnemyBalls { get; private set; }
         public List<PlayerBall> PlayerBalls { get; private set; }
-        public List<PlayerBall> PlayerBallsToRemove { get; private set; }
         public bool CanShootBall => PlayerBalls.Count == 0;
 
         private string _name;
@@ -46,7 +44,6 @@ namespace Zuma.src.level
             Name = $"Level {level.Number}: {level.Name}";
             EnemyBalls = new LinkedList<EnemyBall>();
             PlayerBalls = new List<PlayerBall>();
-            PlayerBallsToRemove = new List<PlayerBall>();
 
             level.LevelTicker.Tick += GameTick;
             Start();
@@ -63,7 +60,7 @@ namespace Zuma.src.level
         private bool MoveEnemyBalls()
         {
             LinkedListNode<EnemyBall> theLastBall = EnemyBalls.Last;
-            return levelController.MoveBalls(theLastBall, PlayerBalls, levelCanvas);
+            return levelController.MoveBalls(theLastBall, PlayerBalls, levelCanvas, level.ShouldContinueGenerateWithStartingSpeed());
         }
 
         private void MovePlayerBalls()
@@ -99,7 +96,7 @@ namespace Zuma.src.level
                 }
             }
 
-            if (EnemyBalls.Count == 0 && generatedBallsCount >= level.EnemyBallsTotalCount)
+            if (EnemyBalls.Count == 0 && level.HadGeneratedEnoughBalls())
             {
                 // add logic for game victory;
                 MessageBox.Show("You've won. Congrats!", "Serious result!");
@@ -121,14 +118,14 @@ namespace Zuma.src.level
                 MovePlayerBalls();
             }
 
-            if (lastGeneratedEnemyBall == null || ( generatedBallsCount < level.EnemyBallsTotalCount && IsLastGeneratedBallFarEnough() ))
+            if (lastGeneratedEnemyBall == null || ( level.ShouldGeneratedMoreBalls() && IsLastGeneratedBallFarEnough() ))
             {
                 lastGeneratedEnemyBall = levelController.GenerateBall(level, EnemyBalls);
                 EnemyBalls.AddFirst(lastGeneratedEnemyBall);
                 Canvas.SetLeft(lastGeneratedEnemyBall.view, lastGeneratedEnemyBall.Coordinates.X);
                 Canvas.SetTop(lastGeneratedEnemyBall.view, lastGeneratedEnemyBall.Coordinates.Y);
                 levelCanvas.Children.Add(lastGeneratedEnemyBall.view);
-                generatedBallsCount++;
+                level.GeneratedEnemyBallsTotalCount++;
             }
         }
 

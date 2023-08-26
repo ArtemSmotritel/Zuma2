@@ -29,7 +29,7 @@ namespace Zuma.src.balls
             this.color = color;
         }
 
-        public override string ToString() => $"{Color()} ball at {Coordinates}";
+        public override string ToString() => $"[{id}] {Color()} ball at {Coordinates}";
 
         private string Color()
         {

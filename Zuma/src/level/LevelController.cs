@@ -6,7 +6,7 @@ namespace Zuma.src.level
 {
     public class LevelController
     {
-        public bool MoveBalls(LinkedListNode<EnemyBall> enemyBall, List<PlayerBall> playerBalls, System.Windows.Controls.Canvas levelCanvas)
+        public bool MoveBalls(LinkedListNode<EnemyBall> enemyBall, List<PlayerBall> playerBalls, System.Windows.Controls.Canvas levelCanvas, bool shouldUseStartingSpeed)
         {
             while (enemyBall != null && enemyBall.Value != null)
             {

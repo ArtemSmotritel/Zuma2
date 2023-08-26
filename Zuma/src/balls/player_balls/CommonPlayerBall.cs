@@ -10,15 +10,22 @@ namespace Zuma.src.balls.player_balls
         {
         }
 
-        public override void OnCollision(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas, List<PlayerBall> playerBalls)
+        public override (bool, LinkedListNode<EnemyBall>) OnCollision(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas, List<PlayerBall> playerBalls)
         {
             List<LinkedListNode<EnemyBall>> enemyBallsWithSameColor = GetBallsWithSameColor(enemyBall);
 
             if (enemyBallsWithSameColor.Count < 2)
             {
-                return;
+                return (false, null);
             }
 
+            LinkedListNode<EnemyBall> firstNotRemovedNode = enemyBallsWithSameColor[0].Previous;
+            LinkedListNode<EnemyBall> notRemovedBallAhead = enemyBallsWithSameColor[enemyBallsWithSameColor.Count - 1].Next;
+            while (notRemovedBallAhead != null && notRemovedBallAhead.Value != null)
+            {
+                notRemovedBallAhead.Value.IsFrozen = true;
+                notRemovedBallAhead = notRemovedBallAhead.Next;
+            }
 
             foreach (LinkedListNode<EnemyBall> ball in enemyBallsWithSameColor)
             {
@@ -26,15 +33,9 @@ namespace Zuma.src.balls.player_balls
                 levelCanvas.Children.Remove(ball.Value.view);
             }
 
-            LinkedListNode<EnemyBall> firstNotRemovedBall = enemyBallsWithSameColor[enemyBallsWithSameColor.Count - 1].Next;
-            while (firstNotRemovedBall != null && firstNotRemovedBall.Value != null)
-            {
-                firstNotRemovedBall.Value.IsFrozen = true;
-                firstNotRemovedBall = firstNotRemovedBall.Next;
-            }
-
             playerBalls.Remove(this);
             levelCanvas.Children.Remove(view);
+            return (true, firstNotRemovedNode);
         }
 
         private List<LinkedListNode<EnemyBall>> GetBallsWithSameColor(LinkedListNode<EnemyBall> enemyBall)
@@ -44,23 +45,20 @@ namespace Zuma.src.balls.player_balls
                 return Enumerable.Empty<LinkedListNode<EnemyBall>>().ToList();
             }
 
-            var list = new List<LinkedListNode<EnemyBall>>
-            {
-                enemyBall
-            };
+            var list = new List<LinkedListNode<EnemyBall>>();
 
-            LinkedListNode<EnemyBall> ballBehind = enemyBall.Previous;
-            while (ballBehind != null && ballBehind.Value != null && ballBehind.Value.color == color)
+            LinkedListNode<EnemyBall> node = enemyBall;
+
+            while (node != null && node.Value != null && node.Value.color == color)
             {
-                list.Add(ballBehind);
-                ballBehind = ballBehind.Previous;
+                node = node.Previous;
             }
 
-            LinkedListNode<EnemyBall> ballAhead = enemyBall.Next;
-            while (ballAhead != null && ballAhead.Value != null && ballAhead.Value.color == color)
+            node = node.Next;
+            while (node != null && node.Value != null && node.Value.color == color)
             {
-                list.Add(ballAhead);
-                ballAhead = ballAhead.Next;
+                list.Add(node);
+                node = node.Next;
             }
 
             return list;

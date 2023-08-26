@@ -13,7 +13,9 @@ namespace Zuma.src.level
         public BitmapImage Background { get; private set; }
         public Frog Frog { get; private set; }
         public Path Path { get; private set; }
-        public int EnemyBallsTotalCount { get; private set; }
+        private int EnemyBallsTotalCount { get; set; }
+        private int StartEnemyBallsCount { get; set; }
+        public int GeneratedEnemyBallsTotalCount { get; set; }
         public DispatcherTimer LevelTicker { get; private set; }
 
         public Level(string name, int number, Uri backgroundImageURI, Frog frog, Path path, int enemyBallsTotalCount)
@@ -27,11 +29,17 @@ namespace Zuma.src.level
             ConfigureTicker();
             Frog = frog;
             EnemyBallsTotalCount = enemyBallsTotalCount;
+            GeneratedEnemyBallsTotalCount = 0;
+            StartEnemyBallsCount = (int) Math.Floor(enemyBallsTotalCount * 0.1);
         }
 
         public void Start() => LevelTicker.Start();
 
         public void Stop() => LevelTicker.Stop();
+
+        public bool ShouldContinueGenerateWithStartingSpeed() => GeneratedEnemyBallsTotalCount < StartEnemyBallsCount;
+        public bool HadGeneratedEnoughBalls() => GeneratedEnemyBallsTotalCount >= EnemyBallsTotalCount;
+        public bool ShouldGeneratedMoreBalls() => GeneratedEnemyBallsTotalCount < EnemyBallsTotalCount;
 
         private void ConfigureTicker() => LevelTicker.Interval = TimeSpan.FromMilliseconds(20);
     }

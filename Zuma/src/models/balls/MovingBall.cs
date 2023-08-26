@@ -10,13 +10,19 @@ namespace Zuma.src.models.balls
 {
     public abstract class MovingBall
     {
+        private static int _ID = 0;
+        protected static int ID
+        {
+            get
+            {
+                _ID++;
+                return _ID;
+            }
+        }
         public abstract float GetNormalSpeed();
         public abstract float GetNormalRotationSpeed();
-        public abstract float GetCollisionSpeed();
-        public abstract float GetCollisionRotationSpeed();
-        public abstract float GetStartingSpeed();
-        public abstract float GetStartingRotationSpeed();
 
+        public readonly int id;
         public readonly System.Windows.Shapes.Ellipse view;
         public readonly int height = 40;
         public readonly int width = 40;
@@ -28,10 +34,11 @@ namespace Zuma.src.models.balls
         public Point Coordinates { get; protected set; }
         protected float PathTime { get; set; }
         protected float RotationAngle { get; set; }
-        protected bool IsFrozen { get; set; }
+        public bool IsFrozen { get; set; }
 
         public MovingBall(Path path, Uri spriteUri)
         {
+            id = ID;
             IsFrozen = false;
             Coordinates = path.Start;
             Sprite = new BitmapImage(spriteUri);
@@ -46,8 +53,6 @@ namespace Zuma.src.models.balls
             halfHeight = height / 2f;
             halfWidth = width / 2f;
         }
-
-        public void Freeze() => IsFrozen = true;
 
         public void Move(MovingBall ball, MovingBall nextBall, float speed, float rotationSpeed, float collisisonSpeed, float collisionRotationSpeed)
         {

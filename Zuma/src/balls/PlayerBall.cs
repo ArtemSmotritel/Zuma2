@@ -15,7 +15,7 @@ namespace Zuma.src.balls
         }
 
         public override float GetNormalRotationSpeed() => 0;
-        public override float GetNormalSpeed() => 0.01f;
+        public override float GetNormalSpeed() => 0.02f;
         public override float GetStartingRotationSpeed() => GetNormalRotationSpeed();
         public override float GetStartingSpeed() => GetNormalSpeed();
         public override float GetCollisionSpeed() => GetNormalSpeed();
@@ -27,6 +27,6 @@ namespace Zuma.src.balls
             Coordinates = path.Start;
         }
 
-        public abstract void OnCollision(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas, List<PlayerBall> playerBalls);
+        public abstract (bool, LinkedListNode<EnemyBall>) OnCollision(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas, List<PlayerBall> playerBalls);
     }
 }
