@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Zuma.src.balls;
+using Zuma.src.balls.player_balls;
 using Zuma.src.level;
 
 namespace Zuma.src.helpers
@@ -9,35 +10,35 @@ namespace Zuma.src.helpers
     {
         private static readonly Random random = new Random();
 
-        private static readonly List<BallColor> colorsWithoutBlue = new List<BallColor>
+        private static readonly List<BallColor> enemyColorsWithoutBlue = new List<BallColor>
         {
             BallColor.GREEN,
             BallColor.YELLOW,
             BallColor.PURPLE,
         };
 
-        private static readonly List<BallColor> colorsWithoutYellow = new List<BallColor>
+        private static readonly List<BallColor> enemyColorsWithoutYellow = new List<BallColor>
         {
             BallColor.GREEN,
             BallColor.BLUE,
             BallColor.PURPLE,
         };
 
-        private static readonly List<BallColor> colorsWithoutGreen = new List<BallColor>
+        private static readonly List<BallColor> enemyColorsWithoutGreen = new List<BallColor>
         {
             BallColor.BLUE,
             BallColor.YELLOW,
             BallColor.PURPLE,
         };
 
-        private static readonly List<BallColor> colorsWithoutPurple = new List<BallColor>
+        private static readonly List<BallColor> enemyColorsWithoutPurple = new List<BallColor>
         {
             BallColor.GREEN,
             BallColor.YELLOW,
             BallColor.BLUE,
         };
 
-        public static PlayerBall GeneratePlayerBall() => new PlayerBall(GetRandomBallColor());
+        public static PlayerBall GeneratePlayerBall() => new CommonPlayerBall(GetRandomBallColor());
 
         public static EnemyBall GenerateEnemyBall(Level level, (BallColor, BallColor) twoLastGeneratedColors)
         {
@@ -81,13 +82,13 @@ namespace Zuma.src.helpers
             switch (ballColorToOmit)
             {
                 case BallColor.BLUE:
-                    return colorsWithoutBlue[index];
+                    return enemyColorsWithoutBlue[index];
                 case BallColor.GREEN:
-                    return colorsWithoutGreen[index];
+                    return enemyColorsWithoutGreen[index];
                 case BallColor.YELLOW:
-                    return colorsWithoutYellow[index];
+                    return enemyColorsWithoutYellow[index];
                 case BallColor.PURPLE:
-                    return colorsWithoutPurple[index];
+                    return enemyColorsWithoutPurple[index];
                 default:
                     throw new ArgumentException();
             }

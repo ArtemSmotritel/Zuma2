@@ -71,6 +71,7 @@
     <Compile Include="src\balls\BallWithColor.cs" />
     <Compile Include="src\balls\EnemyBall.cs" />
     <Compile Include="src\balls\PlayerBall.cs" />
+    <Compile Include="src\balls\player_balls\CommonPlayerBall.cs" />
     <Compile Include="src\frog\Frog.cs" />
     <Compile Include="src\frog\FrogControl.xaml.cs">
       <DependentUpon>FrogControl.xaml</DependentUpon>

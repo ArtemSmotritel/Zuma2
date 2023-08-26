@@ -1,8 +1,10 @@
-﻿using Zuma.models;
+﻿using System.Collections.Generic;
+using System.Windows.Controls;
+using Zuma.models;
 
 namespace Zuma.src.balls
 {
-    public class PlayerBall : BallWithColor
+    public abstract class PlayerBall : BallWithColor
     {
         private PlayerBall(Path path, BallColor color) : base(path, color)
         {
@@ -24,5 +26,7 @@ namespace Zuma.src.balls
             this.path = path;
             Coordinates = path.Start;
         }
+
+        public abstract void OnCollision(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas, List<PlayerBall> playerBalls);
     }
 }
