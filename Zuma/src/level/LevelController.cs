@@ -102,7 +102,7 @@ namespace Zuma.src.level
             return false;
         }
 
-        public EnemyBall GenerateEnemyBall(Level level, LinkedList<EnemyBall> enemyBalls)
+        public EnemyBall GenerateEnemyBall(Level level, BallColor ballColor) => new EnemyBall(level.Path, ballColor);
         {
             BallColor lastGeneratedColor = enemyBalls.First?.Value?.color ?? BallColor.NONE;
             BallColor beforeLastGeneratedColor = enemyBalls.First?.Next?.Value?.color ?? BallColor.NONE;

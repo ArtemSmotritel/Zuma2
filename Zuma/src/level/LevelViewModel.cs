@@ -120,7 +120,7 @@ namespace Zuma.src.level
 
             if (lastGeneratedEnemyBall == null || ( level.ShouldGeneratedMoreBalls() && IsLastGeneratedBallFarEnough() ))
             {
-                lastGeneratedEnemyBall = levelController.GenerateBall(level, EnemyBalls);
+                lastGeneratedEnemyBall = levelController.GenerateEnemyBall(level);
                 EnemyBalls.AddFirst(lastGeneratedEnemyBall);
                 Canvas.SetLeft(lastGeneratedEnemyBall.view, lastGeneratedEnemyBall.Coordinates.X);
                 Canvas.SetTop(lastGeneratedEnemyBall.view, lastGeneratedEnemyBall.Coordinates.Y);
