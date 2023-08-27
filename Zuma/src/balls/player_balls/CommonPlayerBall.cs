@@ -20,13 +20,21 @@ namespace Zuma.src.balls.player_balls
             }
 
             LinkedListNode<EnemyBall> firstNotRemovedNode = enemyBallsWithSameColor[0].Previous;
-            firstNotRemovedNode.Value.IsTemporarlyFirst = true;
-
             LinkedListNode<EnemyBall> notRemovedBallAhead = enemyBallsWithSameColor[enemyBallsWithSameColor.Count - 1].Next;
-            while (notRemovedBallAhead != null && notRemovedBallAhead.Value != null)
+
+            if (firstNotRemovedNode != null)
             {
-                notRemovedBallAhead.Value.IsFrozen = true;
-                notRemovedBallAhead = notRemovedBallAhead.Next;
+                firstNotRemovedNode.Value.IsTemporarlyFirst = true;
+
+                while (notRemovedBallAhead != null && notRemovedBallAhead.Value != null)
+                {
+                    notRemovedBallAhead.Value.IsFrozen = true;
+                    notRemovedBallAhead = notRemovedBallAhead.Next;
+                }
+            }
+            else
+            {
+                notRemovedBallAhead.Value.IsTemporarlyFirst = true;
             }
 
             foreach (LinkedListNode<EnemyBall> ball in enemyBallsWithSameColor)
@@ -51,12 +59,11 @@ namespace Zuma.src.balls.player_balls
 
             LinkedListNode<EnemyBall> node = enemyBall;
 
-            while (node != null && node.Value != null && node.Value.color == color)
+            while (node.Previous != null && node.Previous.Value != null && node.Previous.Value.color == color)
             {
                 node = node.Previous;
             }
 
-            node = node.Next;
             while (node != null && node.Value != null && node.Value.color == color)
             {
                 list.Add(node);

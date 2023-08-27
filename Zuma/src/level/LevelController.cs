@@ -16,7 +16,7 @@ namespace Zuma.src.level
                 {
                     PlayerBall ball = playerBalls[i];
                     double distance = GeometryCalculator.DistanceBetweenPoints(ball.Coordinates, enemyBall.Value.Coordinates);
-                    if (distance < ( ball.width - ( ball.width / 15f ) ))
+                    if (distance < ball.collisionWidth)
                     {
                         (bool wereBallsRemoved2, LinkedListNode<EnemyBall> firstNotRemovedBall2) = ball.OnCollision(enemyBall, levelCanvas, playerBalls);
                         wereBallsRemoved = wereBallsRemoved2;
@@ -53,7 +53,7 @@ namespace Zuma.src.level
                     }
 
                     System.Windows.Point nextBallCoordinates = enemyBall.Next.Value.Coordinates;
-                    int width = enemyBall.Value.width;
+                    float collisionWidth = enemyBall.Value.collisionWidth;
 
                     double distance = GeometryCalculator.DistanceBetweenPoints(enemyBall.Value.Coordinates, nextBallCoordinates);
 
@@ -61,7 +61,7 @@ namespace Zuma.src.level
                     {
                         enemyBall.Value.Move(speed, rotationSpeed);
 
-                        if (distance < ( width - ( width / 15f ) ))
+                        if (distance < collisionWidth)
                         {
                             enemyBall.Value.IsTemporarlyFirst = false;
                         }
@@ -70,7 +70,7 @@ namespace Zuma.src.level
                         continue;
                     }
 
-                    if (distance < ( width - ( width / 15f ) ))
+                    if (distance < collisionWidth)
                     {
                         float collisionSpeed = enemyBall.Value.GetCollisionSpeed();
                         float collisionRotationSpeed = enemyBall.Value.GetCollisionRotationSpeed();
@@ -79,7 +79,7 @@ namespace Zuma.src.level
 
                         LinkedListNode<EnemyBall> nextBall = enemyBall.Next;
                         LinkedListNode<EnemyBall> currentBall = enemyBall;
-                        while (nextBall != null && nextBall.Value != null && GeometryCalculator.DistanceBetweenPoints(currentBall.Value.Coordinates, nextBall.Value.Coordinates) < ( width - ( width / 15f ) ))
+                        while (nextBall != null && nextBall.Value != null && GeometryCalculator.DistanceBetweenPoints(currentBall.Value.Coordinates, nextBall.Value.Coordinates) < collisionWidth)
                         {
                             nextBall.Value.IsFrozen = false;
                             currentBall = nextBall;
@@ -88,7 +88,7 @@ namespace Zuma.src.level
                     }
                     else
                     {
-                        while (distance >= ( width - ( width / 15f ) ) && !enemyBall.Next.Value.IsFrozen)
+                        while (distance >= enemyBall.Value.collisionWidth && !enemyBall.Next.Value.IsFrozen)
                         {
                             enemyBall.Value.Move(speed, rotationSpeed);
                             distance = GeometryCalculator.DistanceBetweenPoints(enemyBall.Value.Coordinates, nextBallCoordinates);
@@ -102,7 +102,7 @@ namespace Zuma.src.level
             return false;
         }
 
-        public EnemyBall GenerateBall(Level level, LinkedList<EnemyBall> enemyBalls)
+        public EnemyBall GenerateEnemyBall(Level level, LinkedList<EnemyBall> enemyBalls)
         {
             BallColor lastGeneratedColor = enemyBalls.First?.Value?.color ?? BallColor.NONE;
             BallColor beforeLastGeneratedColor = enemyBalls.First?.Next?.Value?.color ?? BallColor.NONE;
