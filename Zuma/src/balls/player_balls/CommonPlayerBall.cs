@@ -20,6 +20,8 @@ namespace Zuma.src.balls.player_balls
             }
 
             LinkedListNode<EnemyBall> firstNotRemovedNode = enemyBallsWithSameColor[0].Previous;
+            firstNotRemovedNode.Value.IsTemporarlyFirst = true;
+
             LinkedListNode<EnemyBall> notRemovedBallAhead = enemyBallsWithSameColor[enemyBallsWithSameColor.Count - 1].Next;
             while (notRemovedBallAhead != null && notRemovedBallAhead.Value != null)
             {

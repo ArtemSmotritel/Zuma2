@@ -10,18 +10,90 @@ namespace Zuma.src.level
         {
             while (enemyBall != null && enemyBall.Value != null)
             {
-                float speed = 0;
-                float rotationSpeed = 0;
+                bool wereBallsRemoved = false;
+                LinkedListNode<EnemyBall> firstNotRemovedBall = null;
+                for (int i = 0; i < playerBalls.Count; i++)
+                {
+                    PlayerBall ball = playerBalls[i];
+                    double distance = GeometryCalculator.DistanceBetweenPoints(ball.Coordinates, enemyBall.Value.Coordinates);
+                    if (distance < ( ball.width - ( ball.width / 15f ) ))
+                    {
+                        (bool wereBallsRemoved2, LinkedListNode<EnemyBall> firstNotRemovedBall2) = ball.OnCollision(enemyBall, levelCanvas, playerBalls);
+                        wereBallsRemoved = wereBallsRemoved2;
+                        firstNotRemovedBall = firstNotRemovedBall2;
+                    }
+                }
 
-                if (enemyBall.Value.HasReachedDestination(speed))
+                if (wereBallsRemoved)
+                {
+                    enemyBall = firstNotRemovedBall;
+                    continue;
+                }
+
+                if (enemyBall.Value.IsFrozen)
+                {
+                    enemyBall = enemyBall.Previous;
+                    continue;
+                }
+
+                float speed = shouldUseStartingSpeed ? enemyBall.Value.GetStartingSpeed() : enemyBall.Value.GetNormalSpeed();
+                float rotationSpeed = shouldUseStartingSpeed ? enemyBall.Value.GetStartingRotationSpeed() : enemyBall.Value.GetNormalRotationSpeed();
+
+                if (enemyBall.Next?.Value == null && enemyBall.Value.HasReachedDestination(speed))
                 {
                     return true;
                 }
                 else
                 {
-                    speed = enemyBall.Value.GetNormalSpeed();
-                    rotationSpeed = enemyBall.Value.GetNormalRotationSpeed();
-                    enemyBall.Value.Move(enemyBall.Value, enemyBall.Next?.Value, speed, rotationSpeed, enemyBall.Value.GetCollisionSpeed(), enemyBall.Value.GetCollisionRotationSpeed());
+                    if (enemyBall.Next?.Value == null)
+                    {
+                        enemyBall.Value.Move(speed, rotationSpeed);
+                        enemyBall = enemyBall.Previous;
+                        continue;
+                    }
+
+                    System.Windows.Point nextBallCoordinates = enemyBall.Next.Value.Coordinates;
+                    int width = enemyBall.Value.width;
+
+                    double distance = GeometryCalculator.DistanceBetweenPoints(enemyBall.Value.Coordinates, nextBallCoordinates);
+
+                    if (enemyBall.Value.IsTemporarlyFirst)
+                    {
+                        enemyBall.Value.Move(speed, rotationSpeed);
+
+                        if (distance < ( width - ( width / 15f ) ))
+                        {
+                            enemyBall.Value.IsTemporarlyFirst = false;
+                        }
+
+                        enemyBall = enemyBall.Previous;
+                        continue;
+                    }
+
+                    if (distance < ( width - ( width / 15f ) ))
+                    {
+                        float collisionSpeed = enemyBall.Value.GetCollisionSpeed();
+                        float collisionRotationSpeed = enemyBall.Value.GetCollisionRotationSpeed();
+
+                        enemyBall.Value.Move(collisionSpeed, collisionRotationSpeed);
+
+                        LinkedListNode<EnemyBall> nextBall = enemyBall.Next;
+                        LinkedListNode<EnemyBall> currentBall = enemyBall;
+                        while (nextBall != null && nextBall.Value != null && GeometryCalculator.DistanceBetweenPoints(currentBall.Value.Coordinates, nextBall.Value.Coordinates) < ( width - ( width / 15f ) ))
+                        {
+                            nextBall.Value.IsFrozen = false;
+                            currentBall = nextBall;
+                            nextBall = nextBall.Next;
+                        }
+                    }
+                    else
+                    {
+                        while (distance >= ( width - ( width / 15f ) ) && !enemyBall.Next.Value.IsFrozen)
+                        {
+                            enemyBall.Value.Move(speed, rotationSpeed);
+                            distance = GeometryCalculator.DistanceBetweenPoints(enemyBall.Value.Coordinates, nextBallCoordinates);
+                        }
+                    }
                 }
 
                 enemyBall = enemyBall.Previous;

@@ -25,12 +25,12 @@ namespace Zuma.src.level
             Background = new BitmapImage(backgroundImageURI);
             Path = path;
 
-            LevelTicker = new DispatcherTimer(DispatcherPriority.Render);
+            LevelTicker = new DispatcherTimer(DispatcherPriority.Normal);
             ConfigureTicker();
             Frog = frog;
             EnemyBallsTotalCount = enemyBallsTotalCount;
             GeneratedEnemyBallsTotalCount = 0;
-            StartEnemyBallsCount = (int) Math.Floor(enemyBallsTotalCount * 0.1);
+            StartEnemyBallsCount = (int) Math.Floor(enemyBallsTotalCount * 0.2);
         }
 
         public void Start() => LevelTicker.Start();

@@ -8,9 +8,19 @@ namespace Zuma.src.balls
         {
         }
 
+        public EnemyBall(PlayerBall playerBall, Path path, float pathTime) : base(path, playerBall.color)
+        {
+            PathTime = pathTime;
+        }
+
+        public bool IsTemporarlyFirst { get; set; }
+
+        public Path GetPath() => path;
+        public float GetPathTime() => PathTime;
+
         public override float GetNormalRotationSpeed() => 6;
         public override float GetNormalSpeed() => 0.00025f;
-        public float GetStartingRotationSpeed() => 15;
+        public float GetStartingRotationSpeed() => 40;
         public float GetStartingSpeed() => 0.007f;
         public float GetCollisionSpeed() => 0.00012f;
         public float GetCollisionRotationSpeed() => 3;
