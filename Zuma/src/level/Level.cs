@@ -16,7 +16,7 @@ namespace Zuma.src.level
         private int EnemyBallsTotalCount { get; set; }
         private int StartEnemyBallsCount { get; set; }
         public int GeneratedEnemyBallsTotalCount { get; set; }
-        public DispatcherTimer LevelTicker { get; private set; }
+        private DispatcherTimer LevelTicker { get; set; }
 
         public Level(string name, int number, Uri backgroundImageURI, Frog frog, Path path, int enemyBallsTotalCount)
         {
@@ -30,12 +30,19 @@ namespace Zuma.src.level
             Frog = frog;
             EnemyBallsTotalCount = enemyBallsTotalCount;
             GeneratedEnemyBallsTotalCount = 0;
-            StartEnemyBallsCount = (int) Math.Floor(enemyBallsTotalCount * 0.2);
+            StartEnemyBallsCount = (int) Math.Floor(enemyBallsTotalCount * 1f);
         }
+
+        public void RegisterGameTickHandler(EventHandler handler) => LevelTicker.Tick += handler;
+
+        public bool IsLevelActive => LevelTicker.IsEnabled;
 
         public void Start() => LevelTicker.Start();
 
         public void Stop() => LevelTicker.Stop();
+
+        public void HandleGameWin() => Stop();
+        public void HandleGameLose() => Stop();
 
         public bool ShouldContinueGenerateWithStartingSpeed() => GeneratedEnemyBallsTotalCount < StartEnemyBallsCount;
         public bool HadGeneratedEnoughBalls() => GeneratedEnemyBallsTotalCount >= EnemyBallsTotalCount;

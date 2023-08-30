@@ -45,8 +45,7 @@ namespace Zuma.src.level
             EnemyBalls = new LinkedList<EnemyBall>();
             PlayerBalls = new List<PlayerBall>();
 
-            level.LevelTicker.Tick += GameTick;
-            Start();
+            level.RegisterGameTickHandler(GameTick);
         }
 
         public void RotateFrog(Point mouseCoordinates, FrogViewModel frogViewModel)
@@ -56,6 +55,7 @@ namespace Zuma.src.level
         }
 
         public void Start() => level.Start();
+        public bool IsLevelActive => level.IsLevelActive;
 
         private bool MoveEnemyBalls()
         {
@@ -100,7 +100,7 @@ namespace Zuma.src.level
             {
                 // add logic for game victory;
                 MessageBox.Show("You've won. Congrats!", "Serious result!");
-                level.LevelTicker.Stop();
+                level.HandleGameWin();
                 return;
             }
 
@@ -109,7 +109,7 @@ namespace Zuma.src.level
             if (hasAnyBallReachedDestination)
             {
                 MessageBox.Show("You've lost. Better luck next time!", "Not so serious result!");
-                level.LevelTicker.Stop();
+                level.HandleGameLose();
                 return;
             }
 

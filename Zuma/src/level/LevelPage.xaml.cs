@@ -75,14 +75,11 @@ namespace Zuma.src.level
             ViewModel.RotateFrog(currentMousePosition, FrogViewModel);
         }
 
-        private bool hasStarted = false;
-
         private void OnMouseClick(object sender, MouseEventArgs e)
         {
-            if (!hasStarted)
+            if (!ViewModel.IsLevelActive)
             {
                 ViewModel.Start();
-                hasStarted = true;
             }
             else if (ViewModel.CanShootBall)
             {
