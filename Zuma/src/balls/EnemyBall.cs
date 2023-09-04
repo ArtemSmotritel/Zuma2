@@ -18,8 +18,8 @@ namespace Zuma.src.balls
         public Path GetPath() => path;
         public float GetPathTime() => PathTime;
 
-        public override float GetNormalRotationSpeed() => 6;
-        public override float GetNormalSpeed() => 0.00025f;
+        public override float GetNormalRotationSpeed() => 8;
+        public override float GetNormalSpeed() => 0.0003f;
         public float GetStartingRotationSpeed() => 40;
         public float GetStartingSpeed() => 0.007f;
         public float GetCollisionSpeed() => 0.00012f;

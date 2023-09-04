@@ -32,7 +32,7 @@ namespace Zuma.src.balls.player_balls
                     notRemovedBallAhead = notRemovedBallAhead.Next;
                 }
             }
-            else
+            else if (notRemovedBallAhead != null && notRemovedBallAhead.Value != null)
             {
                 notRemovedBallAhead.Value.IsTemporarlyFirst = true;
             }
