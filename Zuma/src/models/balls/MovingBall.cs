@@ -68,6 +68,11 @@ namespace Zuma.src.models.balls
             Canvas.SetLeft(view, Coordinates.X);
             Canvas.SetTop(view, Coordinates.Y);
 
+            Rotate(rotationSpeed);
+        }
+
+        public void Rotate(float rotationSpeed)
+        {
             RotationAngle = Utils.AddAngels(RotationAngle, rotationSpeed);
             view.RenderTransform = new RotateTransform(RotationAngle, halfWidth, halfHeight);
         }

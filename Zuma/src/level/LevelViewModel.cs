@@ -59,8 +59,8 @@ namespace Zuma.src.level
 
         private bool MoveEnemyBalls()
         {
-            LinkedListNode<EnemyBall> theLastBall = EnemyBalls.Last;
-            return levelController.MoveBalls(theLastBall, PlayerBalls, levelCanvas, level.ShouldContinueGenerateWithStartingSpeed());
+            LinkedListNode<EnemyBall> theLastBall = EnemyBalls.First;
+            return levelController.MoveBallss(theLastBall, PlayerBalls, levelCanvas, level.ShouldContinueGenerateWithStartingSpeed(), level);
         }
 
         private void MovePlayerBalls()

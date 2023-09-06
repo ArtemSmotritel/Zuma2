@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Controls;
+using Zuma.models;
+using Zuma.src.helpers;
 
 namespace Zuma.src.balls.player_balls
 {
@@ -12,65 +13,62 @@ namespace Zuma.src.balls.player_balls
 
         public override (bool, LinkedListNode<EnemyBall>) OnCollision(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas, List<PlayerBall> playerBalls)
         {
-            List<LinkedListNode<EnemyBall>> enemyBallsWithSameColor = GetBallsWithSameColor(enemyBall);
+            bool isPlayerBallPositionedMoreToTheRight = enemyBall.Value.Coordinates.X < Coordinates.X;
 
-            if (enemyBallsWithSameColor.Count < 2)
-            {
-                return (false, null);
-            }
-
-            LinkedListNode<EnemyBall> firstNotRemovedNode = enemyBallsWithSameColor[0].Previous;
-            LinkedListNode<EnemyBall> notRemovedBallAhead = enemyBallsWithSameColor[enemyBallsWithSameColor.Count - 1].Next;
-
-            if (firstNotRemovedNode != null)
-            {
-                firstNotRemovedNode.Value.IsTemporarlyFirst = true;
-
-                while (notRemovedBallAhead != null && notRemovedBallAhead.Value != null)
-                {
-                    notRemovedBallAhead.Value.IsFrozen = true;
-                    notRemovedBallAhead = notRemovedBallAhead.Next;
-                }
-            }
-            else if (notRemovedBallAhead != null && notRemovedBallAhead.Value != null)
-            {
-                notRemovedBallAhead.Value.IsTemporarlyFirst = true;
-            }
-
-            foreach (LinkedListNode<EnemyBall> ball in enemyBallsWithSameColor)
-            {
-                ball.List.Remove(ball);
-                levelCanvas.Children.Remove(ball.Value.view);
-            }
+            Path adjustingPath = GetAdjustingPath(enemyBall, isPlayerBallPositionedMoreToTheRight);
+            var newEnemy = new EnemyBall(this, adjustingPath, 0f);
 
             playerBalls.Remove(this);
             levelCanvas.Children.Remove(view);
-            return (true, firstNotRemovedNode);
+
+            LinkedListNode<EnemyBall> prevBall = enemyBall.Previous;
+            if (isPlayerBallPositionedMoreToTheRight)
+            {
+                enemyBall.List.AddAfter(enemyBall, newEnemy);
+            }
+            else
+            {
+                enemyBall.List.AddBefore(enemyBall, newEnemy);
+                prevBall = prevBall?.Previous;
+            }
+
+            levelCanvas.Children.Add(newEnemy.view);
+
+            while (prevBall != null && prevBall.Value != null && GeometryCalculator.AreBallsCloseEnough(prevBall.Value, prevBall.Next.Value))
+            {
+                prevBall.Value.IsFrozen = true;
+                prevBall = prevBall.Previous;
+            }
+
+            return (false, null);
         }
 
-        private List<LinkedListNode<EnemyBall>> GetBallsWithSameColor(LinkedListNode<EnemyBall> enemyBall)
+        private Path GetAdjustingPath(LinkedListNode<EnemyBall> collidedEnemyBall, bool isPlayerBallPositionedMoreToTheRight)
         {
-            if (enemyBall.Value.color != color)
+            System.Windows.Point start = Coordinates;
+            System.Windows.Point adjustmentPoint = collidedEnemyBall.Value.GetPositionWithDelta(collidedEnemyBall.Value.GetStartingSpeed());
+            System.Windows.Point end = collidedEnemyBall.Value.GetPositionWithDelta(collidedEnemyBall.Value.GetStartingSpeed() * 1.3f);
+
+            if (isPlayerBallPositionedMoreToTheRight)
             {
-                return Enumerable.Empty<LinkedListNode<EnemyBall>>().ToList();
+                start = Coordinates;
+                adjustmentPoint = collidedEnemyBall.Value.GetPositionWithDelta(collidedEnemyBall.Value.GetStartingSpeed());
+                end = collidedEnemyBall.Value.GetPositionWithDelta(collidedEnemyBall.Value.GetStartingSpeed() * 1.3f);
+
+                return new Path(new List<System.Windows.Point> {
+                    start,
+                    adjustmentPoint,
+                    end
+                });
             }
 
-            var list = new List<LinkedListNode<EnemyBall>>();
+            start = Coordinates;
+            end = collidedEnemyBall.Value.GetPositionWithDelta(-collidedEnemyBall.Value.GetStartingSpeed());
 
-            LinkedListNode<EnemyBall> node = enemyBall;
-
-            while (node.Previous != null && node.Previous.Value != null && node.Previous.Value.color == color)
-            {
-                node = node.Previous;
-            }
-
-            while (node != null && node.Value != null && node.Value.color == color)
-            {
-                list.Add(node);
-                node = node.Next;
-            }
-
-            return list;
+            return new Path(new List<System.Windows.Point> {
+                start,
+                end
+            });
         }
     }
 }

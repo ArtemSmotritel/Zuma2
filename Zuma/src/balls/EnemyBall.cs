@@ -1,4 +1,5 @@
-﻿using Zuma.models;
+﻿using System.Windows;
+using Zuma.models;
 
 namespace Zuma.src.balls
 {
@@ -11,12 +12,25 @@ namespace Zuma.src.balls
         public EnemyBall(PlayerBall playerBall, Path path, float pathTime) : base(path, playerBall.color)
         {
             PathTime = pathTime;
+            IsAdjusting = true;
         }
 
-        public bool IsTemporarlyFirst { get; set; }
+        public void FinishAdjustment(Path path, float pathTime)
+        {
+            this.path = path;
+            PathTime = pathTime;
+
+            IsAdjusting = false;
+            ShouldTriggerEffect = true;
+        }
+
+        public bool IsAdjusting { get; set; }
+        public bool ShouldTriggerEffect { get; set; }
 
         public Path GetPath() => path;
         public float GetPathTime() => PathTime;
+
+        public Point GetPositionWithDelta(float timeDelta) => path.GetPosition(PathTime + timeDelta);
 
         public override float GetNormalRotationSpeed() => 8;
         public override float GetNormalSpeed() => 0.0003f;
@@ -24,5 +38,7 @@ namespace Zuma.src.balls
         public float GetStartingSpeed() => 0.007f;
         public float GetCollisionSpeed() => 0.00012f;
         public float GetCollisionRotationSpeed() => 3;
+
+
     }
 }
