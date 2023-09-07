@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
 using Zuma.models;
 
 namespace Zuma.src.balls
@@ -39,6 +41,10 @@ namespace Zuma.src.balls
         public float GetCollisionSpeed() => 0.00012f;
         public float GetCollisionRotationSpeed() => 3;
 
-
+        public void TriggerEffect(Canvas levelCanvas, LinkedListNode<EnemyBall> currentBall)
+        {
+            currentBall.List.Remove(currentBall);
+            levelCanvas.Children.Remove(view);
+        }
     }
 }

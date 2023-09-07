@@ -34,7 +34,7 @@ namespace Zuma.src.models.balls
         protected Path path;
         public Point Coordinates { get; protected set; }
         protected float PathTime { get; set; }
-        protected float RotationAngle { get; set; }
+        protected float RotationAngel { get; set; }
         public bool IsFrozen { get; set; }
 
         public MovingBall(Path path, Uri spriteUri)
@@ -73,8 +73,8 @@ namespace Zuma.src.models.balls
 
         public void Rotate(float rotationSpeed)
         {
-            RotationAngle = Utils.AddAngels(RotationAngle, rotationSpeed);
-            view.RenderTransform = new RotateTransform(RotationAngle, halfWidth, halfHeight);
+            RotationAngel = Utils.AddAngels(RotationAngel, rotationSpeed);
+            view.RenderTransform = new RotateTransform(RotationAngel, halfWidth, halfHeight);
         }
 
         public bool HasReachedDestination(float speed) => path.HasReachedDestination(PathTime + speed);

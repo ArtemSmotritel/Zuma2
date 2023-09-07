@@ -7,7 +7,9 @@ namespace Zuma.src.level
 {
     public class LevelController
     {
-        public bool MoveBallss(LinkedListNode<EnemyBall> enemyBall, List<PlayerBall> playerBalls, Canvas levelCanvas, bool shouldUseStartingSpeed, Level level)
+        public EnemyBall GenerateEnemyBall(Level level) => BallGenerator.GenerateEnemyBall(level);
+
+        public bool MoveBalls(LinkedListNode<EnemyBall> enemyBall, List<PlayerBall> playerBalls, Canvas levelCanvas, bool shouldUseStartingSpeed, Level level)
         {
             while (enemyBall != null && enemyBall.Value != null)
             {
@@ -48,31 +50,11 @@ namespace Zuma.src.level
 
                 if (enemyBall.Value.IsAdjusting && enemyBall.Value.HasReachedDestination(enemyBall.Value.GetStartingSpeed() * 10))
                 {
-                    float time = enemyBall.Previous != null && enemyBall.Previous.Value != null
-                        ? enemyBall.Previous.Value.GetPathTime() + enemyBall.Previous.Value.GetStartingSpeed()
-                        : enemyBall.Next.Value.GetPathTime() - enemyBall.Next.Value.GetStartingSpeed();
-
-                    enemyBall.Value.FinishAdjustment(level.Path, time);
-
-                    LinkedListNode<EnemyBall> prevBall = ( enemyBall.Previous?.Value?.IsAdjusting ?? false ) ? enemyBall.Previous?.Previous : enemyBall.Previous;
-
-                    if (prevBall != null && prevBall.Value != null)
-                    {
-                        prevBall.Value.IsFrozen = false;
-                        prevBall = prevBall.Previous;
-
-                        while (prevBall != null && prevBall.Value != null && GeometryCalculator.AreBallsCloseEnough(prevBall.Value, prevBall.Next.Value))
-                        {
-                            prevBall.Value.IsFrozen = false;
-                            prevBall = prevBall.Previous;
-                        }
-                    }
-
-                    bool areBallsAffected = RunBallsCheckAndApplyEffect(enemyBall.List.First, levelCanvas);
+                    bool areBallsAffected = FinishBallAdjustment(enemyBall, levelCanvas, level);
 
                     if (areBallsAffected)
                     {
-                        break;
+                        return false;
                     }
                 }
 
@@ -102,7 +84,30 @@ namespace Zuma.src.level
             return false;
         }
 
-        public EnemyBall GenerateEnemyBall(Level level) => BallGenerator.GenerateEnemyBall(level);
+        private bool FinishBallAdjustment(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas, Level level)
+        {
+            float time = enemyBall.Previous != null && enemyBall.Previous.Value != null
+                    ? enemyBall.Previous.Value.GetPathTime() + enemyBall.Previous.Value.GetStartingSpeed()
+                    : enemyBall.Next.Value.GetPathTime() - enemyBall.Next.Value.GetStartingSpeed();
+
+            enemyBall.Value.FinishAdjustment(level.Path, time);
+
+            LinkedListNode<EnemyBall> prevBall = ( enemyBall.Previous?.Value?.IsAdjusting ?? false ) ? enemyBall.Previous?.Previous : enemyBall.Previous;
+
+            if (prevBall != null && prevBall.Value != null)
+            {
+                prevBall.Value.IsFrozen = false;
+                prevBall = prevBall.Previous;
+
+                while (prevBall != null && prevBall.Value != null && GeometryCalculator.AreBallsCloseEnough(prevBall.Value, prevBall.Next.Value))
+                {
+                    prevBall.Value.IsFrozen = false;
+                    prevBall = prevBall.Previous;
+                }
+            }
+
+            return RunBallsCheckAndApplyEffect(enemyBall.List.First, levelCanvas);
+        }
 
         private bool RunBallsCheckAndApplyEffect(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas)
         {
@@ -110,33 +115,35 @@ namespace Zuma.src.level
 
             while (enemyBall != null && enemyBall.Value != null)
             {
-                if (!enemyBall.Value.ShouldTriggerEffect)
-                {
-                    enemyBall = enemyBall.Next;
-                    continue;
-                }
-
-                List<LinkedListNode<EnemyBall>> ballsToApplyEffectFor = GetBallsWithSameColor(enemyBall);
-
-                if (ballsToApplyEffectFor.Count < 3)
-                {
-                    enemyBall.Value.ShouldTriggerEffect = false;
-                    enemyBall = enemyBall.Next;
-                    continue;
-                }
-
-                foreach (LinkedListNode<EnemyBall> ball in ballsToApplyEffectFor)
-                {
-                    ball.List.Remove(ball);
-                    levelCanvas.Children.Remove(ball.Value.view);
-                }
-
-                areBallsAffected = true;
+                areBallsAffected = CheckBallAndApplyEffect(enemyBall, levelCanvas);
 
                 enemyBall = enemyBall.Next;
             }
 
             return areBallsAffected;
+        }
+
+        private bool CheckBallAndApplyEffect(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas)
+        {
+            if (!enemyBall.Value.ShouldTriggerEffect)
+            {
+                return false;
+            }
+
+            List<LinkedListNode<EnemyBall>> ballsToApplyEffectFor = GetBallsWithSameColor(enemyBall);
+            enemyBall.Value.ShouldTriggerEffect = false;
+
+            if (ballsToApplyEffectFor.Count < 3)
+            {
+                return false;
+            }
+
+            foreach (LinkedListNode<EnemyBall> ball in ballsToApplyEffectFor)
+            {
+                ball.Value.TriggerEffect(levelCanvas, ball);
+            }
+
+            return true;
         }
 
         private List<LinkedListNode<EnemyBall>> GetBallsWithSameColor(LinkedListNode<EnemyBall> enemyBall)
