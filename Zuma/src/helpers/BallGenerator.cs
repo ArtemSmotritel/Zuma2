@@ -1,5 +1,7 @@
 ﻿using System;
+using Zuma.models;
 using Zuma.src.balls;
+using Zuma.src.balls.enemy_balls;
 using Zuma.src.balls.player_balls;
 using Zuma.src.level;
 
@@ -15,7 +17,7 @@ namespace Zuma.src.helpers
         {
             BallColor ballColor = GetRandomBallColor();
 
-            return new EnemyBall(level.Path, ballColor);
+            return GenerateRandomEnemyBall(level.Path, ballColor);
         }
 
         private static BallColor GetRandomBallColor()
@@ -35,6 +37,13 @@ namespace Zuma.src.helpers
                 default:
                     throw new ArgumentException();
             }
+        }
+
+        private static EnemyBall GenerateRandomEnemyBall(Path path, BallColor ballColor)
+        {
+            int r = random.Next(0, 100);
+
+            return r < 90 ? new CommonEnemyBall(path, ballColor) : (EnemyBall) new ExplodingEnemyBall(path, ballColor);
         }
     }
 }

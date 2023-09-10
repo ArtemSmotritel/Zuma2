@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using Zuma.src.balls;
+using Zuma.src.balls.enemy_balls;
 using Zuma.src.helpers;
 
 namespace Zuma.src.level
@@ -73,7 +74,7 @@ namespace Zuma.src.level
                         enemyBall.Value.Move(speed, rotationSpeed);
                     } while (GeometryCalculator.AreBallsTouching(enemyBall.Value, enemyBall.Previous.Value));
                 }
-                else if (distanceBetweenBalls < enemyBall.Value.width)
+                else if (distanceBetweenBalls < enemyBall.Value.Width)
                 {
                     enemyBall.Value.Rotate(enemyBall.Value.GetCollisionRotationSpeed());
                 }

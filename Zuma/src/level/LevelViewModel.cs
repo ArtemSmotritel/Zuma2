@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using Zuma.models;
 using Zuma.src.balls;
+using Zuma.src.balls.enemy_balls;
 using Zuma.src.frog;
 using Zuma.src.helpers;
 using Zuma.src.utils;
@@ -48,6 +49,8 @@ namespace Zuma.src.level
             level.RegisterGameTickHandler(GameTick);
         }
 
+        public void Pause() => level.Stop();
+
         public void RotateFrog(Point mouseCoordinates, FrogViewModel frogViewModel)
         {
             double angel = GeometryCalculator.GetAngelBetweenTwoPoints(mouseCoordinates, FrogCoordinates);
@@ -74,14 +77,14 @@ namespace Zuma.src.level
 
         private void RemovePlayerBall(PlayerBall playerBall, int index)
         {
-            levelCanvas.Children.Remove(playerBall.view);
+            levelCanvas.Children.Remove(playerBall.View);
             PlayerBalls.RemoveAt(index);
         }
 
         private bool ShouldRemoveBall(PlayerBall playerBall)
         {
             Point coordinates = playerBall.Coordinates;
-            return coordinates.X < -playerBall.width || coordinates.Y < -playerBall.height || coordinates.X > 1600 || coordinates.Y > 1000;
+            return coordinates.X < -playerBall.Width || coordinates.Y < -playerBall.Height || coordinates.X > 1600 || coordinates.Y > 1000;
         }
 
         private void GameTick(object sender, EventArgs e)
@@ -122,22 +125,22 @@ namespace Zuma.src.level
             {
                 lastGeneratedEnemyBall = levelController.GenerateEnemyBall(level);
                 EnemyBalls.AddFirst(lastGeneratedEnemyBall);
-                Canvas.SetLeft(lastGeneratedEnemyBall.view, lastGeneratedEnemyBall.Coordinates.X);
-                Canvas.SetTop(lastGeneratedEnemyBall.view, lastGeneratedEnemyBall.Coordinates.Y);
-                levelCanvas.Children.Add(lastGeneratedEnemyBall.view);
+                Canvas.SetLeft(lastGeneratedEnemyBall.View, lastGeneratedEnemyBall.Coordinates.X);
+                Canvas.SetTop(lastGeneratedEnemyBall.View, lastGeneratedEnemyBall.Coordinates.Y);
+                levelCanvas.Children.Add(lastGeneratedEnemyBall.View);
                 level.GeneratedEnemyBallsTotalCount++;
             }
         }
 
-        private bool IsLastGeneratedBallFarEnough() => GeometryCalculator.IsDistanceGreaterOrEqual(lastGeneratedEnemyBall.Coordinates, level.Path.Start, lastGeneratedEnemyBall.width);
+        private bool IsLastGeneratedBallFarEnough() => GeometryCalculator.IsDistanceGreaterOrEqual(lastGeneratedEnemyBall.Coordinates, level.Path.Start, lastGeneratedEnemyBall.Width);
 
         public void ShootBall(Point mouseCoordinates, PlayerBall ball)
         {
             PlayerBalls.Add(ball);
 
-            Canvas.SetLeft(ball.view, ball.Coordinates.X);
-            Canvas.SetTop(ball.view, ball.Coordinates.Y);
-            levelCanvas.Children.Add(ball.view);
+            Canvas.SetLeft(ball.View, ball.Coordinates.X);
+            Canvas.SetTop(ball.View, ball.Coordinates.Y);
+            levelCanvas.Children.Add(ball.View);
         }
 
         private float pathDrawingT = 0;

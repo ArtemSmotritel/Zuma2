@@ -45,7 +45,7 @@ namespace Zuma.src.helpers
             Point c1 = ball1.Coordinates;
             Point c2 = ball2.Coordinates;
 
-            return DistanceBetweenPoints(c1, c2) < ball1.width;
+            return DistanceBetweenPoints(c1, c2) < ball1.Width;
         }
 
         public static Bezier GetBezierPathFromAInDirectionOfB(Point A, Point B, double distance = 1500)

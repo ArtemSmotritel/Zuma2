@@ -29,7 +29,7 @@ namespace Zuma.src.frog
             }
         }
 
-        public Rectangle CurrentBallView { get; set; }
+        public Rectangle FrogRectangle { get; set; }
 
         public BitmapImage Sprite => frog.Sprite;
         public PlayerBall CurrentBall => frog.CurrentBall;

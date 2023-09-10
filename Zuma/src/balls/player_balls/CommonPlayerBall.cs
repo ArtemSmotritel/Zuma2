@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
 using Zuma.models;
+using Zuma.src.balls.enemy_balls;
 using Zuma.src.helpers;
 
 namespace Zuma.src.balls.player_balls
@@ -16,23 +17,24 @@ namespace Zuma.src.balls.player_balls
             bool isPlayerBallPositionedMoreToTheRight = enemyBall.Value.Coordinates.X < Coordinates.X;
 
             Path adjustingPath = GetAdjustingPath(enemyBall, isPlayerBallPositionedMoreToTheRight);
-            var newEnemy = new EnemyBall(this, adjustingPath, 0f);
+            var newEnemy = new CommonEnemyBall(this, adjustingPath, 0f);
 
             playerBalls.Remove(this);
-            levelCanvas.Children.Remove(view);
+            levelCanvas.Children.Remove(View);
 
             LinkedListNode<EnemyBall> prevBall = enemyBall.Previous;
-            if (isPlayerBallPositionedMoreToTheRight)
-            {
-                enemyBall.List.AddAfter(enemyBall, newEnemy);
-            }
-            else
-            {
-                enemyBall.List.AddBefore(enemyBall, newEnemy);
-                prevBall = prevBall?.Previous;
-            }
+            enemyBall.List.AddAfter(enemyBall, newEnemy);
+            //if (isPlayerBallPositionedMoreToTheRight)
+            //{
+            //    enemyBall.List.AddAfter(enemyBall, newEnemy);
+            //}
+            //else
+            //{
+            //    enemyBall.List.AddBefore(enemyBall, newEnemy);
+            //    prevBall = prevBall?.Previous;
+            //}
 
-            levelCanvas.Children.Add(newEnemy.view);
+            levelCanvas.Children.Add(newEnemy.View);
 
             while (prevBall != null && prevBall.Value != null && GeometryCalculator.AreBallsCloseEnough(prevBall.Value, prevBall.Next.Value))
             {
@@ -49,21 +51,23 @@ namespace Zuma.src.balls.player_balls
             System.Windows.Point adjustmentPoint = collidedEnemyBall.Value.GetPositionWithDelta(collidedEnemyBall.Value.GetStartingSpeed());
             System.Windows.Point end = collidedEnemyBall.Value.GetPositionWithDelta(collidedEnemyBall.Value.GetStartingSpeed() * 1.3f);
 
+            return new Path(new List<System.Windows.Point> {
+                    start,
+                    adjustmentPoint,
+                    end
+                });
+
             if (isPlayerBallPositionedMoreToTheRight)
             {
                 start = Coordinates;
                 adjustmentPoint = collidedEnemyBall.Value.GetPositionWithDelta(collidedEnemyBall.Value.GetStartingSpeed());
                 end = collidedEnemyBall.Value.GetPositionWithDelta(collidedEnemyBall.Value.GetStartingSpeed() * 1.3f);
 
-                return new Path(new List<System.Windows.Point> {
-                    start,
-                    adjustmentPoint,
-                    end
-                });
+
             }
 
             start = Coordinates;
-            end = collidedEnemyBall.Value.GetPositionWithDelta(-collidedEnemyBall.Value.GetStartingSpeed());
+            end = collidedEnemyBall.Value.GetPositionWithDelta(-collidedEnemyBall.Value.GetStartingSpeed() * 2);
 
             return new Path(new List<System.Windows.Point> {
                 start,

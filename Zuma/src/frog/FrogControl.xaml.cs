@@ -14,7 +14,7 @@ namespace Zuma.src.frog
             InitializeComponent();
 
             ViewModel = frogViewModel;
-            ViewModel.CurrentBallView = CurrentBallSprite;
+            ViewModel.FrogRectangle = FrogRectangle;
 
             DataContext = ViewModel;
         }

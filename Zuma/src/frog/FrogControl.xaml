@@ -12,7 +12,7 @@
     Height="{ Binding Height }">
     <Canvas>
         <Rectangle
-            x:Name="CurrentBallSprite"
+            x:Name="FrogRectangle"
             Height="{ Binding Height }"
             Width="{ Binding Width }"
             Panel.ZIndex="2">

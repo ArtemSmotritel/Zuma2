@@ -1,0 +1,79 @@
+﻿<UserControl
+    x:Class="Zuma.src.balls.enemy_balls.EnemyBallView"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Zuma.src.balls.enemy_balls"
+    mc:Ignorable="d"
+    d:DesignHeight="40"
+    d:DesignWidth="40"
+    Height="{ Binding Height }"
+    Width="{ Binding Width }">
+    <Canvas
+        Height="{ Binding Height }"
+        Width="{ Binding Width }">
+        <Ellipse
+            Panel.ZIndex="1"
+            Height="{ Binding Height }"
+            Width="{ Binding Width }">
+            <Ellipse.Fill>
+                <ImageBrush
+                    ImageSource="{ Binding Sprite }">
+                </ImageBrush>
+            </Ellipse.Fill>
+        </Ellipse>
+
+        <ContentPresenter
+            Panel.ZIndex="2"
+            Height="{ Binding SpecialEffectSpriteHeight }"
+            Width="{ Binding SpecialEffectSpriteWidth }"
+            Content="{Binding}">
+            <ContentPresenter.Resources>
+                <DataTemplate
+                    x:Key="SpecialTemplate">
+                    <Rectangle
+                        Height="{ Binding SpecialEffectSpriteHeight }"
+                        Width="{ Binding SpecialEffectSpriteWidth }">
+                        <Rectangle.Fill>
+                            <ImageBrush
+                                ImageSource="{ Binding SpecialEffectSprite }">
+                            </ImageBrush>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </DataTemplate>
+                <DataTemplate
+                    x:Key="UsualTemplate">
+                </DataTemplate>
+            </ContentPresenter.Resources>
+
+            <ContentPresenter.Style>
+                <Style
+                    TargetType="{x:Type ContentPresenter}">
+                    <Style.Triggers>
+                        <DataTrigger
+                            Binding="{Binding IsSpecialEffectPresent}"
+                            Value="True">
+                            <Setter
+                                Property="ContentTemplate"
+                                Value="{StaticResource SpecialTemplate}" />
+                        </DataTrigger>
+                        <DataTrigger
+                            Binding="{Binding IsSpecialEffectPresent}"
+                            Value="False">
+                            <Setter
+                                Property="ContentTemplate"
+                                Value="{StaticResource UsualTemplate}" />
+                        </DataTrigger>
+                    </Style.Triggers>
+                </Style>
+            </ContentPresenter.Style>
+        </ContentPresenter>
+    </Canvas>
+    <UserControl.RenderTransform>
+        <RotateTransform
+            Angle="{ Binding RotationAngel }"
+            CenterX="{ Binding RotationCenterX }"
+            CenterY="{ Binding RotationCenterY }" />
+    </UserControl.RenderTransform>
+</UserControl>
