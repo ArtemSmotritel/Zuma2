@@ -2,7 +2,7 @@
 using System.Geometry;
 using System.Numerics;
 using System.Windows;
-using Zuma.src.models.balls;
+using Zuma.src.balls;
 
 namespace Zuma.src.helpers
 {

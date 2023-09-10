@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows;
 using System.Windows.Media.Imaging;
-using Zuma.src.balls;
+using Zuma.src.balls.player_balls;
 using Zuma.src.helpers;
 
 namespace Zuma.src.frog

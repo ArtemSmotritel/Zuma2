@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using Zuma.src.balls;
 using Zuma.src.balls.enemy_balls;
+using Zuma.src.balls.player_balls;
 using Zuma.src.helpers;
 
 namespace Zuma.src.level

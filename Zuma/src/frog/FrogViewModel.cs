@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
-using Zuma.src.balls;
+using Zuma.src.balls.player_balls;
 using Zuma.src.helpers;
 using Zuma.src.utils;
 

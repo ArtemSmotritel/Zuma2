@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Zuma.models;
+using Zuma.src.balls.player_balls;
 
 namespace Zuma.src.balls.enemy_balls
 {

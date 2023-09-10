@@ -2,7 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using Zuma.src.balls;
+using Zuma.src.balls.player_balls;
 using Zuma.src.frog;
 
 namespace Zuma.src.level

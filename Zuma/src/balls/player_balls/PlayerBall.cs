@@ -5,9 +5,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Zuma.models;
 using Zuma.src.balls.enemy_balls;
-using Zuma.src.models.balls;
 
-namespace Zuma.src.balls
+namespace Zuma.src.balls.player_balls
 {
     public abstract class PlayerBall : MovingBall
     {

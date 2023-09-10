@@ -42,6 +42,7 @@
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Data.Entity" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Geometry, Version=0.9.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Bezier.0.9.4\lib\netstandard2.0\System.Geometry.dll</HintPath>
     </Reference>
@@ -49,6 +50,7 @@
     <Reference Include="System.Numerics.Vectors, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.1.1\lib\net46\System.Numerics.Vectors.dll</HintPath>
     </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -68,9 +70,14 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="src\balls\BallColor.cs" />
-    <Compile Include="src\balls\BallWithColor.cs" />
-    <Compile Include="src\balls\EnemyBall.cs" />
-    <Compile Include="src\balls\PlayerBall.cs" />
+    <Compile Include="src\balls\enemy_balls\CommonEnemyBall.cs" />
+    <Compile Include="src\balls\enemy_balls\EnemyBall.cs" />
+    <Compile Include="src\balls\enemy_balls\EnemyBallView.xaml.cs">
+      <DependentUpon>EnemyBallView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="src\balls\enemy_balls\EnemyBallViewModel.cs" />
+    <Compile Include="src\balls\enemy_balls\ExplodingEnemyBall.cs" />
+    <Compile Include="src\balls\player_balls\PlayerBall.cs" />
     <Compile Include="src\balls\player_balls\CommonPlayerBall.cs" />
     <Compile Include="src\frog\Frog.cs" />
     <Compile Include="src\frog\FrogControl.xaml.cs">
@@ -108,6 +115,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="src\balls\enemy_balls\EnemyBallView.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="src\frog\FrogControl.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -126,7 +137,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\models\balls\MovingBall.cs" />
+    <Compile Include="src\balls\MovingBall.cs" />
     <Compile Include="src\models\Path.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -180,6 +191,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="resources\levels\" />
+    <Folder Include="src\models\balls\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\images\balls\yellow_ball_1.png" />
@@ -189,6 +201,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\images\balls\green_ball_1.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="resources\images\balls\effects\bomb.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

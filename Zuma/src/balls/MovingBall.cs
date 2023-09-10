@@ -4,10 +4,9 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using Zuma.models;
-using Zuma.src.balls;
 using Zuma.src.helpers;
 
-namespace Zuma.src.models.balls
+namespace Zuma.src.balls
 {
     public abstract class MovingBall
     {
