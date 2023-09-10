@@ -44,7 +44,7 @@ namespace Zuma.src.level
             this.levelCanvas = levelCanvas;
             Name = $"Level {level.Number}: {level.Name}";
             EnemyBalls = new LinkedList<EnemyBall>();
-            PlayerBalls = new List<PlayerBall>();
+            PlayerBalls = new List<PlayerBall>(2);
 
             level.RegisterGameTickHandler(GameTick);
         }
@@ -132,7 +132,7 @@ namespace Zuma.src.level
             }
         }
 
-        private bool IsLastGeneratedBallFarEnough() => GeometryCalculator.IsDistanceGreaterOrEqual(lastGeneratedEnemyBall.Coordinates, level.Path.Start, lastGeneratedEnemyBall.Width);
+        private bool IsLastGeneratedBallFarEnough() => lastGeneratedEnemyBall.IsDisposed || GeometryCalculator.IsDistanceGreaterOrEqual(lastGeneratedEnemyBall.Coordinates, level.Path.Start, lastGeneratedEnemyBall.Width);
 
         public void ShootBall(Point mouseCoordinates, PlayerBall ball)
         {

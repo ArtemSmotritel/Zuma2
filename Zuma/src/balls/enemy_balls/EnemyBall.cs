@@ -28,9 +28,10 @@ namespace Zuma.src.balls.enemy_balls
             ShouldTriggerEffect = true;
         }
 
+        public BitmapImage SpecialEffectBitmapSprite;
+
         public bool IsAdjusting { get; set; }
         public bool ShouldTriggerEffect { get; set; }
-        public bool IsDisposed { get; protected set; }
         public bool IsEffectApplying { get; set; }
 
         public Path GetPath() => path;
@@ -56,8 +57,5 @@ namespace Zuma.src.balls.enemy_balls
                 IsEffectApplying = false;
             }
         }
-
-        public abstract bool IsSpecial();
-        public BitmapImage SpecialEffectBitmapSprite;
     }
 }

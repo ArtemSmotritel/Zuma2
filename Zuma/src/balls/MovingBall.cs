@@ -39,6 +39,7 @@ namespace Zuma.src.balls
         protected float PathTime { get; set; }
         public float RotationAngel { get; protected set; }
         public bool IsFrozen { get; set; }
+        public bool IsDisposed { get; protected set; }
 
         public MovingBall(Path path, BallColor color)
         {
@@ -115,5 +116,27 @@ namespace Zuma.src.balls
                     throw new ArgumentException();
             }
         }
+
+        public override bool Equals(object other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+
+            if (!( other is MovingBall ))
+            {
+                return false;
+            }
+
+            return id == ( (MovingBall) other ).id;
+        }
+
+        public override int GetHashCode() => id;
     }
 }

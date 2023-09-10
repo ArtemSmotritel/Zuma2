@@ -46,6 +46,11 @@
     <Reference Include="System.Geometry, Version=0.9.4.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\Bezier.0.9.4\lib\netstandard2.0\System.Geometry.dll</HintPath>
     </Reference>
+    <Reference Include="System.Linq, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Linq.4.3.0\lib\net463\System.Linq.dll</HintPath>
+      <Private>True</Private>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Numerics" />
     <Reference Include="System.Numerics.Vectors, Version=4.1.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Numerics.Vectors.4.1.1\lib\net46\System.Numerics.Vectors.dll</HintPath>
@@ -191,7 +196,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="resources\levels\" />
-    <Folder Include="src\models\balls\" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="resources\images\balls\yellow_ball_1.png" />

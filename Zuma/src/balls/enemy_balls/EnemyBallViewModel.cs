@@ -21,7 +21,6 @@ namespace Zuma.src.balls.enemy_balls
         public BitmapImage Sprite => model.Sprite;
 
         public BitmapImage SpecialEffectSprite => model.SpecialEffectBitmapSprite;
-        public bool IsSpecialEffectPresent => model.SpecialEffectBitmapSprite != null;
 
         public int RotationCenterX => model.Width / 2;
         public int RotationCenterY => model.Height / 2;

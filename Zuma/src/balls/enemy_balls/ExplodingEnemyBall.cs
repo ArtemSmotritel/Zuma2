@@ -29,8 +29,6 @@ namespace Zuma.src.balls.enemy_balls
             return new EnemyBallView(viewModel);
         }
 
-        public override bool IsSpecial() => true;
-
         public override void TriggerEffect(Canvas levelCanvas, LinkedListNode<EnemyBall> currentBall)
         {
             List<LinkedListNode<EnemyBall>> ballsBefore = GetAtMostFourBallsBefore(currentBall);

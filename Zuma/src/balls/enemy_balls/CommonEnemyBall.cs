@@ -28,7 +28,5 @@ namespace Zuma.src.balls.enemy_balls
                 Fill = new System.Windows.Media.ImageBrush(Sprite)
             };
         }
-
-        public override bool IsSpecial() => false;
     }
 }
