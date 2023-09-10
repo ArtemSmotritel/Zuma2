@@ -116,7 +116,12 @@ namespace Zuma.src.level
 
             while (enemyBall != null && enemyBall.Value != null)
             {
-                areBallsAffected = CheckBallAndApplyEffect(enemyBall, levelCanvas);
+                bool isBallAffected = CheckBallAndApplyEffect(enemyBall, levelCanvas);
+
+                if (!areBallsAffected)
+                {
+                    areBallsAffected = isBallAffected;
+                }
 
                 enemyBall = enemyBall.Next;
             }

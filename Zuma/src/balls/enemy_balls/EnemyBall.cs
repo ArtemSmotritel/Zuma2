@@ -31,6 +31,7 @@ namespace Zuma.src.balls.enemy_balls
         public bool IsAdjusting { get; set; }
         public bool ShouldTriggerEffect { get; set; }
         public bool IsDisposed { get; protected set; }
+        public bool IsEffectApplying { get; set; }
 
         public Path GetPath() => path;
         public float GetPathTime() => PathTime;
@@ -46,9 +47,14 @@ namespace Zuma.src.balls.enemy_balls
 
         public virtual void TriggerEffect(Canvas levelCanvas, LinkedListNode<EnemyBall> currentBall)
         {
-            currentBall.List.Remove(currentBall);
-            levelCanvas.Children.Remove(View);
-            IsDisposed = true;
+            IsEffectApplying = true;
+            if (!IsDisposed)
+            {
+                currentBall.List.Remove(currentBall);
+                levelCanvas.Children.Remove(View);
+                IsDisposed = true;
+                IsEffectApplying = false;
+            }
         }
 
         public abstract bool IsSpecial();

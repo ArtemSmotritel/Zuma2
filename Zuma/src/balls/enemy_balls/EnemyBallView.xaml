@@ -23,52 +23,16 @@
                 </ImageBrush>
             </Ellipse.Fill>
         </Ellipse>
-
-        <ContentPresenter
+        <Rectangle
             Panel.ZIndex="2"
             Height="{ Binding SpecialEffectSpriteHeight }"
-            Width="{ Binding SpecialEffectSpriteWidth }"
-            Content="{Binding}">
-            <ContentPresenter.Resources>
-                <DataTemplate
-                    x:Key="SpecialTemplate">
-                    <Rectangle
-                        Height="{ Binding SpecialEffectSpriteHeight }"
-                        Width="{ Binding SpecialEffectSpriteWidth }">
-                        <Rectangle.Fill>
-                            <ImageBrush
-                                ImageSource="{ Binding SpecialEffectSprite }">
-                            </ImageBrush>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </DataTemplate>
-                <DataTemplate
-                    x:Key="UsualTemplate">
-                </DataTemplate>
-            </ContentPresenter.Resources>
-
-            <ContentPresenter.Style>
-                <Style
-                    TargetType="{x:Type ContentPresenter}">
-                    <Style.Triggers>
-                        <DataTrigger
-                            Binding="{Binding IsSpecialEffectPresent}"
-                            Value="True">
-                            <Setter
-                                Property="ContentTemplate"
-                                Value="{StaticResource SpecialTemplate}" />
-                        </DataTrigger>
-                        <DataTrigger
-                            Binding="{Binding IsSpecialEffectPresent}"
-                            Value="False">
-                            <Setter
-                                Property="ContentTemplate"
-                                Value="{StaticResource UsualTemplate}" />
-                        </DataTrigger>
-                    </Style.Triggers>
-                </Style>
-            </ContentPresenter.Style>
-        </ContentPresenter>
+            Width="{ Binding SpecialEffectSpriteWidth }">
+            <Rectangle.Fill>
+                <ImageBrush
+                    ImageSource="{ Binding SpecialEffectSprite }">
+                </ImageBrush>
+            </Rectangle.Fill>
+        </Rectangle>
     </Canvas>
     <UserControl.RenderTransform>
         <RotateTransform

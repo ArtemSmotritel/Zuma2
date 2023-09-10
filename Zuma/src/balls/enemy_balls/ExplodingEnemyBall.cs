@@ -45,7 +45,7 @@ namespace Zuma.src.balls.enemy_balls
             var result = new List<LinkedListNode<EnemyBall>>(4);
 
             LinkedListNode<EnemyBall> prevBall = currentBall?.Previous;
-            while (prevBall != null && prevBall.Value != null)
+            while (result.Count < 4 && prevBall != null && prevBall.Value != null)
             {
                 result.Add(prevBall);
                 prevBall = prevBall.Previous;
@@ -59,7 +59,7 @@ namespace Zuma.src.balls.enemy_balls
             var result = new List<LinkedListNode<EnemyBall>>(4);
 
             LinkedListNode<EnemyBall> nextBall = currentBall?.Next;
-            while (nextBall != null && nextBall.Value != null)
+            while (result.Count < 4 && nextBall != null && nextBall.Value != null)
             {
                 result.Add(nextBall);
                 nextBall = nextBall.Next;
@@ -72,8 +72,9 @@ namespace Zuma.src.balls.enemy_balls
         {
             foreach (LinkedListNode<EnemyBall> ball in balls)
             {
-                if (ball.Value != null && !ball.Value.IsDisposed)
+                if (ball.Value != null && !ball.Value.IsDisposed && !ball.Value.IsEffectApplying)
                 {
+                    ball.Value.IsEffectApplying = true;
                     ball.Value.TriggerEffect(levelCanvas, ball);
                 }
             }
