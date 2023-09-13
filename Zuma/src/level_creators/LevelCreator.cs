@@ -15,5 +15,7 @@ namespace Zuma.src.level_creators
         protected abstract Frog GetFrog();
         protected abstract Path GetPath();
         protected abstract int GetEnemyCount();
+
+        public int Number() => GetNumber();
     }
 }

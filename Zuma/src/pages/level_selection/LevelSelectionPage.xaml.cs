@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Zuma.src.helpers;
 using Zuma.src.level;
+using Zuma.src.level_creators;
 using Zuma.src.utils;
 
 namespace Zuma.src.pages.level_selection
@@ -13,12 +14,12 @@ namespace Zuma.src.pages.level_selection
     /// </summary>
     public partial class LevelSelectionPage : Page
     {
-        private List<Level> Levels { get; set; }
+        private List<LevelCreator> LevelCreators { get; set; }
 
-        public LevelSelectionPage(List<Level> levels)
+        public LevelSelectionPage(List<LevelCreator> levelCreators)
         {
             InitializeComponent();
-            Levels = levels;
+            LevelCreators = levelCreators;
             InitializeLevels();
         }
 
@@ -27,17 +28,17 @@ namespace Zuma.src.pages.level_selection
             LevelsGrid.RowDefinitions.Add(new RowDefinition());
 
             int columnIndex = 0;
-            foreach (Level level in Levels)
+            foreach (LevelCreator levelCreator in LevelCreators)
             {
                 LevelsGrid.ColumnDefinitions.Add(new ColumnDefinition());
 
                 var button = new Button
                 {
-                    Content = level.Number.ToString(),
+                    Content = levelCreator.Number().ToString(),
                     Height = 100,
                     Width = 100,
-                    CommandParameter = level,
-                    Command = new RelayCommand(param => HandleLevelButtonClick((Level) param)),
+                    CommandParameter = levelCreator,
+                    Command = new RelayCommand(param => HandleLevelButtonClick((LevelCreator) param)),
                 };
                 button.SetValue(Grid.ColumnProperty, columnIndex);
                 button.SetValue(Grid.RowProperty, 0);
@@ -56,7 +57,7 @@ namespace Zuma.src.pages.level_selection
 
         private void goBackButton_Click(object sender, RoutedEventArgs e) => GoBack();
 
-        private void HandleLevelButtonClick(Level level) => NavigationService.Navigate(new LevelPage(level));
+        private void HandleLevelButtonClick(LevelCreator levelCreator) => NavigationService.Navigate(new LevelPage(levelCreator));
 
         private void Page_KeyDown(object sender, System.Windows.Input.KeyEventArgs e)
         {
