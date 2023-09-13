@@ -6,13 +6,13 @@ using Zuma.src.helpers;
 
 namespace Zuma.src.balls.player_balls
 {
-    public class CommonPlayerBall : PlayerBall
+    public class CommonPlayerBall : AbstractPlayerBall
     {
         public CommonPlayerBall(BallColor color) : base(color)
         {
         }
 
-        public override (bool, LinkedListNode<EnemyBall>) OnCollision(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas, List<PlayerBall> playerBalls)
+        public override (bool, LinkedListNode<AbstractEnemyBall>) OnCollision(LinkedListNode<AbstractEnemyBall> enemyBall, Canvas levelCanvas, List<AbstractPlayerBall> playerBalls)
         {
             bool isPlayerBallPositionedMoreToTheRight = enemyBall.Value.Coordinates.X < Coordinates.X;
 
@@ -22,7 +22,7 @@ namespace Zuma.src.balls.player_balls
             playerBalls.Remove(this);
             levelCanvas.Children.Remove(View);
 
-            LinkedListNode<EnemyBall> prevBall = enemyBall.Previous;
+            LinkedListNode<AbstractEnemyBall> prevBall = enemyBall.Previous;
             enemyBall.List.AddAfter(enemyBall, newEnemy);
             //if (isPlayerBallPositionedMoreToTheRight)
             //{
@@ -45,7 +45,7 @@ namespace Zuma.src.balls.player_balls
             return (false, null);
         }
 
-        private Path GetAdjustingPath(LinkedListNode<EnemyBall> collidedEnemyBall, bool isPlayerBallPositionedMoreToTheRight)
+        private Path GetAdjustingPath(LinkedListNode<AbstractEnemyBall> collidedEnemyBall, bool isPlayerBallPositionedMoreToTheRight)
         {
             System.Windows.Point start = Coordinates;
             System.Windows.Point adjustmentPoint = collidedEnemyBall.Value.GetPositionWithDelta(collidedEnemyBall.Value.GetStartingSpeed());

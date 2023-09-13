@@ -7,13 +7,13 @@ using Zuma.src.balls.player_balls;
 
 namespace Zuma.src.balls.enemy_balls
 {
-    public abstract class EnemyBall : MovingBall
+    public abstract class AbstractEnemyBall : AbstractBall
     {
-        public EnemyBall(Path path, BallColor color) : base(path, color)
+        public AbstractEnemyBall(Path path, BallColor color) : base(path, color)
         {
         }
 
-        public EnemyBall(PlayerBall playerBall, Path path, float pathTime) : base(path, playerBall.color)
+        public AbstractEnemyBall(AbstractPlayerBall playerBall, Path path, float pathTime) : base(path, playerBall.color)
         {
             PathTime = pathTime;
             IsAdjusting = true;
@@ -45,8 +45,10 @@ namespace Zuma.src.balls.enemy_balls
         public float GetStartingSpeed() => 0.007f;
         public float GetCollisionSpeed() => 0.00012f;
         public float GetCollisionRotationSpeed() => 4;
+        public float GetAdjustingSpeed() => 0.07f;
+        public float GetAdjustingRotationSpeed() => 4;
 
-        public virtual void TriggerEffect(Canvas levelCanvas, LinkedListNode<EnemyBall> currentBall)
+        public virtual void TriggerEffect(Canvas levelCanvas, LinkedListNode<AbstractEnemyBall> currentBall)
         {
             IsEffectApplying = true;
             if (!IsDisposed)

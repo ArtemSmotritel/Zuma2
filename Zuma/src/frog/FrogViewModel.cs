@@ -32,8 +32,8 @@ namespace Zuma.src.frog
         public Rectangle FrogRectangle { get; set; }
 
         public BitmapImage Sprite => frog.Sprite;
-        public PlayerBall CurrentBall => frog.CurrentBall;
-        public PlayerBall NextBall => frog.NextBall;
+        public AbstractPlayerBall CurrentBall => frog.CurrentBall;
+        public AbstractPlayerBall NextBall => frog.NextBall;
         public Point Coordinates => frog.Coordinates;
 
         public FrogViewModel(Frog frog)
@@ -49,7 +49,7 @@ namespace Zuma.src.frog
             OnPropertyChanged(nameof(NextBall));
         }
 
-        public PlayerBall PrepareCurrentBallForShooting(Point start, Point mouseCoordinates)
+        public AbstractPlayerBall PrepareCurrentBallForShooting(Point start, Point mouseCoordinates)
         {
             Bezier bezierForBall = GeometryCalculator.GetBezierPathFromAInDirectionOfB(start, mouseCoordinates);
             CurrentBall.SetPath(new Zuma.models.Path(bezierForBall));

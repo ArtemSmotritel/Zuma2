@@ -5,13 +5,13 @@ using Zuma.src.balls.player_balls;
 
 namespace Zuma.src.balls.enemy_balls
 {
-    public class CommonEnemyBall : EnemyBall
+    public class CommonEnemyBall : AbstractEnemyBall
     {
         public CommonEnemyBall(Path path, BallColor color) : base(path, color)
         {
         }
 
-        public CommonEnemyBall(PlayerBall playerBall, Path path, float pathTime) : base(playerBall, path, pathTime)
+        public CommonEnemyBall(AbstractPlayerBall playerBall, Path path, float pathTime) : base(playerBall, path, pathTime)
         {
         }
 

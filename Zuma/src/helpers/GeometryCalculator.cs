@@ -32,7 +32,7 @@ namespace Zuma.src.helpers
             return Math.Sqrt(( deltaX * deltaX ) + ( deltaY * deltaY ));
         }
 
-        public static bool AreBallsTouching(MovingBall ball1, MovingBall ball2)
+        public static bool AreBallsTouching(AbstractBall ball1, AbstractBall ball2)
         {
             Point c1 = ball1.Coordinates;
             Point c2 = ball2.Coordinates;
@@ -40,7 +40,7 @@ namespace Zuma.src.helpers
             return DistanceBetweenPoints(c1, c2) < ball1.collisionWidth;
         }
 
-        public static bool AreBallsCloseEnough(MovingBall ball1, MovingBall ball2)
+        public static bool AreBallsCloseEnough(AbstractBall ball1, AbstractBall ball2)
         {
             Point c1 = ball1.Coordinates;
             Point c2 = ball2.Coordinates;

@@ -2,7 +2,6 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
-using Zuma.src.level;
 using Zuma.src.level_creators;
 using Zuma.src.pages.level_selection;
 
@@ -13,15 +12,15 @@ namespace Zuma.src.pages.main
     /// </summary>
     public partial class MainPage : Page
     {
-        private List<Level> Levels { get; set; }
+        private List<LevelCreator> LevelCreators { get; set; }
 
         public MainPage()
         {
             InitializeComponent();
-            Levels = CreateLevels();
+            LevelCreators = CreateLevelCreators();
         }
 
-        private void startGameButton_Click(object sender, RoutedEventArgs e) => NavigationService.Navigate(new LevelSelectionPage(Levels));
+        private void startGameButton_Click(object sender, RoutedEventArgs e) => NavigationService.Navigate(new LevelSelectionPage(LevelCreators));
 
         private void ExitButton_Click(object sender, RoutedEventArgs e)
         {
@@ -34,11 +33,11 @@ namespace Zuma.src.pages.main
             }
         }
 
-        private List<Level> CreateLevels()
+        private List<LevelCreator> CreateLevelCreators()
         {
-            return new List<Level>
+            return new List<LevelCreator>
             {
-                new FirstLevelCreator().Create()
+                new FirstLevelCreator(),
             };
         }
     }

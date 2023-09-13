@@ -11,9 +11,9 @@ namespace Zuma.src.helpers
     {
         private static readonly Random random = new Random();
 
-        public static PlayerBall GeneratePlayerBall() => new CommonPlayerBall(GetRandomBallColor());
+        public static AbstractPlayerBall GeneratePlayerBall() => new CommonPlayerBall(GetRandomBallColor());
 
-        public static EnemyBall GenerateEnemyBall(Level level)
+        public static AbstractEnemyBall GenerateEnemyBall(Level level)
         {
             BallColor ballColor = GetRandomBallColor();
 
@@ -39,11 +39,11 @@ namespace Zuma.src.helpers
             }
         }
 
-        private static EnemyBall GenerateRandomEnemyBall(Path path, BallColor ballColor)
+        private static AbstractEnemyBall GenerateRandomEnemyBall(Path path, BallColor ballColor)
         {
             int r = random.Next(0, 100);
 
-            return r < 90 ? new CommonEnemyBall(path, ballColor) : (EnemyBall) new ExplodingEnemyBall(path, ballColor);
+            return r < 90 ? new CommonEnemyBall(path, ballColor) : (AbstractEnemyBall) new ExplodingEnemyBall(path, ballColor);
         }
     }
 }

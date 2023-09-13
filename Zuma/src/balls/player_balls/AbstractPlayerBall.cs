@@ -8,10 +8,9 @@ using Zuma.src.balls.enemy_balls;
 
 namespace Zuma.src.balls.player_balls
 {
-    public abstract class PlayerBall : MovingBall
+    public abstract class AbstractPlayerBall : AbstractBall
     {
-
-        public PlayerBall(BallColor color) : base(Path.EMPTY, color)
+        public AbstractPlayerBall(BallColor color) : base(Path.EMPTY, color)
         {
         }
 
@@ -37,6 +36,6 @@ namespace Zuma.src.balls.player_balls
             Coordinates = path.Start;
         }
 
-        public abstract (bool, LinkedListNode<EnemyBall>) OnCollision(LinkedListNode<EnemyBall> enemyBall, Canvas levelCanvas, List<PlayerBall> playerBalls);
+        public abstract (bool, LinkedListNode<AbstractEnemyBall>) OnCollision(LinkedListNode<AbstractEnemyBall> enemyBall, Canvas levelCanvas, List<AbstractPlayerBall> playerBalls);
     }
 }

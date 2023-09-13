@@ -8,7 +8,7 @@ using Zuma.src.helpers;
 
 namespace Zuma.src.balls
 {
-    public abstract class MovingBall
+    public abstract class AbstractBall
     {
         public abstract float GetNormalSpeed();
         public abstract float GetNormalRotationSpeed();
@@ -41,11 +41,10 @@ namespace Zuma.src.balls
         public bool IsFrozen { get; set; }
         public bool IsDisposed { get; protected set; }
 
-        public MovingBall(Path path, BallColor color)
+        public AbstractBall(Path path, BallColor color)
         {
             id = ID;
 
-            IsFrozen = false;
             Coordinates = path.Start;
             this.path = path;
             PathTime = 0;
@@ -81,9 +80,9 @@ namespace Zuma.src.balls
 
         public bool HasReachedDestination(float speed) => path.HasReachedDestination(PathTime + speed);
 
-        public override string ToString() => $"[{id}] {( IsFrozen ? "FROZEN" : "" )} {Color()} ball at {Coordinates}";
+        public override string ToString() => $"[{id}] {( IsFrozen ? "FROZEN" : "" )} {ColorName()} ball at {Coordinates}";
 
-        private string Color()
+        private string ColorName()
         {
             switch (color)
             {
@@ -129,12 +128,12 @@ namespace Zuma.src.balls
                 return true;
             }
 
-            if (!( other is MovingBall ))
+            if (!( other is AbstractBall ))
             {
                 return false;
             }
 
-            return id == ( (MovingBall) other ).id;
+            return id == ( (AbstractBall) other ).id;
         }
 
         public override int GetHashCode() => id;

@@ -76,13 +76,13 @@
     </ApplicationDefinition>
     <Compile Include="src\balls\BallColor.cs" />
     <Compile Include="src\balls\enemy_balls\CommonEnemyBall.cs" />
-    <Compile Include="src\balls\enemy_balls\EnemyBall.cs" />
+    <Compile Include="src\balls\enemy_balls\AbstractEnemyBall.cs" />
     <Compile Include="src\balls\enemy_balls\EnemyBallView.xaml.cs">
       <DependentUpon>EnemyBallView.xaml</DependentUpon>
     </Compile>
     <Compile Include="src\balls\enemy_balls\EnemyBallViewModel.cs" />
     <Compile Include="src\balls\enemy_balls\ExplodingEnemyBall.cs" />
-    <Compile Include="src\balls\player_balls\PlayerBall.cs" />
+    <Compile Include="src\balls\player_balls\AbstractPlayerBall.cs" />
     <Compile Include="src\balls\player_balls\CommonPlayerBall.cs" />
     <Compile Include="src\frog\Frog.cs" />
     <Compile Include="src\frog\FrogControl.xaml.cs">
@@ -142,7 +142,7 @@
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="src\balls\MovingBall.cs" />
+    <Compile Include="src\balls\AbstractBall.cs" />
     <Compile Include="src\models\Path.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -161,6 +161,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="BallsDiagram.cd" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>

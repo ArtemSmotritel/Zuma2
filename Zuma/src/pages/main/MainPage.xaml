@@ -27,27 +27,20 @@
             <RowDefinition
                 Height="70"></RowDefinition>
             <RowDefinition
-                Height="70"></RowDefinition>
-            <RowDefinition
                 Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
         <Button
-            x:Name="continueButton"
-            Content="Continue"
-            Grid.Column="0"
-            Grid.Row="1" />
-        <Button
             x:Name="startGameButton"
             Content="Start new game"
             Grid.Column="0"
-            Grid.Row="2 "
+            Grid.Row="1"
             Click="startGameButton_Click" />
         <Button
             x:Name="exitButton"
             Content="Exit"
             Grid.Column="0"
-            Grid.Row="3"
+            Grid.Row="2"
             Click="ExitButton_Click"/>
     </Grid>
 </Page>

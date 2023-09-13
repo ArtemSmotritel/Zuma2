@@ -10,9 +10,9 @@ namespace Zuma.src.frog
     {
         public Point Coordinates { get; private set; }
 
-        public PlayerBall CurrentBall { get; set; }
+        public AbstractPlayerBall CurrentBall { get; set; }
 
-        public PlayerBall NextBall { get; set; }
+        public AbstractPlayerBall NextBall { get; set; }
 
         public BitmapImage Sprite { get; private set; }
 

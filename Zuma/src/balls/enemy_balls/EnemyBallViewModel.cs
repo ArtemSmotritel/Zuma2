@@ -5,11 +5,11 @@ namespace Zuma.src.balls.enemy_balls
 {
     public class EnemyBallViewModel : Notifier
     {
-        private readonly EnemyBall model;
+        private readonly AbstractEnemyBall model;
         public int SpecialEffectSpriteHeight { get; set; }
         public int SpecialEffectSpriteWidth { get; set; }
 
-        public EnemyBallViewModel(EnemyBall enemyBall, int specialEffectSpriteWidth, int specialEffectSpriteHeight)
+        public EnemyBallViewModel(AbstractEnemyBall enemyBall, int specialEffectSpriteWidth, int specialEffectSpriteHeight)
         {
             model = enemyBall;
             SpecialEffectSpriteHeight = specialEffectSpriteHeight;

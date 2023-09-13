@@ -8,14 +8,14 @@ using Zuma.src.balls.player_balls;
 
 namespace Zuma.src.balls.enemy_balls
 {
-    public class ExplodingEnemyBall : EnemyBall
+    public class ExplodingEnemyBall : AbstractEnemyBall
     {
         public ExplodingEnemyBall(Path path, BallColor color) : base(path, color)
         {
             SpecialEffectBitmapSprite = new BitmapImage(new Uri("pack://application:,,,/resources/images/balls/effects/bomb.png"));
         }
 
-        public ExplodingEnemyBall(PlayerBall playerBall, Path path, float pathTime) : base(playerBall, path, pathTime)
+        public ExplodingEnemyBall(AbstractPlayerBall playerBall, Path path, float pathTime) : base(playerBall, path, pathTime)
         {
         }
 
@@ -29,21 +29,21 @@ namespace Zuma.src.balls.enemy_balls
             return new EnemyBallView(viewModel);
         }
 
-        public override void TriggerEffect(Canvas levelCanvas, LinkedListNode<EnemyBall> currentBall)
+        public override void TriggerEffect(Canvas levelCanvas, LinkedListNode<AbstractEnemyBall> currentBall)
         {
-            List<LinkedListNode<EnemyBall>> ballsBefore = GetAtMostFourBallsBefore(currentBall);
-            List<LinkedListNode<EnemyBall>> ballsAhead = GetAtMostFourBallsAhead(currentBall);
+            List<LinkedListNode<AbstractEnemyBall>> ballsBefore = GetAtMostFourBallsBefore(currentBall);
+            List<LinkedListNode<AbstractEnemyBall>> ballsAhead = GetAtMostFourBallsAhead(currentBall);
 
             TriggerEffectInBalls(levelCanvas, ballsBefore);
             TriggerEffectInBalls(levelCanvas, ballsAhead);
             base.TriggerEffect(levelCanvas, currentBall);
         }
 
-        private List<LinkedListNode<EnemyBall>> GetAtMostFourBallsBefore(LinkedListNode<EnemyBall> currentBall)
+        private List<LinkedListNode<AbstractEnemyBall>> GetAtMostFourBallsBefore(LinkedListNode<AbstractEnemyBall> currentBall)
         {
-            var result = new List<LinkedListNode<EnemyBall>>(4);
+            var result = new List<LinkedListNode<AbstractEnemyBall>>(4);
 
-            LinkedListNode<EnemyBall> prevBall = currentBall?.Previous;
+            LinkedListNode<AbstractEnemyBall> prevBall = currentBall?.Previous;
             while (result.Count < 4 && prevBall != null && prevBall.Value != null)
             {
                 result.Add(prevBall);
@@ -53,11 +53,11 @@ namespace Zuma.src.balls.enemy_balls
             return result;
         }
 
-        private List<LinkedListNode<EnemyBall>> GetAtMostFourBallsAhead(LinkedListNode<EnemyBall> currentBall)
+        private List<LinkedListNode<AbstractEnemyBall>> GetAtMostFourBallsAhead(LinkedListNode<AbstractEnemyBall> currentBall)
         {
-            var result = new List<LinkedListNode<EnemyBall>>(4);
+            var result = new List<LinkedListNode<AbstractEnemyBall>>(4);
 
-            LinkedListNode<EnemyBall> nextBall = currentBall?.Next;
+            LinkedListNode<AbstractEnemyBall> nextBall = currentBall?.Next;
             while (result.Count < 4 && nextBall != null && nextBall.Value != null)
             {
                 result.Add(nextBall);
@@ -67,9 +67,9 @@ namespace Zuma.src.balls.enemy_balls
             return result;
         }
 
-        private void TriggerEffectInBalls(Canvas levelCanvas, List<LinkedListNode<EnemyBall>> balls)
+        private void TriggerEffectInBalls(Canvas levelCanvas, List<LinkedListNode<AbstractEnemyBall>> balls)
         {
-            foreach (LinkedListNode<EnemyBall> ball in balls)
+            foreach (LinkedListNode<AbstractEnemyBall> ball in balls)
             {
                 if (ball.Value != null && !ball.Value.IsDisposed && !ball.Value.IsEffectApplying)
                 {

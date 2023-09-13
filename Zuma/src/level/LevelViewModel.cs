@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -14,18 +13,13 @@ namespace Zuma.src.level
 {
     public class LevelViewModel : Notifier
     {
+        public LevelPage View { get; set; }
         private readonly Level level;
         private readonly Canvas levelCanvas;
-        private readonly LevelController levelController = new LevelController();
-
-        private EnemyBall lastGeneratedEnemyBall;
 
         public Path Path => level.Path;
         public Point FrogCoordinates => level.Frog.Coordinates;
         public ImageBrush Background => new ImageBrush(level.Background);
-        public LinkedList<EnemyBall> EnemyBalls { get; private set; }
-        public List<PlayerBall> PlayerBalls { get; private set; }
-        public bool CanShootBall => PlayerBalls.Count == 0;
 
         private string _name;
         public string Name
@@ -38,18 +32,35 @@ namespace Zuma.src.level
             }
         }
 
+        public bool CanShootBall => level.CanShootBall;
+
         public LevelViewModel(Level level, Canvas levelCanvas)
         {
             this.level = level;
             this.levelCanvas = levelCanvas;
             Name = $"Level {level.Number}: {level.Name}";
-            EnemyBalls = new LinkedList<EnemyBall>();
-            PlayerBalls = new List<PlayerBall>(2);
 
             level.RegisterGameTickHandler(GameTick);
+            level.RegisterGameTickHandler(DrawPath);
         }
 
-        public void Pause() => level.Stop();
+        public void Pause()
+        {
+            level.Stop();
+
+            MessageBoxResult result = MessageBox.Show("You've paused the game. Do you wish to exit the level?", "Are you serious?", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
+
+            if (result == MessageBoxResult.No)
+            {
+                level.Start();
+                return;
+            }
+
+            if (result == MessageBoxResult.Yes)
+            {
+                View.NavigationService.GoBack();
+            }
+        }
 
         public void RotateFrog(Point mouseCoordinates, FrogViewModel frogViewModel)
         {
@@ -60,28 +71,13 @@ namespace Zuma.src.level
         public void Start() => level.Start();
         public bool IsLevelActive => level.IsLevelActive;
 
-        private bool MoveEnemyBalls()
-        {
-            LinkedListNode<EnemyBall> theLastBall = EnemyBalls.First;
-            return levelController.MoveBalls(theLastBall, PlayerBalls, levelCanvas, level.ShouldContinueGenerateWithStartingSpeed(), level);
-        }
-
-        private void MovePlayerBalls()
-        {
-            for (int i = 0; i < PlayerBalls.Count; i++)
-            {
-                PlayerBall ball = PlayerBalls[i];
-                ball.Move(ball.GetNormalSpeed(), ball.GetNormalRotationSpeed());
-            }
-        }
-
-        private void RemovePlayerBall(PlayerBall playerBall, int index)
+        private void RemovePlayerBall(AbstractPlayerBall playerBall, int index)
         {
             levelCanvas.Children.Remove(playerBall.View);
-            PlayerBalls.RemoveAt(index);
+            level.PlayerBalls.RemoveAt(index);
         }
 
-        private bool ShouldRemoveBall(PlayerBall playerBall)
+        private bool ShouldRemoveBall(AbstractPlayerBall playerBall)
         {
             Point coordinates = playerBall.Coordinates;
             return coordinates.X < -playerBall.Width || coordinates.Y < -playerBall.Height || coordinates.X > 1600 || coordinates.Y > 1000;
@@ -89,9 +85,14 @@ namespace Zuma.src.level
 
         private void GameTick(object sender, EventArgs e)
         {
-            for (int i = 0; i < PlayerBalls.Count; i++)
+            if (!finishedDrawingPath)
             {
-                PlayerBall ball = PlayerBalls[i];
+                return;
+            }
+
+            for (int i = 0; i < level.PlayerBalls.Count; i++)
+            {
+                AbstractPlayerBall ball = level.PlayerBalls[i];
 
                 if (ShouldRemoveBall(ball))
                 {
@@ -99,44 +100,40 @@ namespace Zuma.src.level
                 }
             }
 
-            if (EnemyBalls.Count == 0 && level.HadGeneratedEnoughBalls())
+            if (level.HasPlayerWon())
             {
                 // add logic for game victory;
                 MessageBox.Show("You've won. Congrats!", "Serious result!");
                 level.HandleGameWin();
+                View.NavigationService.GoBack();
                 return;
             }
 
-            bool hasAnyBallReachedDestination = MoveEnemyBalls();
+            bool hasAnyBallReachedDestination = level.MoveBalls(levelCanvas);
 
             if (hasAnyBallReachedDestination)
             {
                 MessageBox.Show("You've lost. Better luck next time!", "Not so serious result!");
                 level.HandleGameLose();
+                View.NavigationService.GoBack();
                 return;
             }
 
-            if (PlayerBalls.Count > 0)
-            {
-                MovePlayerBalls();
-            }
+            level.MovePlayerBalls();
 
-            if (lastGeneratedEnemyBall == null || ( level.ShouldGeneratedMoreBalls() && IsLastGeneratedBallFarEnough() ))
+            if (level.ShouldGenerateEnemyBall())
             {
-                lastGeneratedEnemyBall = levelController.GenerateEnemyBall(level);
-                EnemyBalls.AddFirst(lastGeneratedEnemyBall);
-                Canvas.SetLeft(lastGeneratedEnemyBall.View, lastGeneratedEnemyBall.Coordinates.X);
-                Canvas.SetTop(lastGeneratedEnemyBall.View, lastGeneratedEnemyBall.Coordinates.Y);
-                levelCanvas.Children.Add(lastGeneratedEnemyBall.View);
-                level.GeneratedEnemyBallsTotalCount++;
+                AbstractEnemyBall newEnemyBall = level.GenerateEnemyBall();
+
+                Canvas.SetLeft(newEnemyBall.View, newEnemyBall.Coordinates.X);
+                Canvas.SetTop(newEnemyBall.View, newEnemyBall.Coordinates.Y);
+                levelCanvas.Children.Add(newEnemyBall.View);
             }
         }
 
-        private bool IsLastGeneratedBallFarEnough() => lastGeneratedEnemyBall.IsDisposed || GeometryCalculator.IsDistanceGreaterOrEqual(lastGeneratedEnemyBall.Coordinates, level.Path.Start, lastGeneratedEnemyBall.Width);
-
-        public void ShootBall(Point mouseCoordinates, PlayerBall ball)
+        public void ShootBall(Point mouseCoordinates, AbstractPlayerBall ball)
         {
-            PlayerBalls.Add(ball);
+            level.PlayerBalls.Add(ball);
 
             Canvas.SetLeft(ball.View, ball.Coordinates.X);
             Canvas.SetTop(ball.View, ball.Coordinates.Y);
@@ -144,42 +141,47 @@ namespace Zuma.src.level
         }
 
         private float pathDrawingT = 0;
+        private bool finishedDrawingPath = false;
         public void DrawPath(object sender, EventArgs e)
         {
             if (pathDrawingT == 0)
             {
                 Point point = Path.Start;
                 point.Y -= 15;
-                DrawPathPoint(point, Brushes.Blue, 30, 30);
+                DrawPathPoint(point, Brushes.LightGreen, 50, 50);
             }
 
-            if (!Path.HasReachedDestination(pathDrawingT))
+            if (!Path.HasReachedDestination(pathDrawingT + 0.01f))
             {
                 Point point = Path.GetPosition(pathDrawingT);
-                DrawPathPoint(point, Brushes.DimGray);
-                pathDrawingT += 0.02f;
+                DrawPathPoint(point, Brushes.LightGreen);
             }
             else
             {
                 Point point = Path.End;
                 point.Y -= 15;
-                DrawPathPoint(point, Brushes.Red, 30, 30);
+                DrawPathPoint(point, Brushes.LightGreen, 50, 50);
+                level.RemoveGameTickHandler(DrawPath);
+                finishedDrawingPath = true;
             }
+
+            pathDrawingT += 0.01f;
         }
-        private void DrawPathPoint(Point p, Brush brush, int heigh = 15, int width = 15)
+        private void DrawPathPoint(Point p, Brush brush, int heigh = 50, int width = 50)
         {
-            var rect = new System.Windows.Shapes.Rectangle
+            var ellipse = new System.Windows.Shapes.Ellipse
             {
                 Height = heigh,
                 Width = width,
                 Fill = brush,
                 Stroke = brush,
+                Opacity = 0.5,
             };
 
-            Canvas.SetLeft(rect, p.X);
-            Canvas.SetTop(rect, p.Y);
+            Canvas.SetLeft(ellipse, p.X);
+            Canvas.SetTop(ellipse, p.Y);
 
-            levelCanvas.Children.Add(rect);
+            levelCanvas.Children.Add(ellipse);
         }
     }
 }

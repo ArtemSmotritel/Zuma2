@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using Zuma.src.balls.player_balls;
 using Zuma.src.frog;
+using Zuma.src.level_creators;
 
 namespace Zuma.src.level
 {
@@ -17,11 +18,16 @@ namespace Zuma.src.level
         private string fileName;
         private readonly string folderPath = "C:\\Users\\Artem\\source\\repos\\Zuma\\Zuma\\resources\\levels";
 
-        public LevelPage(Level level)
+        public LevelPage(LevelCreator levelCreator)
         {
             InitializeComponent();
 
-            ViewModel = new LevelViewModel(level, LevelCanvas);
+            Level level = levelCreator.Create();
+
+            ViewModel = new LevelViewModel(level, LevelCanvas)
+            {
+                View = this
+            };
 
             DataContext = ViewModel;
 
@@ -86,7 +92,7 @@ namespace Zuma.src.level
                 Point mouseCoordinates = e.GetPosition(LevelCanvas);
 
                 Point start = FrogViewModel.FrogRectangle.TranslatePoint(new Point(20, 20), LevelCanvas);
-                PlayerBall ball = FrogViewModel.PrepareCurrentBallForShooting(start, mouseCoordinates);
+                AbstractPlayerBall ball = FrogViewModel.PrepareCurrentBallForShooting(start, mouseCoordinates);
                 ViewModel.ShootBall(mouseCoordinates, ball);
 
                 FrogViewModel.HandleShot(mouseCoordinates);
