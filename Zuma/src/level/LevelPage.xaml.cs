@@ -38,6 +38,7 @@ namespace Zuma.src.level
             MouseRightButtonDown += OnMouseRightClick;
 
             InitFileName();
+        public void GoToLevelSelectionPage() => NavigationService.GoBack();
         }
 
         private void InitFileName()

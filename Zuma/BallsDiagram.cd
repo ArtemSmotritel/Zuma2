@@ -1,35 +1,35 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <ClassDiagram MajorVersion="1" MinorVersion="1">
-  <Class Name="Zuma.src.balls.enemy_balls.EnemyBall">
-    <Position X="11.5" Y="5.5" Width="1.5" />
+  <Class Name="Zuma.src.balls.enemy_balls.AbstractEnemyBall">
+    <Position X="11.5" Y="6" Width="2.5" />
     <TypeIdentifier>
       <HashCode>gAAAAAABEAIAAgAgAAAAAEEAAIACBAAQAAEABAgAAAo=</HashCode>
-      <FileName>src\balls\enemy_balls\EnemyBall.cs</FileName>
+      <FileName>src\balls\enemy_balls\AbstractEnemyBall.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Zuma.src.balls.enemy_balls.CommonEnemyBall">
-    <Position X="14.25" Y="9.25" Width="1.5" />
+    <Position X="14.5" Y="10" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
       <FileName>src\balls\enemy_balls\CommonEnemyBall.cs</FileName>
     </TypeIdentifier>
   </Class>
-  <Class Name="Zuma.src.balls.player_balls.PlayerBall">
-    <Position X="3.5" Y="6.25" Width="1.5" />
+  <Class Name="Zuma.src.balls.player_balls.AbstractPlayerBall">
+    <Position X="3.5" Y="6" Width="2.25" />
     <TypeIdentifier>
       <HashCode>gAAAAAAAAAAAAAAAAAEAAAAAAIAAIAAAIAAAAAAAAAA=</HashCode>
-      <FileName>src\balls\player_balls\PlayerBall.cs</FileName>
+      <FileName>src\balls\player_balls\AbstractPlayerBall.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Zuma.src.balls.player_balls.CommonPlayerBall">
-    <Position X="3.5" Y="9.25" Width="1.5" />
+    <Position X="3.25" Y="10" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAACAAAAAAAAAAAAAAAAAIAAAAAAAAAA=</HashCode>
       <FileName>src\balls\player_balls\CommonPlayerBall.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Zuma.src.balls.enemy_balls.ExplodingEnemyBall">
-    <Position X="8.25" Y="9.5" Width="2.25" />
+    <Position X="8.25" Y="10" Width="2.75" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAAAAAEAAABAAAAAAAAAAAAABACAAAA=</HashCode>
       <FileName>src\balls\enemy_balls\ExplodingEnemyBall.cs</FileName>
@@ -38,7 +38,7 @@
   <Class Name="Zuma.src.balls.AbstractBall">
     <Position X="7.25" Y="1.5" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>gAAAAgAABIAAgACEgAECAFIAMICBQICQAAAEgAAkBgA=</HashCode>
+      <HashCode>gAAAAgAABIAAgACEgAECAFIAMICBQICQAAAGAAAkBgA=</HashCode>
       <FileName>src\balls\AbstractBall.cs</FileName>
     </TypeIdentifier>
   </Class>

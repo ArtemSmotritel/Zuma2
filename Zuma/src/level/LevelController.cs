@@ -108,33 +108,32 @@ namespace Zuma.src.level
                 }
             }
 
-            return RunBallsCheckAndApplyEffect(enemyBall.List.First, levelCanvas);
+            int score = RunBallsCheckAndApplyEffect(enemyBall.List.First, levelCanvas);
+            level.IncreaseScore(score);
+
+            return score != 0;
         }
 
-        private bool RunBallsCheckAndApplyEffect(LinkedListNode<AbstractEnemyBall> enemyBall, Canvas levelCanvas)
+        private int RunBallsCheckAndApplyEffect(LinkedListNode<AbstractEnemyBall> enemyBall, Canvas levelCanvas)
         {
-            bool areBallsAffected = false;
+            int totalScore = 0;
 
             while (enemyBall != null && enemyBall.Value != null)
             {
-                bool isBallAffected = CheckBallAndApplyEffect(enemyBall, levelCanvas);
-
-                if (!areBallsAffected)
-                {
-                    areBallsAffected = isBallAffected;
-                }
+                int scoreFromBall = CheckBallAndApplyEffect(enemyBall, levelCanvas);
+                totalScore += scoreFromBall;
 
                 enemyBall = enemyBall.Next;
             }
 
-            return areBallsAffected;
+            return totalScore;
         }
 
-        private bool CheckBallAndApplyEffect(LinkedListNode<AbstractEnemyBall> enemyBall, Canvas levelCanvas)
+        private int CheckBallAndApplyEffect(LinkedListNode<AbstractEnemyBall> enemyBall, Canvas levelCanvas)
         {
             if (!enemyBall.Value.ShouldTriggerEffect)
             {
-                return false;
+                return 0;
             }
 
             List<LinkedListNode<AbstractEnemyBall>> ballsToApplyEffectFor = GetBallsWithSameColor(enemyBall);
@@ -142,7 +141,7 @@ namespace Zuma.src.level
 
             if (ballsToApplyEffectFor.Count < 3)
             {
-                return false;
+                return 0;
             }
 
             foreach (LinkedListNode<AbstractEnemyBall> ball in ballsToApplyEffectFor)
@@ -150,7 +149,7 @@ namespace Zuma.src.level
                 ball.Value.TriggerEffect(levelCanvas, ball);
             }
 
-            return true;
+            return ballsToApplyEffectFor.Count * 10;
         }
 
         private List<LinkedListNode<AbstractEnemyBall>> GetBallsWithSameColor(LinkedListNode<AbstractEnemyBall> enemyBall)

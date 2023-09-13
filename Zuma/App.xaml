@@ -18,7 +18,7 @@
                 Value="Center" />
             <Setter
                 Property="Width"
-                Value="200" />
+                Value="400" />
             <Setter
                 Property="Foreground"
                 Value="Black" />
@@ -75,9 +75,6 @@
             <Setter
                 Property="FontSize"
                 Value="27" />
-            <!--<Setter
-                Property="FontFamily"
-                Value="Courier New" />-->
             <Setter
                 Property="FontStyle"
                 Value="Normal" />

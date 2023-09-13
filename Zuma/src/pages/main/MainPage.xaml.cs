@@ -38,6 +38,7 @@ namespace Zuma.src.pages.main
             return new List<LevelCreator>
             {
                 new FirstLevelCreator(),
+                new SecondLevelCreator(),
             };
         }
     }

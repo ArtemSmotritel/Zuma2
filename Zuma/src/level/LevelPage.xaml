@@ -22,6 +22,11 @@
                     Name="LevelName"
                     Content="{ Binding Name }" />
             </StatusBarItem>
+            <StatusBarItem>
+                <Label
+                    Name="LevelScore"
+                    Content="{ Binding ScoreLabel }" />
+            </StatusBarItem>
         </StatusBar>
         <Canvas
             x:Name="LevelCanvas">

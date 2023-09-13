@@ -40,7 +40,7 @@ namespace Zuma.src.balls.enemy_balls
         public Point GetPositionWithDelta(float timeDelta) => path.GetPosition(PathTime + timeDelta);
 
         public override float GetNormalRotationSpeed() => 4;
-        public override float GetNormalSpeed() => 0.0003f;
+        public override float GetNormalSpeed() => 0.0005f;
         public float GetStartingRotationSpeed() => 40;
         public float GetStartingSpeed() => 0.007f;
         public float GetCollisionSpeed() => 0.00012f;

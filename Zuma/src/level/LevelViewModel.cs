@@ -14,12 +14,15 @@ namespace Zuma.src.level
     public class LevelViewModel : Notifier
     {
         public LevelPage View { get; set; }
-        private readonly Level level;
+        private readonly Level model;
         private readonly Canvas levelCanvas;
 
-        public Path Path => level.Path;
-        public Point FrogCoordinates => level.Frog.Coordinates;
-        public ImageBrush Background => new ImageBrush(level.Background);
+        public Path Path => model.Path;
+        public Point FrogCoordinates => model.Frog.Coordinates;
+        public ImageBrush Background => new ImageBrush(model.Background);
+
+        public int Score => model.Score;
+        public string ScoreLabel => $"Score: {Score}";
 
         private string _name;
         public string Name
@@ -32,11 +35,11 @@ namespace Zuma.src.level
             }
         }
 
-        public bool CanShootBall => level.CanShootBall;
+        public bool CanShootBall => model.CanShootBall;
 
         public LevelViewModel(Level level, Canvas levelCanvas)
         {
-            this.level = level;
+            model = level;
             this.levelCanvas = levelCanvas;
             Name = $"Level {level.Number}: {level.Name}";
 
@@ -46,35 +49,35 @@ namespace Zuma.src.level
 
         public void Pause()
         {
-            level.Stop();
+            model.Stop();
 
-            MessageBoxResult result = MessageBox.Show("You've paused the game. Do you wish to exit the level?", "Are you serious?", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
+            MessageBoxResult result = MessageBox.Show("You've paused the game. Do you wish to exit the model?", "Are you serious?", MessageBoxButton.YesNo, MessageBoxImage.Exclamation, MessageBoxResult.No);
 
             if (result == MessageBoxResult.No)
             {
-                level.Start();
+                model.Start();
                 return;
             }
 
             if (result == MessageBoxResult.Yes)
             {
-                View.NavigationService.GoBack();
+                View.GoToLevelSelectionPage();
             }
         }
 
         public void RotateFrog(Point mouseCoordinates, FrogViewModel frogViewModel)
         {
             double angel = GeometryCalculator.GetAngelBetweenTwoPoints(mouseCoordinates, FrogCoordinates);
-            frogViewModel.RotationAngel = Utils.AddAngels(angel, 80);
+            frogViewModel.RotationAngel = Utils.AddAngels(angel, 90);
         }
 
-        public void Start() => level.Start();
-        public bool IsLevelActive => level.IsLevelActive;
+        public void Start() => model.Start();
+        public bool IsLevelActive => model.IsLevelActive;
 
         private void RemovePlayerBall(AbstractPlayerBall playerBall, int index)
         {
             levelCanvas.Children.Remove(playerBall.View);
-            level.PlayerBalls.RemoveAt(index);
+            model.PlayerBalls.RemoveAt(index);
         }
 
         private bool ShouldRemoveBall(AbstractPlayerBall playerBall)
@@ -90,9 +93,9 @@ namespace Zuma.src.level
                 return;
             }
 
-            for (int i = 0; i < level.PlayerBalls.Count; i++)
+            for (int i = 0; i < model.PlayerBalls.Count; i++)
             {
-                AbstractPlayerBall ball = level.PlayerBalls[i];
+                AbstractPlayerBall ball = model.PlayerBalls[i];
 
                 if (ShouldRemoveBall(ball))
                 {
@@ -100,30 +103,34 @@ namespace Zuma.src.level
                 }
             }
 
-            if (level.HasPlayerWon())
+            if (model.HasPlayerWon())
             {
-                // add logic for game victory;
-                MessageBox.Show("You've won. Congrats!", "Serious result!");
-                level.HandleGameWin();
-                View.NavigationService.GoBack();
+                MessageBox.Show($"You've won. Congrats!\nYour Score: {Score}", "Serious result!");
+                model.HandleGameWin();
+                View.GoToLevelSelectionPage();
                 return;
             }
 
-            bool hasAnyBallReachedDestination = level.MoveBalls(levelCanvas);
+            int scoreBefore = Score;
+            bool hasAnyBallReachedDestination = model.MoveBalls(levelCanvas);
+            if (scoreBefore != Score)
+            {
+                OnPropertyChanged(nameof(ScoreLabel));
+            }
 
             if (hasAnyBallReachedDestination)
             {
-                MessageBox.Show("You've lost. Better luck next time!", "Not so serious result!");
-                level.HandleGameLose();
-                View.NavigationService.GoBack();
+                MessageBox.Show($"You've lost. Better luck next time!\nYour Score: {Score}", "Not so serious result!");
+                model.HandleGameLose();
+                View.GoToLevelSelectionPage();
                 return;
             }
 
-            level.MovePlayerBalls();
+            model.MovePlayerBalls();
 
-            if (level.ShouldGenerateEnemyBall())
+            if (model.ShouldGenerateEnemyBall())
             {
-                AbstractEnemyBall newEnemyBall = level.GenerateEnemyBall();
+                AbstractEnemyBall newEnemyBall = model.GenerateEnemyBall();
 
                 Canvas.SetLeft(newEnemyBall.View, newEnemyBall.Coordinates.X);
                 Canvas.SetTop(newEnemyBall.View, newEnemyBall.Coordinates.Y);
@@ -133,7 +140,7 @@ namespace Zuma.src.level
 
         public void ShootBall(Point mouseCoordinates, AbstractPlayerBall ball)
         {
-            level.PlayerBalls.Add(ball);
+            model.PlayerBalls.Add(ball);
 
             Canvas.SetLeft(ball.View, ball.Coordinates.X);
             Canvas.SetTop(ball.View, ball.Coordinates.Y);
@@ -161,7 +168,7 @@ namespace Zuma.src.level
                 Point point = Path.End;
                 point.Y -= 15;
                 DrawPathPoint(point, Brushes.LightGreen, 50, 50);
-                level.RemoveGameTickHandler(DrawPath);
+                model.RemoveGameTickHandler(DrawPath);
                 finishedDrawingPath = true;
             }
 

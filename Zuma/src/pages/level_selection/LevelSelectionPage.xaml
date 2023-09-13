@@ -6,6 +6,7 @@
       xmlns:local="clr-namespace:Zuma.src.pages.level_selection"
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
+      FontSize="35"
       Title="LevelSelectionPage"
       KeyDown="Page_KeyDown">
     <Grid KeyDown="Grid_KeyDown">
@@ -19,13 +20,19 @@
             <ColumnDefinition MinWidth="150" Width="*"></ColumnDefinition>
         </Grid.ColumnDefinitions>
         <Grid.RowDefinitions>
-            <RowDefinition Height="70"></RowDefinition>
+            <RowDefinition Height="80"></RowDefinition>
             <RowDefinition Height="*"></RowDefinition>
         </Grid.RowDefinitions>
 
-        <Button x:Name="goBackButton" Content="Go Back" Grid.Column="0" Grid.Row="0" Click="goBackButton_Click">
-            <Button.Width>150</Button.Width>
-            <Button.Height>70</Button.Height>
+        <Button
+            x:Name="goBackButton"
+            Content="Go Back"
+            Grid.Column="0"
+            Grid.Row="0"
+            Click="goBackButton_Click"
+            FontSize="22">
+            <Button.Width>180</Button.Width>
+            <Button.Height>80</Button.Height>
             <Button.HorizontalAlignment>Left</Button.HorizontalAlignment>
             <Button.VerticalAlignment>Top</Button.VerticalAlignment>
             <Button.Padding>0</Button.Padding>

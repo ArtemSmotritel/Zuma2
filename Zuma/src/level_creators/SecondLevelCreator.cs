@@ -6,16 +6,17 @@ using Zuma.src.frog;
 
 namespace Zuma.src.level_creators
 {
-    public class FirstLevelCreator : LevelCreator
+    internal class SecondLevelCreator : LevelCreator
     {
-        protected override Uri GetBackgroundURI() => new Uri("pack://application:,,,/resources/images/backgrounds/beach_level.png");
+        protected override Uri GetBackgroundURI() => new Uri("pack://application:,,,/resources/images/backgrounds/city_level.png");
+        protected override int GetEnemyCount() => 100;
         protected override Frog GetFrog() => new Frog
                 (
                 new Point(780, 430),
                 new Uri("pack://application:,,,/resources/images/frog/frog.png")
                 );
-        protected override string GetName() => "Beach";
-        protected override int GetNumber() => 1;
+        protected override string GetName() => "City";
+        protected override int GetNumber() => 2;
         protected override Path GetPath()
         {
             return new Path(new List<Point>
@@ -44,7 +45,5 @@ namespace Zuma.src.level_creators
                 new Point(1065.6, 472),
             });
         }
-
-        protected override int GetEnemyCount() => 80;
     }
 }

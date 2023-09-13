@@ -15,6 +15,7 @@ namespace Zuma.src.level
     {
         public string Name { get; private set; }
         public int Number { get; private set; }
+        public int Score { get; private set; }
         public BitmapImage Background { get; private set; }
         public Frog Frog { get; private set; }
         public Path Path { get; private set; }
@@ -34,6 +35,7 @@ namespace Zuma.src.level
             Number = number;
             Background = new BitmapImage(backgroundImageURI);
             Path = path;
+            Score = 0;
 
             LevelTicker = new DispatcherTimer(DispatcherPriority.Normal);
             ConfigureTicker();
@@ -45,6 +47,14 @@ namespace Zuma.src.level
             LevelController = new LevelController();
             EnemyBalls = new LinkedList<AbstractEnemyBall>();
             PlayerBalls = new List<AbstractPlayerBall>(2);
+        }
+
+        public void IncreaseScore(int score)
+        {
+            if (score > 0)
+            {
+                Score += score;
+            }
         }
 
         public void RegisterGameTickHandler(EventHandler handler) => LevelTicker.Tick += handler;
