@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -35,7 +36,7 @@ namespace Zuma.src.level
             }
         }
 
-        public bool CanShootBall => model.CanShootBall;
+        public bool CanShootBall => model.CanShootBall && finishedDrawingPath;
 
         public LevelViewModel(Level level, Canvas levelCanvas)
         {
@@ -170,6 +171,9 @@ namespace Zuma.src.level
                 DrawPathPoint(point, Brushes.LightGreen, 50, 50);
                 model.RemoveGameTickHandler(DrawPath);
                 finishedDrawingPath = true;
+
+                System.Collections.Generic.IEnumerable<System.Windows.Shapes.Ellipse> pathElements = levelCanvas.Children.OfType<System.Windows.Shapes.Ellipse>();
+                pathElements.ToList().ForEach(pathElement => levelCanvas.Children.Remove(pathElement));
             }
 
             pathDrawingT += 0.01f;

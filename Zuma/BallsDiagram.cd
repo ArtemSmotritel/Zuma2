@@ -3,12 +3,12 @@
   <Class Name="Zuma.src.balls.enemy_balls.AbstractEnemyBall">
     <Position X="12" Y="2" Width="2.5" />
     <TypeIdentifier>
-      <HashCode>gAAAAAABEAIAAgAgAAAABEEAAIACBAAQAAEABAgAAAo=</HashCode>
+      <HashCode>gAAAAAABEAIAAgAgAAAgBEEAAIACBEAQAAEABAgAAAo=</HashCode>
       <FileName>src\balls\enemy_balls\AbstractEnemyBall.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="Zuma.src.balls.enemy_balls.CommonEnemyBall">
-    <Position X="14.25" Y="7.75" Width="2.75" />
+    <Position X="14.25" Y="8.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>src\balls\enemy_balls\CommonEnemyBall.cs</FileName>
@@ -29,7 +29,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Zuma.src.balls.enemy_balls.ExplodingEnemyBall">
-    <Position X="10.25" Y="7.75" Width="2.75" />
+    <Position X="10" Y="8.25" Width="2.75" />
     <TypeIdentifier>
       <HashCode>QAAAAAAAAAAAAAAAAAEAAABAAAAAAAAAAAAABACAAAA=</HashCode>
       <FileName>src\balls\enemy_balls\ExplodingEnemyBall.cs</FileName>
@@ -40,6 +40,13 @@
     <TypeIdentifier>
       <HashCode>gAAAAgAABIAAgACEgAECAFIAMICBQICQAAAGAAAkBgA=</HashCode>
       <FileName>src\balls\AbstractBall.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Zuma.src.balls.enemy_balls.SlowingEnemyBall">
+    <Position X="12.25" Y="10.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
+      <FileName>src\balls\enemy_balls\SlowingEnemyBall.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Font Name="Segoe UI" Size="9" />
