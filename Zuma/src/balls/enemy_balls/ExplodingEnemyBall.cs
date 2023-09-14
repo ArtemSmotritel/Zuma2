@@ -4,7 +4,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Zuma.models;
-using Zuma.src.balls.player_balls;
 
 namespace Zuma.src.balls.enemy_balls
 {
@@ -13,10 +12,6 @@ namespace Zuma.src.balls.enemy_balls
         public ExplodingEnemyBall(Path path, BallColor color) : base(path, color)
         {
             SpecialEffectBitmapSprite = new BitmapImage(new Uri("pack://application:,,,/resources/images/balls/effects/bomb.png"));
-        }
-
-        public ExplodingEnemyBall(AbstractPlayerBall playerBall, Path path, float pathTime) : base(playerBall, path, pathTime)
-        {
         }
 
         protected override UIElement CreateView(BallColor color)
@@ -36,7 +31,7 @@ namespace Zuma.src.balls.enemy_balls
 
             TriggerEffectInBalls(levelCanvas, ballsBefore);
             TriggerEffectInBalls(levelCanvas, ballsAhead);
-            base.TriggerEffect(levelCanvas, currentBall);
+            RemoveFromLevel(levelCanvas, currentBall);
         }
 
         private List<LinkedListNode<AbstractEnemyBall>> GetAtMostFourBallsBefore(LinkedListNode<AbstractEnemyBall> currentBall)

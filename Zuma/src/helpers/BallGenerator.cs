@@ -43,7 +43,17 @@ namespace Zuma.src.helpers
         {
             int r = random.Next(0, 100);
 
-            return r < 95 ? new CommonEnemyBall(path, ballColor) : (AbstractEnemyBall) new ExplodingEnemyBall(path, ballColor);
+            if (r <= 94)
+            {
+                return new CommonEnemyBall(path, ballColor);
+            }
+
+            if (r <= 96)
+            {
+                return new ExplodingEnemyBall(path, ballColor);
+            }
+
+            return new SlowingEnemyBall(path, ballColor);
         }
     }
 }

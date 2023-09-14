@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using Zuma.src.balls;
 using Zuma.src.balls.enemy_balls;
@@ -22,6 +23,7 @@ namespace Zuma.src.level
                     if (GeometryCalculator.AreBallsTouching(playerBall, enemyBall.Value))
                     {
                         playerBall.OnCollision(enemyBall, levelCanvas, playerBalls);
+                        enemyBall.List.First.Value.IsSlowed = false;
                     }
                 }
 
@@ -31,24 +33,31 @@ namespace Zuma.src.level
                     continue;
                 }
 
+                float speed;
+                float rotationSpeed;
                 if (enemyBall.Previous == null || enemyBall.Previous.Value == null)
                 {
-                    float speeed = shouldUseStartingSpeed ? enemyBall.Value.GetStartingSpeed() : enemyBall.Value.GetNormalSpeed();
-                    float rotationSpeeed = shouldUseStartingSpeed ? enemyBall.Value.GetStartingRotationSpeed() : enemyBall.Value.GetNormalRotationSpeed();
+                    speed = shouldUseStartingSpeed ? enemyBall.Value.GetStartingSpeed() : enemyBall.Value.GetNormalSpeed();
+                    rotationSpeed = shouldUseStartingSpeed ? enemyBall.Value.GetStartingRotationSpeed() : enemyBall.Value.GetNormalRotationSpeed();
 
-                    enemyBall.Value.Move(speeed, rotationSpeeed);
+                    if (enemyBall.Value.IsSlowed)
+                    {
+                        speed = enemyBall.Value.GetSlowedSpeed();
+                        rotationSpeed = enemyBall.Value.GetSlowedRotationSpeed();
+                    }
+
+                    enemyBall.Value.Move(speed, rotationSpeed);
 
                     enemyBall = enemyBall.Next;
                     continue;
                 }
 
-                float speed = enemyBall.Value.GetCollisionSpeed();
+                speed = enemyBall.Value.GetCollisionSpeed();
+                rotationSpeed = enemyBall.Value.GetCollisionRotationSpeed();
                 if (( enemyBall.Next == null || enemyBall.Next.Value == null ) && enemyBall.Value.HasReachedDestination(speed))
                 {
                     return true;
                 }
-
-                float rotationSpeed = enemyBall.Value.GetCollisionRotationSpeed();
 
                 if (enemyBall.Value.IsAdjusting && enemyBall.Value.HasReachedDestination(enemyBall.Value.GetAdjustingSpeed()))
                 {
@@ -73,6 +82,10 @@ namespace Zuma.src.level
                     do
                     {
                         enemyBall.Value.Move(speed, rotationSpeed);
+                        if (( enemyBall.Next == null || enemyBall.Next.Value == null ) && enemyBall.Value.HasReachedDestination(speed))
+                        {
+                            return true;
+                        }
                     } while (GeometryCalculator.AreBallsTouching(enemyBall.Value, enemyBall.Previous.Value));
                 }
                 else if (distanceBetweenBalls < enemyBall.Value.Width)
@@ -149,7 +162,7 @@ namespace Zuma.src.level
                 ball.Value.TriggerEffect(levelCanvas, ball);
             }
 
-            return ballsToApplyEffectFor.Count * 10;
+            return (int) Math.Pow(2, ballsToApplyEffectFor.Count);
         }
 
         private List<LinkedListNode<AbstractEnemyBall>> GetBallsWithSameColor(LinkedListNode<AbstractEnemyBall> enemyBall)

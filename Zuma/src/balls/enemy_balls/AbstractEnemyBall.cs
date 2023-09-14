@@ -9,14 +9,18 @@ namespace Zuma.src.balls.enemy_balls
 {
     public abstract class AbstractEnemyBall : AbstractBall
     {
+        public abstract void TriggerEffect(Canvas levelCanvas, LinkedListNode<AbstractEnemyBall> currentBall);
+
         public AbstractEnemyBall(Path path, BallColor color) : base(path, color)
         {
+            IsSlowed = false;
         }
 
         public AbstractEnemyBall(AbstractPlayerBall playerBall, Path path, float pathTime) : base(path, playerBall.color)
         {
             PathTime = pathTime;
             IsAdjusting = true;
+            IsSlowed = false;
         }
 
         public void FinishAdjustment(Path path, float pathTime)
@@ -33,6 +37,7 @@ namespace Zuma.src.balls.enemy_balls
         public bool IsAdjusting { get; set; }
         public bool ShouldTriggerEffect { get; set; }
         public bool IsEffectApplying { get; set; }
+        public bool IsSlowed { get; set; }
 
         public Path GetPath() => path;
         public float GetPathTime() => PathTime;
@@ -47,8 +52,10 @@ namespace Zuma.src.balls.enemy_balls
         public float GetCollisionRotationSpeed() => 4;
         public float GetAdjustingSpeed() => 0.07f;
         public float GetAdjustingRotationSpeed() => 4;
+        public float GetSlowedSpeed() => 0.00018f;
+        public float GetSlowedRotationSpeed() => 1;
 
-        public virtual void TriggerEffect(Canvas levelCanvas, LinkedListNode<AbstractEnemyBall> currentBall)
+        public void RemoveFromLevel(Canvas levelCanvas, LinkedListNode<AbstractEnemyBall> currentBall)
         {
             IsEffectApplying = true;
             if (!IsDisposed)

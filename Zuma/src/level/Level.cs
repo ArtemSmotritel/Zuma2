@@ -72,6 +72,13 @@ namespace Zuma.src.level
         public AbstractEnemyBall GenerateEnemyBall()
         {
             AbstractEnemyBall ball = LevelController.GenerateEnemyBall(this);
+
+            if (LastGeneratedEnemyBall != null && LastGeneratedEnemyBall.IsSlowed)
+            {
+                ball.IsSlowed = true;
+                LastGeneratedEnemyBall.IsSlowed = false;
+            }
+
             LastGeneratedEnemyBall = ball;
             GeneratedEnemyBallsTotalCount++;
             EnemyBalls.AddFirst(ball);

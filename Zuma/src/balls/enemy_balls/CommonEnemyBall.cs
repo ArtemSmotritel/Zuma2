@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using Zuma.models;
 using Zuma.src.balls.player_balls;
@@ -14,6 +16,8 @@ namespace Zuma.src.balls.enemy_balls
         public CommonEnemyBall(AbstractPlayerBall playerBall, Path path, float pathTime) : base(playerBall, path, pathTime)
         {
         }
+
+        public override void TriggerEffect(Canvas levelCanvas, LinkedListNode<AbstractEnemyBall> currentBall) => RemoveFromLevel(levelCanvas, currentBall);
 
         protected override UIElement CreateView(BallColor color)
         {

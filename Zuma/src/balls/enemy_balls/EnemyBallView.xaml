@@ -24,6 +24,7 @@
             </Ellipse.Fill>
         </Ellipse>
         <Rectangle
+            Margin="7"
             Panel.ZIndex="2"
             Height="{ Binding SpecialEffectSpriteHeight }"
             Width="{ Binding SpecialEffectSpriteWidth }">
