@@ -20,7 +20,7 @@ namespace Zuma.src.balls.enemy_balls
             Width = 40;
             Sprite = new BitmapImage(GetSpritePath(color));
 
-            var viewModel = new EnemyBallViewModel(this, 40, 30);
+            var viewModel = new EnemyBallViewModel(this, 30, 20);
             return new EnemyBallView(viewModel);
         }
 

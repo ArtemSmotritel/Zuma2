@@ -44,7 +44,6 @@ namespace Zuma.src.level
             this.levelCanvas = levelCanvas;
             Name = $"Level {level.Number}: {level.Name}";
 
-            level.RegisterGameTickHandler(GameTick);
             level.RegisterGameTickHandler(DrawPath);
         }
 
@@ -89,11 +88,6 @@ namespace Zuma.src.level
 
         private void GameTick(object sender, EventArgs e)
         {
-            if (!finishedDrawingPath)
-            {
-                return;
-            }
-
             for (int i = 0; i < model.PlayerBalls.Count; i++)
             {
                 AbstractPlayerBall ball = model.PlayerBalls[i];
@@ -152,13 +146,6 @@ namespace Zuma.src.level
         private bool finishedDrawingPath = false;
         public void DrawPath(object sender, EventArgs e)
         {
-            if (pathDrawingT == 0)
-            {
-                Point point = Path.Start;
-                point.Y -= 15;
-                DrawPathPoint(point, Brushes.LightGreen, 50, 50);
-            }
-
             if (!Path.HasReachedDestination(pathDrawingT + 0.01f))
             {
                 Point point = Path.GetPosition(pathDrawingT);
@@ -168,15 +155,16 @@ namespace Zuma.src.level
             {
                 Point point = Path.End;
                 point.Y -= 15;
-                DrawPathPoint(point, Brushes.LightGreen, 50, 50);
+                DrawPathPoint(point, Brushes.LightGreen, 30, 30);
                 model.RemoveGameTickHandler(DrawPath);
                 finishedDrawingPath = true;
+                model.RegisterGameTickHandler(GameTick);
 
                 System.Collections.Generic.IEnumerable<System.Windows.Shapes.Ellipse> pathElements = levelCanvas.Children.OfType<System.Windows.Shapes.Ellipse>();
                 pathElements.ToList().ForEach(pathElement => levelCanvas.Children.Remove(pathElement));
             }
 
-            pathDrawingT += 0.01f;
+            pathDrawingT += 0.003f;
         }
         private void DrawPathPoint(Point p, Brush brush, int heigh = 50, int width = 50)
         {
