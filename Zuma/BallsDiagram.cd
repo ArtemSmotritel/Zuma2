@@ -43,7 +43,7 @@
     </TypeIdentifier>
   </Class>
   <Class Name="Zuma.src.balls.enemy_balls.SlowingEnemyBall">
-    <Position X="12.25" Y="10.75" Width="1.75" />
+    <Position X="13" Y="10.25" Width="1.75" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAABAAAAAA=</HashCode>
       <FileName>src\balls\enemy_balls\SlowingEnemyBall.cs</FileName>

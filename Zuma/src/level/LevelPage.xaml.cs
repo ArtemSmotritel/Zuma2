@@ -36,9 +36,20 @@ namespace Zuma.src.level
             MouseMove += OnMouseMoveWithCanvas;
             MouseLeftButtonDown += OnMouseClick;
             MouseRightButtonDown += OnMouseRightClick;
+            KeyDown += OnKeyDown;
 
             InitFileName();
+            Focus();
+        }
+
         public void GoToLevelSelectionPage() => NavigationService.GoBack();
+
+        private void OnKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                GoToLevelSelectionPage();
+            }
         }
 
         private void InitFileName()
@@ -107,6 +118,14 @@ namespace Zuma.src.level
             using (writer)
             {
                 writer.WriteLine($"new Point({currentMousePosition.X}, {currentMousePosition.Y}),");
+            }
+        }
+
+        private void Page_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                ViewModel.Pause();
             }
         }
     }
